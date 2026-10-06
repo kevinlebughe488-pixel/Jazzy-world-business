@@ -10,7 +10,7 @@ type Variante = "primaire" | "secondaire" | "whatsapp" | "fantome" | "inverse";
 const styles: Record<Variante, string> = {
   primaire: "bg-noir text-white hover:bg-gris-700",
   secondaire: "bg-white text-noir ring-1 ring-inset ring-noir hover:bg-noir hover:text-white",
-  whatsapp: "bg-whatsapp text-white hover:bg-whatsapp-fonce",
+  whatsapp: "bg-whatsapp text-noir hover:bg-whatsapp-fonce",
   fantome: "text-noir hover:bg-noir/5",
   /** Bouton blanc, pour les fonds noirs */
   inverse: "bg-white text-noir hover:bg-gris-200",

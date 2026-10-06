@@ -76,7 +76,7 @@ export function WhatsAppFloat() {
               )}
             </AnimatePresence>
 
-            <span className="relative grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] ring-2 ring-white transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16">
+            <span className="relative grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-noir shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] ring-2 ring-white transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16">
               {/* Anneaux de pulsation */}
               {!reduire && (
                 <>

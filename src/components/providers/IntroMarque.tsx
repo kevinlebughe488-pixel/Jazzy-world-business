@@ -7,12 +7,15 @@ const CLE = "jazzy-intro";
 const NOM = "Jazzy World";
 
 /**
- * Script exécuté avant la peinture (présent dans le HTML statique) :
- * si l'intro a déjà été vue dans cette session, on la masque immédiatement,
- * sinon on la marque comme vue et on signale à la page (html[data-intro])
- * de retarder ses animations d'entrée. Aucun impact sur le contenu (toujours rendu dessous).
+ * Script exécuté avant la peinture (présent dans le HTML statique).
+ * L'intro est jouée une seule fois par session de navigation : on le mémorise dans un
+ * cookie de session (partagé entre les onglets, effacé à la fermeture du navigateur),
+ * avec sessionStorage en secours. Si rien ne peut être mémorisé (cookies et stockage
+ * bloqués), l'intro n'est pas jouée du tout plutôt que rejouée à chaque page.
+ * Quand elle est jouée, html[data-intro] retarde les animations d'entrée de la page.
+ * Aucun impact sur le contenu (toujours rendu dessous).
  */
-const SCRIPT = `(function(){try{var e=document.getElementById("${CLE}");if(!e)return;if(sessionStorage.getItem("${CLE}")||matchMedia("(prefers-reduced-motion: reduce)").matches){e.hidden=true}else{sessionStorage.setItem("${CLE}","1");document.documentElement.setAttribute("data-intro","")}}catch(_){}})();`;
+const SCRIPT = `(function(){var e=document.getElementById("${CLE}");if(!e)return;try{var c="${CLE}=1",vu=document.cookie.indexOf(c)>-1;try{vu=vu||!!sessionStorage.getItem("${CLE}")}catch(_){}if(vu||matchMedia("(prefers-reduced-motion: reduce)").matches){e.hidden=true;return}document.cookie=c+"; path=/; SameSite=Lax"+(location.protocol==="https:"?"; Secure":"");var ok=document.cookie.indexOf(c)>-1;try{sessionStorage.setItem("${CLE}","1");ok=true}catch(_){}if(!ok){e.hidden=true;return}document.documentElement.setAttribute("data-intro","")}catch(_){e.hidden=true}})();`;
 
 /*
  * Animation 100 % CSS : elle démarre dès l'affichage du HTML, sans attendre
@@ -55,6 +58,14 @@ export function IntroMarque() {
     const t = window.setTimeout(() => {
       el.hidden = true;
     }, 2200);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  // Une fois l'intro et les animations d'entrée terminées, on retire html[data-intro] :
+  // les pages ouvertes ensuite dans la même visite s'animent sans attendre.
+  useEffect(() => {
+    if (!document.documentElement.hasAttribute("data-intro")) return;
+    const t = window.setTimeout(() => document.documentElement.removeAttribute("data-intro"), 3600);
     return () => window.clearTimeout(t);
   }, []);
 

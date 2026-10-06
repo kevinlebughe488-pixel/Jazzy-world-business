@@ -47,7 +47,7 @@ export function Footer() {
                 href={lienWhatsApp(messageQuestion())}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group inline-flex min-h-14 shrink-0 items-center justify-center gap-3 bg-whatsapp px-7 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-whatsapp-fonce ${focus}`}
+                className={`group inline-flex min-h-14 shrink-0 items-center justify-center gap-3 bg-whatsapp px-7 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-noir transition-colors duration-300 hover:bg-whatsapp-fonce ${focus}`}
               >
                 <WhatsAppIcon className="size-5" />
                 Écrire sur WhatsApp
@@ -124,7 +124,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className={`group flex min-h-14 items-center gap-3 border border-white/15 p-3 transition-colors duration-300 hover:border-whatsapp hover:bg-whatsapp/15 ${focus}`}
                 >
-                  <span className="grid size-10 shrink-0 place-items-center bg-whatsapp text-white transition-transform duration-300 group-hover:scale-110">
+                  <span className="grid size-10 shrink-0 place-items-center bg-whatsapp text-noir transition-transform duration-300 group-hover:scale-110">
                     <WhatsAppIcon className="size-5" />
                   </span>
                   <span className="min-w-0">
