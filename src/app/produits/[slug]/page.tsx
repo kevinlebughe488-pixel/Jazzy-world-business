@@ -87,7 +87,7 @@ export default async function Page({ params }: Props) {
 
       {/* Halo décoratif */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] overflow-hidden">
-        <div className="absolute -left-40 -top-32 size-[32rem] rounded-full bg-violet-300/25 blur-[110px]" />
+        <div className="absolute -left-40 -top-32 size-[32rem] rounded-full bg-bleu-300/25 blur-[110px]" />
         <div className="absolute -right-32 top-10 size-[28rem] rounded-full bg-ciel-200/50 blur-[110px]" />
       </div>
 
@@ -98,7 +98,7 @@ export default async function Page({ params }: Props) {
             <li>
               <Link
                 href="/"
-                className="rounded-md px-1 py-1.5 transition-colors hover:text-violet focus-visible:outline-2 focus-visible:outline-violet"
+                className="rounded-md px-1 py-1.5 transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-bleu"
               >
                 Accueil
               </Link>
@@ -109,7 +109,7 @@ export default async function Page({ params }: Props) {
             <li>
               <Link
                 href="/boutique/"
-                className="rounded-md px-1 py-1.5 transition-colors hover:text-violet focus-visible:outline-2 focus-visible:outline-violet"
+                className="rounded-md px-1 py-1.5 transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-bleu"
               >
                 Boutique
               </Link>
@@ -146,14 +146,14 @@ export default async function Page({ params }: Props) {
           <Container>
             <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4 lg:mb-10">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-violet">À découvrir</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-bleu">À découvrir</p>
                 <h2 id="titre-similaires" className="mt-2 font-display text-3xl font-bold text-nuit sm:text-4xl">
                   Vous aimerez <span className="texte-degrade">aussi</span>
                 </h2>
               </div>
               <Link
                 href="/boutique/"
-                className="group inline-flex min-h-11 items-center gap-1.5 rounded-full px-1 font-semibold text-nuit transition-colors hover:text-violet focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                className="group inline-flex min-h-11 items-center gap-1.5 rounded-full px-1 font-semibold text-nuit transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
               >
                 Voir toute la boutique
                 <ChevronRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />

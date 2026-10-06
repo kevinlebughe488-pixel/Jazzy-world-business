@@ -128,7 +128,7 @@ export function Header() {
           className={clsx(
             "relative transition-[background-color,box-shadow,backdrop-filter] duration-500",
             vitreux
-              ? "verre shadow-[0_8px_30px_-12px_rgba(36,26,82,0.25)] ring-1 ring-nuit/5"
+              ? "verre shadow-[0_8px_30px_-12px_rgba(15,27,61,0.25)] ring-1 ring-nuit/5"
               : "bg-transparent",
           )}
         >
@@ -137,7 +137,7 @@ export function Header() {
             <Link
               href="/"
               aria-label={`${boutique.nom} — accueil`}
-              className="group relative -ml-1 flex shrink-0 items-center rounded-xl p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+              className="group relative -ml-1 flex shrink-0 items-center rounded-xl p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
             >
               <motion.span
                 className="block"
@@ -167,7 +167,7 @@ export function Header() {
                         href={lien.href}
                         aria-current={actif ? "page" : undefined}
                         className={clsx(
-                          "relative z-10 block rounded-full px-5 py-2 text-[0.95rem] font-medium transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet",
+                          "relative z-10 block rounded-full px-5 py-2 text-[0.95rem] font-medium transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu",
                           actif ? "text-white" : "text-nuit/75 hover:text-nuit",
                         )}
                       >
@@ -175,7 +175,7 @@ export function Header() {
                           <motion.span
                             layoutId="nav-actif"
                             aria-hidden="true"
-                            className="degrade-marque absolute inset-0 -z-10 rounded-full shadow-md shadow-violet/30"
+                            className="degrade-marque absolute inset-0 -z-10 rounded-full shadow-md shadow-bleu/30"
                             transition={reduire ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }}
                           />
                         )}
@@ -193,7 +193,7 @@ export function Header() {
                 href={lienWhatsApp(messageQuestion())}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden items-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-whatsapp/30 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-whatsapp/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet xl:inline-flex"
+                className="hidden items-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-whatsapp/30 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-whatsapp/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu xl:inline-flex"
               >
                 <WhatsAppIcon className="size-4" />
                 Nous écrire
@@ -208,7 +208,7 @@ export function Header() {
                 aria-expanded={menuOuvert}
                 aria-controls="menu-mobile"
                 aria-label={menuOuvert ? "Fermer le menu" : "Ouvrir le menu"}
-                className="relative grid size-12 place-items-center rounded-full text-nuit transition-colors hover:bg-nuit/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet lg:hidden"
+                className="relative grid size-12 place-items-center rounded-full text-nuit transition-colors hover:bg-nuit/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu lg:hidden"
               >
                 <span aria-hidden="true" className="relative block h-4 w-6">
                   <motion.span
@@ -254,7 +254,7 @@ function BoutonPanier({ nombre, onClick, reduire }: { nombre: number; onClick: (
       whileHover={reduire ? undefined : { scale: 1.06 }}
       whileTap={reduire ? undefined : { scale: 0.92 }}
       aria-label={nombre > 0 ? `Ouvrir le panier (${nombre} article${nombre > 1 ? "s" : ""})` : "Ouvrir le panier (vide)"}
-      className="relative grid size-12 place-items-center rounded-full bg-white text-nuit shadow-sm ring-1 ring-nuit/10 transition-shadow hover:shadow-md hover:shadow-violet/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+      className="relative grid size-12 place-items-center rounded-full bg-white text-nuit shadow-sm ring-1 ring-nuit/10 transition-shadow hover:shadow-md hover:shadow-bleu/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
     >
       <motion.span
         key={`sac-${nombre}`}
@@ -280,7 +280,7 @@ function BoutonPanier({ nombre, onClick, reduire }: { nombre: number; onClick: (
             {!reduire && (
               <motion.span
                 key={`onde-${nombre}`}
-                className="absolute inset-0 rounded-full bg-violet"
+                className="absolute inset-0 rounded-full bg-bleu"
                 initial={{ scale: 1, opacity: 0.55 }}
                 animate={{ scale: 2.2, opacity: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
@@ -291,7 +291,7 @@ function BoutonPanier({ nombre, onClick, reduire }: { nombre: number; onClick: (
               initial={reduire ? false : { scale: 1.6, y: -6 }}
               animate={{ scale: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 600, damping: 14 }}
-              className="degrade-marque relative grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11px] font-bold leading-none text-white tabular-nums shadow-md shadow-violet/40 ring-2 ring-white"
+              className="degrade-marque relative grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11px] font-bold leading-none text-white tabular-nums shadow-md shadow-bleu/40 ring-2 ring-white"
             >
               {affiche}
             </motion.span>
@@ -346,7 +346,7 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
       {/* Décor */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -right-24 -top-24 size-80 rounded-full bg-violet/25 blur-3xl"
+          className="absolute -right-24 -top-24 size-80 rounded-full bg-bleu/25 blur-3xl"
           initial={reduire ? false : { scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.9, ease }}
@@ -367,7 +367,7 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
       </div>
 
       <nav aria-label="Navigation mobile" className="relative flex-1 px-6 pt-8 sm:px-10">
-        <motion.p variants={item} className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-violet">
+        <motion.p variants={item} className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-bleu">
           Menu
         </motion.p>
         <ul className="space-y-1">
@@ -380,7 +380,7 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
                   href={lien.href}
                   onClick={fermer}
                   aria-current={actif ? "page" : undefined}
-                  className="group flex items-center justify-between gap-4 rounded-2xl py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                  className="group flex items-center justify-between gap-4 rounded-2xl py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
                 >
                   <span className="flex items-baseline gap-4">
                     <span className="w-6 font-display text-sm font-medium text-nuit/40 tabular-nums">
@@ -412,13 +412,13 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
         <motion.ul variants={item} className="mt-10 grid gap-3 text-sm text-nuit/75">
           <li className="flex items-center gap-3">
             <span className="grid size-9 place-items-center rounded-full bg-white ring-1 ring-nuit/10">
-              <Truck className="size-4 text-violet" aria-hidden="true" />
+              <Truck className="size-4 text-bleu" aria-hidden="true" />
             </span>
             Livraison partout à Kinshasa dès {formatFC(boutique.livraison.prixMinFC)}
           </li>
           <li className="flex items-center gap-3">
             <span className="grid size-9 place-items-center rounded-full bg-white ring-1 ring-nuit/10">
-              <Banknote className="size-4 text-violet" aria-hidden="true" />
+              <Banknote className="size-4 text-bleu" aria-hidden="true" />
             </span>
             Paiement cash à la livraison
           </li>
@@ -430,7 +430,7 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
           href={lienWhatsApp(messageQuestion())}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-center gap-3 rounded-full bg-whatsapp px-6 py-4 text-base font-semibold text-white shadow-lg shadow-whatsapp/30 transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+          className="flex w-full items-center justify-center gap-3 rounded-full bg-whatsapp px-6 py-4 text-base font-semibold text-white shadow-lg shadow-whatsapp/30 transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
         >
           <WhatsAppIcon className="size-5" />
           Commander sur WhatsApp

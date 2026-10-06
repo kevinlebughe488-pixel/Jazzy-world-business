@@ -137,7 +137,7 @@ export function PanierContenu({
         >
           <Link
             href="/boutique/"
-            className="group -ml-2 inline-flex min-h-11 items-center gap-1.5 rounded-full px-2 text-sm font-medium text-nuit/65 transition-colors hover:text-violet focus-visible:outline-2 focus-visible:outline-violet"
+            className="group -ml-2 inline-flex min-h-11 items-center gap-1.5 rounded-full px-2 text-sm font-medium text-nuit/65 transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-bleu"
           >
             <ArrowLeft
               className="size-4 transition-transform group-hover:-translate-x-1"
@@ -149,7 +149,7 @@ export function PanierContenu({
             <h1 className="text-4xl font-bold sm:text-5xl">
               Mon <span className="texte-degrade">panier</span>
             </h1>
-            <span className="mb-1.5 inline-flex items-center rounded-full bg-violet/10 px-3 py-1 text-sm font-semibold text-violet">
+            <span className="mb-1.5 inline-flex items-center rounded-full bg-bleu/10 px-3 py-1 text-sm font-semibold text-bleu">
               {articles} article{articles > 1 ? "s" : ""}
             </span>
           </div>
@@ -237,7 +237,7 @@ export function PanierContenu({
                   <div className="flex items-start justify-between gap-4">
                     <dt className="flex items-center gap-2 text-nuit/65">
                       <Truck
-                        className="size-4 shrink-0 text-violet"
+                        className="size-4 shrink-0 text-bleu"
                         aria-hidden="true"
                       />
                       Livraison
@@ -254,7 +254,7 @@ export function PanierContenu({
                   <div className="flex items-center justify-between gap-4">
                     <dt className="flex items-center gap-2 text-nuit/65">
                       <Banknote
-                        className="size-4 shrink-0 text-violet"
+                        className="size-4 shrink-0 text-bleu"
                         aria-hidden="true"
                       />
                       Paiement
@@ -426,7 +426,7 @@ export function PanierContenu({
             animate={reduire ? { opacity: 1 } : { y: 0 }}
             exit={reduire ? { opacity: 0 } : { y: "110%" }}
             transition={{ type: "spring", stiffness: 380, damping: 34 }}
-            className="fixed inset-x-0 bottom-0 z-30 border-t bg-white/90 backdrop-blur-xl border-nuit/10 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-12px_40px_-12px_rgba(36,26,82,0.25)] lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-30 border-t bg-white/90 backdrop-blur-xl border-nuit/10 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-12px_40px_-12px_rgba(15,27,61,0.25)] lg:hidden"
           >
             <div className="mx-auto flex max-w-xl items-center gap-3">
               <div className="min-w-0 shrink-0">
@@ -477,7 +477,7 @@ function BoutonCommander({
       whileHover={reduire ? undefined : { scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       className={clsx(
-        "group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-whatsapp px-5 font-semibold text-white shadow-lg shadow-whatsapp/35 transition-shadow hover:shadow-xl hover:shadow-whatsapp/45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet",
+        "group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-whatsapp px-5 font-semibold text-white shadow-lg shadow-whatsapp/35 transition-shadow hover:shadow-xl hover:shadow-whatsapp/45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu",
         grand ? "min-h-16 text-lg" : "min-h-14 text-base",
       )}
     >
@@ -540,7 +540,7 @@ function Atout({
       }}
       className="flex items-center gap-3 rounded-2xl bg-white/70 p-3.5 ring-1 ring-nuit/5"
     >
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-violet/10 text-violet">
+      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-bleu/10 text-bleu">
         {icone}
       </span>
       <span className="min-w-0">
@@ -594,7 +594,7 @@ function Champ({
     "h-13",
     erreur
       ? "ring-red-500/70 focus:ring-red-500"
-      : "ring-nuit/10 hover:ring-nuit/20 focus:ring-violet",
+      : "ring-nuit/10 hover:ring-nuit/20 focus:ring-bleu",
   );
 
   return (
@@ -605,7 +605,7 @@ function Champ({
       >
         {label}
         {requis ? (
-          <span className="text-violet" aria-hidden="true">
+          <span className="text-bleu" aria-hidden="true">
             *
           </span>
         ) : (

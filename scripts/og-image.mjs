@@ -10,8 +10,8 @@ const fond = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="0.55">
-      <stop offset="0" stop-color="#7b3fb3"/>
-      <stop offset="0.48" stop-color="#241a52"/>
+      <stop offset="0" stop-color="#1d6fe0"/>
+      <stop offset="0.48" stop-color="#0f1b3d"/>
       <stop offset="1" stop-color="#4fc3e8"/>
     </linearGradient>
     <radialGradient id="halo" cx="0.24" cy="0.5" r="0.4">

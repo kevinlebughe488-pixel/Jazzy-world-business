@@ -41,7 +41,7 @@ export function Faq({ questions }: { questions: QuestionFaq[] }) {
                 aria-expanded={estOuverte}
                 aria-controls={idPanneau}
                 onClick={() => setOuverte(estOuverte ? null : i)}
-                className="group flex min-h-16 w-full items-center gap-4 px-5 py-4 text-left font-semibold text-nuit focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-violet sm:px-7 sm:py-5"
+                className="group flex min-h-16 w-full items-center gap-4 px-5 py-4 text-left font-semibold text-nuit focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bleu sm:px-7 sm:py-5"
               >
                 <span className="flex-1 leading-snug sm:text-lg">{q.question}</span>
                 <motion.span
@@ -49,7 +49,7 @@ export function Faq({ questions }: { questions: QuestionFaq[] }) {
                   transition={reduit ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 22 }}
                   className={clsx(
                     "grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-300",
-                    estOuverte ? "degrade-marque text-white" : "bg-nuit/5 text-nuit group-hover:bg-violet/10 group-hover:text-violet",
+                    estOuverte ? "degrade-marque text-white" : "bg-nuit/5 text-nuit group-hover:bg-bleu/10 group-hover:text-bleu",
                   )}
                 >
                   <Plus className="size-5" aria-hidden="true" />

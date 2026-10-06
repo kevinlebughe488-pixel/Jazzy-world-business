@@ -211,7 +211,7 @@ export function Hero() {
                       height={600}
                       priority
                       sizes="(min-width: 1024px) 520px, (min-width: 640px) 340px, 62vw"
-                      className="h-full w-full select-none object-contain drop-shadow-[0_30px_45px_rgba(36,26,82,0.28)]"
+                      className="h-full w-full select-none object-contain drop-shadow-[0_30px_45px_rgba(15,27,61,0.28)]"
                       draggable={false}
                     />
                   </motion.div>
@@ -313,7 +313,7 @@ export function Hero() {
             <motion.p
               variants={apparition}
               custom={0}
-              className="verre mx-auto mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-nuit-700 shadow-sm ring-1 ring-violet/15 lg:mx-0"
+              className="verre mx-auto mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-nuit-700 shadow-sm ring-1 ring-bleu/15 lg:mx-0"
             >
               <span className="relative flex size-2">
                 {!reduit && (
@@ -400,7 +400,7 @@ export function Hero() {
                   transition={transitionInstant ?? { type: "spring", stiffness: 300, damping: 22 }}
                   className="verre inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[0.8rem] font-medium text-nuit shadow-sm ring-1 ring-nuit/10 sm:text-sm"
                 >
-                  <Icone className="size-4 shrink-0 text-violet" aria-hidden="true" />
+                  <Icone className="size-4 shrink-0 text-bleu" aria-hidden="true" />
                   {texte}
                 </motion.li>
               ))}
@@ -417,7 +417,7 @@ export function Hero() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={transitionInstant ?? { delay: 2, duration: 0.8, ease: EASE }}
-        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1.5 rounded-full p-2 text-nuit/60 transition-colors hover:text-nuit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet sm:flex"
+        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1.5 rounded-full p-2 text-nuit/60 transition-colors hover:text-nuit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu sm:flex"
       >
         <span className="text-[0.7rem] font-semibold uppercase tracking-[0.2em]">Découvrir</span>
         <span className="flex h-10 w-6 justify-center rounded-full border-2 border-current pt-1.5">
@@ -439,7 +439,7 @@ export function Hero() {
             ? { duration: 0 }
             : { opacity: { delay: 2, duration: 0.6 }, y: { duration: 1.6, repeat: Infinity, ease: "easeInOut" } }
         }
-        className="absolute bottom-3 left-1/2 -ml-6 grid size-12 place-items-center rounded-full text-nuit/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet sm:hidden"
+        className="absolute bottom-3 left-1/2 -ml-6 grid size-12 place-items-center rounded-full text-nuit/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu sm:hidden"
       >
         <ChevronDown className="size-6" aria-hidden="true" />
       </motion.button>

@@ -16,7 +16,7 @@ type Props = {
 };
 
 const boutonStepper =
-  "grid size-11 place-items-center rounded-full text-nuit transition-colors hover:bg-white active:bg-nuit/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-violet disabled:opacity-30 disabled:pointer-events-none";
+  "grid size-11 place-items-center rounded-full text-nuit transition-colors hover:bg-white active:bg-nuit/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bleu disabled:opacity-30 disabled:pointer-events-none";
 
 export const LigneCommande = forwardRef<HTMLLIElement, Props>(
   function LigneCommande({ ligne, index, onRetirer }, ref) {
@@ -78,13 +78,13 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               {categorie ? (
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-violet/80">
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-bleu/80">
                   {categorie}
                 </p>
               ) : null}
               <Link
                 href={lien}
-                className="mt-0.5 block rounded font-display text-base leading-snug font-semibold text-nuit hover:text-violet focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet sm:text-lg"
+                className="mt-0.5 block rounded font-display text-base leading-snug font-semibold text-nuit hover:text-bleu focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu sm:text-lg"
               >
                 {produit.nom}
               </Link>
@@ -97,7 +97,7 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
               whileTap={{ scale: 0.85 }}
               onClick={() => onRetirer(produit.id, quantite)}
               aria-label={`Retirer ${produit.nom} du panier`}
-              className="-mt-1 -mr-1 grid size-11 shrink-0 place-items-center rounded-full text-nuit/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-violet"
+              className="-mt-1 -mr-1 grid size-11 shrink-0 place-items-center rounded-full text-nuit/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-bleu"
             >
               <Trash2 className="size-[1.15rem]" aria-hidden="true" />
             </motion.button>

@@ -89,10 +89,10 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
         aria-label={`Photos de ${nom}`}
         tabIndex={plusieurs ? 0 : undefined}
         onKeyDown={clavier}
-        className="group relative aspect-square flex-1 overflow-hidden rounded-[2rem] bg-white shadow-[0_2px_4px_rgba(36,26,82,0.05),0_30px_60px_-30px_rgba(123,63,179,0.45)] ring-1 ring-nuit/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet"
+        className="group relative aspect-square flex-1 overflow-hidden rounded-[2rem] bg-white shadow-[0_2px_4px_rgba(15,27,61,0.05),0_30px_60px_-30px_rgba(29,111,224,0.45)] ring-1 ring-nuit/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bleu"
       >
         <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-creme via-white to-ciel-200/50" />
-        <div aria-hidden className="absolute -left-16 -top-16 size-64 rounded-full bg-violet-300/30 blur-3xl" />
+        <div aria-hidden className="absolute -left-16 -top-16 size-64 rounded-full bg-bleu-300/30 blur-3xl" />
         <div aria-hidden className="absolute -bottom-20 -right-10 size-72 rounded-full bg-ciel/25 blur-3xl" />
 
         <AnimatePresence initial={false} custom={sens} mode="popLayout">
@@ -164,12 +164,12 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
                   onClick={() => aller(i)}
                   aria-label={`Afficher la photo ${i + 1}`}
                   aria-current={i === index}
-                  className="relative grid h-4 place-items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                  className="relative grid h-4 place-items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
                 >
                   <span
                     className={clsx(
                       "block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-doux)]",
-                      i === index ? "w-6 bg-violet" : "w-1.5 bg-nuit/25",
+                      i === index ? "w-6 bg-bleu" : "w-1.5 bg-nuit/25",
                     )}
                   />
                 </button>
@@ -198,7 +198,7 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
               whileHover={reduire ? undefined : { y: -3 }}
               whileTap={{ scale: 0.94 }}
               className={clsx(
-                "relative aspect-square w-20 shrink-0 overflow-hidden rounded-2xl bg-white ring-1 ring-nuit/10 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet lg:w-full",
+                "relative aspect-square w-20 shrink-0 overflow-hidden rounded-2xl bg-white ring-1 ring-nuit/10 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu lg:w-full",
                 i === index ? "opacity-100" : "opacity-60 hover:opacity-100",
               )}
             >
@@ -206,7 +206,7 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
               {i === index && (
                 <motion.span
                   layoutId="miniature-active"
-                  className="absolute inset-0 rounded-2xl ring-[2.5px] ring-inset ring-violet"
+                  className="absolute inset-0 rounded-2xl ring-[2.5px] ring-inset ring-bleu"
                   transition={{ type: "spring", stiffness: 420, damping: 34 }}
                 />
               )}
@@ -226,7 +226,7 @@ function FlecheNav({ sens, onClick }: { sens: "precedent" | "suivant"; onClick: 
       onClick={onClick}
       aria-label={sens === "precedent" ? "Photo précédente" : "Photo suivante"}
       className={clsx(
-        "verre absolute top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full text-nuit shadow-lg shadow-nuit/10 ring-1 ring-white/70 transition-[opacity,transform] duration-300 hover:scale-110 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-violet",
+        "verre absolute top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full text-nuit shadow-lg shadow-nuit/10 ring-1 ring-white/70 transition-[opacity,transform] duration-300 hover:scale-110 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-bleu",
         "lg:opacity-0 lg:group-hover:opacity-100",
         sens === "precedent" ? "left-3" : "right-3",
       )}

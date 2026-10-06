@@ -30,8 +30,8 @@ const avantages: Avantage[] = [
     icone: Truck,
     titre: "Livraison partout à Kinshasa",
     texte: `${boutique.livraison.zone}, de Gombe à Masina. Le prix dépend du trajet et vous est confirmé sur WhatsApp.`,
-    tuile: "from-violet to-nuit-700",
-    halo: "rgba(123, 63, 179, 0.22)",
+    tuile: "from-bleu to-nuit-700",
+    halo: "rgba(29,111,224, 0.22)",
     compteur: boutique.livraison.prixMinFC,
   },
   {
@@ -52,8 +52,8 @@ const avantages: Avantage[] = [
     icone: ShieldCheck,
     titre: "Produits sélectionnés avec soin",
     texte: "Bien-être, beauté, accessoires : chaque article est choisi pour sa qualité et son utilité au quotidien.",
-    tuile: "from-violet via-nuit-700 to-ciel",
-    halo: "rgba(180, 138, 224, 0.28)",
+    tuile: "from-bleu via-nuit-700 to-ciel",
+    halo: "rgba(143,186,243, 0.28)",
   },
 ];
 
@@ -129,7 +129,7 @@ function CarteAvantage({ avantage, index }: { avantage: Avantage; index: number 
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         whileHover={reduit ? undefined : { y: -8 }}
         transition={{ type: "spring", stiffness: 260, damping: 22 }}
-        className="group relative h-full overflow-hidden rounded-carte bg-white p-6 shadow-[0_1px_2px_rgba(36,26,82,0.04),0_12px_32px_-12px_rgba(36,26,82,0.12)] ring-1 ring-nuit/5 transition-shadow duration-500 hover:shadow-[0_2px_4px_rgba(36,26,82,0.05),0_28px_60px_-20px_rgba(123,63,179,0.35)] sm:p-7"
+        className="group relative h-full overflow-hidden rounded-carte bg-white p-6 shadow-[0_1px_2px_rgba(15,27,61,0.04),0_12px_32px_-12px_rgba(15,27,61,0.12)] ring-1 ring-nuit/5 transition-shadow duration-500 hover:shadow-[0_2px_4px_rgba(15,27,61,0.05),0_28px_60px_-20px_rgba(29,111,224,0.35)] sm:p-7"
       >
         {/* Lueur qui suit le curseur */}
         <motion.div
@@ -183,7 +183,7 @@ function Defilement() {
       {motsCles.map((mot) => (
         <li key={`${cle}-${mot}`} className="flex items-center gap-6 sm:gap-10">
           <span className="whitespace-nowrap font-display text-xl font-semibold text-nuit/80 sm:text-2xl">{mot}</span>
-          <Sparkles className="size-5 shrink-0 text-violet-300" aria-hidden="true" />
+          <Sparkles className="size-5 shrink-0 text-bleu-300" aria-hidden="true" />
         </li>
       ))}
     </ul>
@@ -211,7 +211,7 @@ export function Avantages() {
       {/* Halos décoratifs */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-32 top-10 size-80 rounded-full bg-violet/10 blur-3xl"
+        className="pointer-events-none absolute -left-32 top-10 size-80 rounded-full bg-bleu/10 blur-3xl"
       />
       <div
         aria-hidden="true"
@@ -221,7 +221,7 @@ export function Avantages() {
       <Container className="relative">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full bg-violet/10 px-4 py-1.5 text-sm font-semibold text-violet">
+            <span className="inline-flex items-center gap-2 rounded-full bg-bleu/10 px-4 py-1.5 text-sm font-semibold text-bleu">
               <Sparkles className="size-4" aria-hidden="true" />
               Pourquoi Jazzy World
             </span>

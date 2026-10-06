@@ -31,7 +31,7 @@ export function Footer() {
 
       {/* Décor : halos + globe en filigrane */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-violet/30 blur-3xl" />
+        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-bleu/30 blur-3xl" />
         <div className="absolute -bottom-40 right-0 h-[28rem] w-[28rem] rounded-full bg-ciel/15 blur-3xl" />
         <Image
           src="/brand/globe.webp"
@@ -47,7 +47,7 @@ export function Footer() {
         {/* Bandeau d'appel à l'action */}
         <SaufAccueil>
         <Reveal className="mb-14 lg:mb-20">
-          <div className="degrade-marque relative overflow-hidden rounded-[var(--radius-carte)] p-6 shadow-2xl shadow-violet/20 sm:p-10">
+          <div className="degrade-marque relative overflow-hidden rounded-[var(--radius-carte)] p-6 shadow-2xl shadow-bleu/20 sm:p-10">
             <div aria-hidden="true" className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
             <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div className="max-w-xl">

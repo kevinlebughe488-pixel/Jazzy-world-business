@@ -176,7 +176,7 @@ export function CartDrawer() {
             {/* Halo décoratif */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full bg-violet/15 blur-3xl"
+              className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full bg-bleu/15 blur-3xl"
             />
             <div
               aria-hidden="true"
@@ -186,7 +186,7 @@ export function CartDrawer() {
             {/* En-tête */}
             <header className="relative flex items-center justify-between gap-3 border-b border-nuit/8 px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4 sm:px-6">
               <div className="flex items-center gap-3">
-                <span className="degrade-marque grid size-11 place-items-center rounded-2xl text-white shadow-lg shadow-violet/25">
+                <span className="degrade-marque grid size-11 place-items-center rounded-2xl text-white shadow-lg shadow-bleu/25">
                   <ShoppingBag className="size-5" aria-hidden="true" />
                 </span>
                 <div>
@@ -205,7 +205,7 @@ export function CartDrawer() {
                 whileHover={reduire ? undefined : { rotate: 90 }}
                 whileTap={{ scale: 0.88 }}
                 aria-label="Fermer le panier"
-                className="grid size-12 place-items-center rounded-full bg-white text-nuit shadow-sm ring-1 ring-nuit/10 transition-colors hover:bg-nuit hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                className="grid size-12 place-items-center rounded-full bg-white text-nuit shadow-sm ring-1 ring-nuit/10 transition-colors hover:bg-nuit hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
               >
                 <X className="size-5" aria-hidden="true" />
               </motion.button>
@@ -242,7 +242,7 @@ export function CartDrawer() {
 
                   <ul className="mt-3 space-y-1.5 rounded-2xl bg-creme px-3.5 py-3 text-[13px] leading-snug text-nuit/75">
                     <li className="flex items-start gap-2">
-                      <Truck className="mt-px size-4 shrink-0 text-violet" aria-hidden="true" />
+                      <Truck className="mt-px size-4 shrink-0 text-bleu" aria-hidden="true" />
                       <span>
                         Livraison à partir de{" "}
                         <strong className="font-semibold text-nuit">{formatFC(boutique.livraison.prixMinFC)}</strong>,
@@ -250,7 +250,7 @@ export function CartDrawer() {
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Wallet className="mt-px size-4 shrink-0 text-violet" aria-hidden="true" />
+                      <Wallet className="mt-px size-4 shrink-0 text-bleu" aria-hidden="true" />
                       <span>Paiement cash à la livraison</span>
                     </li>
                   </ul>
@@ -260,7 +260,7 @@ export function CartDrawer() {
                       <Link
                         href="/panier/"
                         onClick={fermerTiroir}
-                        className="degrade-marque group flex min-h-14 w-full items-center justify-center gap-2 rounded-full px-6 text-base font-semibold text-white shadow-lg shadow-violet/30 transition-shadow hover:shadow-violet/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                        className="degrade-marque group flex min-h-14 w-full items-center justify-center gap-2 rounded-full px-6 text-base font-semibold text-white shadow-lg shadow-bleu/30 transition-shadow hover:shadow-bleu/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
                       >
                         Finaliser ma commande
                         <ArrowRight
@@ -306,7 +306,7 @@ function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: bool
         }}
         className="relative mb-8"
       >
-        <div aria-hidden="true" className="absolute inset-4 rounded-full bg-gradient-to-br from-violet/30 to-ciel/30 blur-2xl" />
+        <div aria-hidden="true" className="absolute inset-4 rounded-full bg-gradient-to-br from-bleu/30 to-ciel/30 blur-2xl" />
         <motion.div
           animate={reduire ? undefined : { y: [0, -10, 0], rotate: [0, 4, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -321,7 +321,7 @@ function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: bool
             className="size-40 drop-shadow-xl sm:size-44"
           />
         </motion.div>
-        <span className="absolute -right-1 bottom-3 grid size-12 place-items-center rounded-full bg-white text-violet shadow-lg ring-1 ring-nuit/5">
+        <span className="absolute -right-1 bottom-3 grid size-12 place-items-center rounded-full bg-white text-bleu shadow-lg ring-1 ring-nuit/5">
           <ShoppingBag className="size-5" aria-hidden="true" />
         </span>
       </motion.div>
@@ -356,7 +356,7 @@ function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: bool
         <Link
           href="/boutique/"
           onClick={surFermer}
-          className="degrade-marque group inline-flex min-h-14 items-center gap-2 rounded-full px-7 text-base font-semibold text-white shadow-lg shadow-violet/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+          className="degrade-marque group inline-flex min-h-14 items-center gap-2 rounded-full px-7 text-base font-semibold text-white shadow-lg shadow-bleu/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
         >
           Découvrir la boutique
           <ArrowRight className="size-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />

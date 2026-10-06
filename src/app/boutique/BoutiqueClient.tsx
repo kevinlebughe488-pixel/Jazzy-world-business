@@ -90,7 +90,7 @@ export function BoutiqueClient() {
       <section className="relative isolate pt-28 pb-10 sm:pt-32 sm:pb-14 lg:pt-40">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <motion.div
-            className="absolute -top-32 -left-24 h-80 w-80 rounded-full bg-violet-300/40 blur-3xl sm:h-[28rem] sm:w-[28rem]"
+            className="absolute -top-32 -left-24 h-80 w-80 rounded-full bg-bleu-300/40 blur-3xl sm:h-[28rem] sm:w-[28rem]"
             animate={reduire ? undefined : { x: [0, 40, 0], y: [0, 24, 0] }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
           />
@@ -106,7 +106,7 @@ export function BoutiqueClient() {
           <motion.div variants={entete} initial="cache" animate="visible" className="max-w-3xl">
             <motion.p
               variants={ligneEntete}
-              className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-violet uppercase ring-1 ring-violet/15 backdrop-blur"
+              className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-bleu uppercase ring-1 ring-bleu/15 backdrop-blur"
             >
               <Sparkles className="size-3.5" aria-hidden />
               {produits.length} produits sélectionnés pour vous
@@ -123,7 +123,7 @@ export function BoutiqueClient() {
             </motion.p>
             <motion.div variants={ligneEntete} className="mt-6 flex flex-wrap gap-2.5 text-sm text-nuit/75">
               <span className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 ring-1 ring-nuit/10">
-                <Truck className="size-4 text-violet" aria-hidden />
+                <Truck className="size-4 text-bleu" aria-hidden />
                 Livraison partout à Kinshasa dès {formatFC(boutique.livraison.prixMinFC)}
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 ring-1 ring-nuit/10">
@@ -161,7 +161,7 @@ export function BoutiqueClient() {
                         aria-pressed={actif}
                         onClick={() => setCategorie(c.id)}
                         className={clsx(
-                          "relative inline-flex min-h-11 shrink-0 snap-start items-center gap-2 rounded-full px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet",
+                          "relative inline-flex min-h-11 shrink-0 snap-start items-center gap-2 rounded-full px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu",
                           actif ? "text-white" : "text-nuit/75 hover:bg-nuit/5 hover:text-nuit",
                         )}
                       >
@@ -169,7 +169,7 @@ export function BoutiqueClient() {
                           <motion.span
                             layoutId="pill-active"
                             aria-hidden
-                            className="degrade-marque absolute inset-0 -z-0 rounded-full shadow-md shadow-violet/30"
+                            className="degrade-marque absolute inset-0 -z-0 rounded-full shadow-md shadow-bleu/30"
                             transition={reduire ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
                           />
                         )}
@@ -195,7 +195,7 @@ export function BoutiqueClient() {
                     Rechercher un produit par son nom
                   </label>
                   <Search
-                    className="pointer-events-none absolute top-1/2 left-3.5 size-4.5 -translate-y-1/2 text-nuit/45 transition-colors group-focus-within:text-violet"
+                    className="pointer-events-none absolute top-1/2 left-3.5 size-4.5 -translate-y-1/2 text-nuit/45 transition-colors group-focus-within:text-bleu"
                     aria-hidden
                   />
                   <input
@@ -207,7 +207,7 @@ export function BoutiqueClient() {
                     placeholder="Rechercher…"
                     value={recherche}
                     onChange={(e) => setRecherche(e.target.value)}
-                    className="h-11 w-full rounded-full bg-creme pr-10 pl-10 text-base text-nuit ring-1 ring-nuit/10 transition-shadow placeholder:text-nuit/45 focus:bg-white focus:ring-2 focus:ring-violet focus:outline-none sm:text-sm [&::-webkit-search-cancel-button]:hidden"
+                    className="h-11 w-full rounded-full bg-creme pr-10 pl-10 text-base text-nuit ring-1 ring-nuit/10 transition-shadow placeholder:text-nuit/45 focus:bg-white focus:ring-2 focus:ring-bleu focus:outline-none sm:text-sm [&::-webkit-search-cancel-button]:hidden"
                   />
                   <AnimatePresence>
                     {recherche && (
@@ -218,7 +218,7 @@ export function BoutiqueClient() {
                         initial={{ opacity: 0, scale: 0.6 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.6 }}
-                        className="absolute top-1/2 right-1.5 grid size-8 -translate-y-1/2 place-items-center rounded-full text-nuit/60 hover:bg-nuit/5 hover:text-nuit focus-visible:outline-2 focus-visible:outline-violet"
+                        className="absolute top-1/2 right-1.5 grid size-8 -translate-y-1/2 place-items-center rounded-full text-nuit/60 hover:bg-nuit/5 hover:text-nuit focus-visible:outline-2 focus-visible:outline-bleu"
                       >
                         <X className="size-4" aria-hidden />
                       </motion.button>
@@ -232,14 +232,14 @@ export function BoutiqueClient() {
                     Trier les produits
                   </label>
                   <ArrowUpDown
-                    className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-violet"
+                    className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-bleu"
                     aria-hidden
                   />
                   <select
                     id={idTri}
                     value={tri}
                     onChange={(e) => setTri(e.target.value as Tri)}
-                    className="h-11 w-[10.25rem] cursor-pointer appearance-none rounded-full bg-creme pr-8 pl-9 text-base font-semibold text-nuit ring-1 ring-nuit/10 transition-shadow hover:ring-nuit/25 focus:bg-white focus:ring-2 focus:ring-violet focus:outline-none sm:w-auto sm:text-sm"
+                    className="h-11 w-[10.25rem] cursor-pointer appearance-none rounded-full bg-creme pr-8 pl-9 text-base font-semibold text-nuit ring-1 ring-nuit/10 transition-shadow hover:ring-nuit/25 focus:bg-white focus:ring-2 focus:ring-bleu focus:outline-none sm:w-auto sm:text-sm"
                   >
                     {OPTIONS_TRI.map((o) => (
                       <option key={o.valeur} value={o.valeur}>
@@ -286,7 +286,7 @@ export function BoutiqueClient() {
                 initial={{ opacity: 0, x: 8 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 8 }}
-                className="inline-flex min-h-9 items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-violet hover:bg-violet/10 focus-visible:outline-2 focus-visible:outline-violet"
+                className="inline-flex min-h-9 items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-bleu hover:bg-bleu/10 focus-visible:outline-2 focus-visible:outline-bleu"
               >
                 <RotateCcw className="size-3.5" aria-hidden />
                 Réinitialiser
@@ -339,9 +339,9 @@ export function BoutiqueClient() {
               <motion.div
                 animate={reduire ? undefined : { y: [0, -8, 0], rotate: [0, -4, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="grid size-20 place-items-center rounded-3xl bg-creme ring-1 ring-violet/15"
+                className="grid size-20 place-items-center rounded-3xl bg-creme ring-1 ring-bleu/15"
               >
-                <PackageSearch className="size-9 text-violet" aria-hidden />
+                <PackageSearch className="size-9 text-bleu" aria-hidden />
               </motion.div>
               <h2 className="mt-6 font-display text-2xl font-bold text-nuit">Aucun produit trouvé</h2>
               <p className="mt-2 text-nuit/65">

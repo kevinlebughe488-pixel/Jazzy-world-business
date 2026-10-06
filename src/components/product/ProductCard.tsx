@@ -62,16 +62,16 @@ export function ProductCard({ produit, index = 0 }: { produit: Produit; index?: 
         style={reduire ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
         className={clsx(
           "group relative flex h-full flex-col rounded-[var(--radius-carte)] bg-white",
-          "shadow-[0_1px_2px_rgba(36,26,82,0.06),0_8px_24px_-12px_rgba(36,26,82,0.18)] ring-1 ring-nuit/5",
-          "transition-shadow duration-500 hover:shadow-[0_2px_4px_rgba(36,26,82,0.06),0_28px_50px_-20px_rgba(123,63,179,0.35)]",
-          "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-violet",
+          "shadow-[0_1px_2px_rgba(15,27,61,0.06),0_8px_24px_-12px_rgba(15,27,61,0.18)] ring-1 ring-nuit/5",
+          "transition-shadow duration-500 hover:shadow-[0_2px_4px_rgba(15,27,61,0.06),0_28px_50px_-20px_rgba(29,111,224,0.35)]",
+          "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-bleu",
         )}
       >
         {/* Visuel */}
         <div className="relative aspect-square overflow-hidden rounded-t-[var(--radius-carte)] bg-gradient-to-br from-creme via-white to-ciel-200/40">
           <div
             aria-hidden
-            className="absolute -right-10 -top-10 size-40 rounded-full bg-violet-300/25 blur-3xl transition-transform duration-700 group-hover:scale-125"
+            className="absolute -right-10 -top-10 size-40 rounded-full bg-bleu-300/25 blur-3xl transition-transform duration-700 group-hover:scale-125"
           />
           {image1 && (
             <Image

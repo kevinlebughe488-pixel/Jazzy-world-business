@@ -37,7 +37,7 @@ export function PageIntrouvable() {
 
       {/* Halos décoratifs */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-32 top-10 h-80 w-80 rounded-full bg-violet/20 blur-3xl" />
+        <div className="absolute -left-32 top-10 h-80 w-80 rounded-full bg-bleu/20 blur-3xl" />
         <div className="absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-ciel/25 blur-3xl" />
       </div>
 
@@ -65,7 +65,7 @@ export function PageIntrouvable() {
               {!reduit && (
                 <motion.div
                   aria-hidden="true"
-                  className="absolute -inset-3 rounded-full border-2 border-dashed border-violet/30"
+                  className="absolute -inset-3 rounded-full border-2 border-dashed border-bleu/30"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                 />
@@ -89,7 +89,7 @@ export function PageIntrouvable() {
 
           <motion.p
             variants={element}
-            className="mb-3 inline-flex items-center rounded-full bg-violet/10 px-4 py-1.5 text-sm font-semibold text-violet"
+            className="mb-3 inline-flex items-center rounded-full bg-bleu/10 px-4 py-1.5 text-sm font-semibold text-bleu"
           >
             Erreur 404
           </motion.p>
@@ -128,7 +128,7 @@ export function PageIntrouvable() {
               <motion.li key={href} variants={element}>
                 <Link
                   href={href}
-                  className="group flex h-full items-center gap-3 rounded-2xl bg-white p-4 text-left shadow-sm ring-1 ring-nuit/5 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet/10 hover:ring-violet/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                  className="group flex h-full items-center gap-3 rounded-2xl bg-white p-4 text-left shadow-sm ring-1 ring-nuit/5 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-bleu/10 hover:ring-bleu/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
                 >
                   <span className="degrade-marque flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white">
                     <Icone className="h-5 w-5" aria-hidden="true" />
@@ -138,7 +138,7 @@ export function PageIntrouvable() {
                     <span className="block text-sm text-nuit/60">{detail}</span>
                   </span>
                   <ArrowRight
-                    className="h-4 w-4 shrink-0 text-nuit/30 transition group-hover:translate-x-1 group-hover:text-violet"
+                    className="h-4 w-4 shrink-0 text-nuit/30 transition group-hover:translate-x-1 group-hover:text-bleu"
                     aria-hidden="true"
                   />
                 </Link>

@@ -81,8 +81,8 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
       >
         {categorie && (
           <motion.p variants={variantesElement}>
-            <span className="inline-flex items-center gap-2 rounded-full bg-violet/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-violet">
-              <span className="size-1.5 rounded-full bg-violet" aria-hidden />
+            <span className="inline-flex items-center gap-2 rounded-full bg-bleu/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-bleu">
+              <span className="size-1.5 rounded-full bg-bleu" aria-hidden />
               {categorie}
             </span>
           </motion.p>
@@ -125,7 +125,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
         <motion.div
           ref={zoneAchat}
           variants={variantesElement}
-          className="mt-8 rounded-[1.75rem] bg-white p-4 shadow-[0_1px_2px_rgba(36,26,82,0.05),0_20px_40px_-24px_rgba(36,26,82,0.25)] ring-1 ring-nuit/5 sm:p-5"
+          className="mt-8 rounded-[1.75rem] bg-white p-4 shadow-[0_1px_2px_rgba(15,27,61,0.05),0_20px_40px_-24px_rgba(15,27,61,0.25)] ring-1 ring-nuit/5 sm:p-5"
         >
           {produit.enStock ? (
             <>
@@ -160,7 +160,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                   rel="noopener noreferrer"
                   whileHover={reduire ? undefined : { scale: 1.02 }}
                   whileTap={{ scale: 0.96 }}
-                  className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 text-base font-semibold text-white shadow-lg shadow-whatsapp/30 transition-shadow hover:shadow-whatsapp/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                  className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 text-base font-semibold text-white shadow-lg shadow-whatsapp/30 transition-shadow hover:shadow-whatsapp/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
                 >
                   <WhatsAppIcon className="size-5" />
                   <span>
@@ -178,7 +178,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                 href={lienQuestion}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-semibold text-white shadow-lg shadow-whatsapp/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+                className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-semibold text-white shadow-lg shadow-whatsapp/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
               >
                 <WhatsAppIcon className="size-5" />
                 Me prévenir sur WhatsApp
@@ -186,7 +186,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
             </div>
           )}
           <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-nuit/55">
-            <ShieldCheck className="size-3.5 text-violet" aria-hidden />
+            <ShieldCheck className="size-3.5 text-bleu" aria-hidden />
             Aucun paiement en ligne : vous payez à la livraison.
           </p>
         </motion.div>
@@ -287,7 +287,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
             href={lienQuestion}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-5 inline-flex min-h-11 items-center gap-2 rounded-full font-semibold text-violet focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet"
+            className="group mt-5 inline-flex min-h-11 items-center gap-2 rounded-full font-semibold text-bleu focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bleu"
           >
             <MessageCircle className="size-4" aria-hidden />
             <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1.5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_1.5px]">
@@ -312,7 +312,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                 className="fixed inset-x-0 bottom-0 z-30 lg:hidden"
               >
                 <div
-                  className="border-t border-nuit/10 bg-white/90 backdrop-blur-xl shadow-[0_-12px_32px_-12px_rgba(36,26,82,0.25)]"
+                  className="border-t border-nuit/10 bg-white/90 backdrop-blur-xl shadow-[0_-12px_32px_-12px_rgba(15,27,61,0.25)]"
                   style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
                 >
                   {/* pr : laisse la place au bouton WhatsApp flottant (bas à droite) */}
@@ -344,7 +344,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
 function Stepper({ quantite, onChange }: { quantite: number; onChange: (q: number) => void }) {
   const reduire = useReducedMotion();
   const classeBouton =
-    "grid size-11 place-items-center rounded-full text-nuit transition-colors hover:bg-white active:bg-white disabled:opacity-35 disabled:hover:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-violet";
+    "grid size-11 place-items-center rounded-full text-nuit transition-colors hover:bg-white active:bg-white disabled:opacity-35 disabled:hover:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bleu";
   return (
     <div role="group" aria-labelledby="libelle-quantite" className="flex items-center gap-1 rounded-full bg-creme p-1 ring-1 ring-nuit/10">
       <motion.button
@@ -397,11 +397,11 @@ function CarteInfo({
   couleur: "ciel" | "violet";
 }) {
   return (
-    <div className="group flex gap-3.5 rounded-2xl bg-white p-4 ring-1 ring-nuit/5 transition-shadow duration-500 hover:shadow-[0_18px_36px_-20px_rgba(123,63,179,0.4)]">
+    <div className="group flex gap-3.5 rounded-2xl bg-white p-4 ring-1 ring-nuit/5 transition-shadow duration-500 hover:shadow-[0_18px_36px_-20px_rgba(29,111,224,0.4)]">
       <span
         className={clsx(
           "grid size-11 shrink-0 place-items-center rounded-xl transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-110",
-          couleur === "ciel" ? "bg-ciel/15 text-sky-700" : "bg-violet/10 text-violet",
+          couleur === "ciel" ? "bg-ciel/15 text-sky-700" : "bg-bleu/10 text-bleu",
         )}
       >
         {icone}

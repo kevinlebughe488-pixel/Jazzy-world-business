@@ -11,7 +11,7 @@ import { formatUSD } from "@/lib/format";
 type Props = { ligne: LigneDetaillee; index: number };
 
 const boutonStepper =
-  "grid size-9 place-items-center rounded-full text-nuit transition-colors hover:bg-nuit/5 active:bg-nuit/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-violet disabled:opacity-35 disabled:pointer-events-none";
+  "grid size-9 place-items-center rounded-full text-nuit transition-colors hover:bg-nuit/5 active:bg-nuit/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bleu disabled:opacity-35 disabled:pointer-events-none";
 
 export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDrawerLine({ ligne, index }, ref) {
   const { produit, quantite, total } = ligne;
@@ -41,7 +41,7 @@ export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDraw
       <Link
         href={`/produits/${produit.id}/`}
         onClick={fermerTiroir}
-        className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-creme focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+        className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-creme focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
         aria-label={`Voir ${produit.nom}`}
       >
         {image ? (
@@ -60,7 +60,7 @@ export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDraw
           <Link
             href={`/produits/${produit.id}/`}
             onClick={fermerTiroir}
-            className="line-clamp-2 pt-0.5 font-display text-[15px] leading-snug font-semibold text-nuit hover:text-violet focus-visible:underline focus-visible:outline-none"
+            className="line-clamp-2 pt-0.5 font-display text-[15px] leading-snug font-semibold text-nuit hover:text-bleu focus-visible:underline focus-visible:outline-none"
           >
             {produit.nom}
           </Link>
@@ -69,7 +69,7 @@ export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDraw
             onClick={() => retirer(produit.id)}
             whileTap={{ scale: 0.85 }}
             aria-label={`Retirer ${produit.nom} du panier`}
-            className="-mt-1 -mr-1 grid size-10 shrink-0 place-items-center rounded-full text-nuit/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-violet"
+            className="-mt-1 -mr-1 grid size-10 shrink-0 place-items-center rounded-full text-nuit/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-bleu"
           >
             <Trash2 className="size-[18px]" aria-hidden="true" />
           </motion.button>

@@ -23,9 +23,9 @@ export function ApercuWhatsApp({ message }: { message: string }) {
         onClick={() => setOuvert((o) => !o)}
         aria-expanded={ouvert}
         aria-controls={id}
-        className="flex min-h-12 w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold text-nuit transition-colors hover:bg-nuit/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+        className="flex min-h-12 w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold text-nuit transition-colors hover:bg-nuit/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
       >
-        <Eye className="size-4 text-violet" aria-hidden="true" />
+        <Eye className="size-4 text-bleu" aria-hidden="true" />
         <span className="flex-1">
           {ouvert
             ? "Masquer l'aperçu du message"

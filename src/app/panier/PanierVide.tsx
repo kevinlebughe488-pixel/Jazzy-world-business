@@ -56,7 +56,7 @@ export function PanierVide() {
           />
         </motion.div>
         <motion.span
-          className="absolute -right-1 bottom-3 grid size-14 place-items-center rounded-2xl bg-white text-violet shadow-lg shadow-nuit/10 ring-1 ring-nuit/5"
+          className="absolute -right-1 bottom-3 grid size-14 place-items-center rounded-2xl bg-white text-bleu shadow-lg shadow-nuit/10 ring-1 ring-nuit/5"
           initial={
             reduire ? { opacity: 0 } : { opacity: 0, scale: 0, rotate: 30 }
           }
@@ -73,7 +73,7 @@ export function PanierVide() {
 
       <motion.p
         {...entree(0.15)}
-        className="text-sm font-semibold uppercase tracking-[0.2em] text-violet"
+        className="text-sm font-semibold uppercase tracking-[0.2em] text-bleu"
       >
         Mon panier
       </motion.p>

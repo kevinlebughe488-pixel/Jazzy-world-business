@@ -83,7 +83,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
           type="button"
           onClick={onFermer}
           aria-label="Fermer"
-          className="absolute top-3 right-3 grid size-11 place-items-center rounded-full text-nuit/50 transition-colors hover:bg-nuit/5 hover:text-nuit focus-visible:outline-2 focus-visible:outline-violet"
+          className="absolute top-3 right-3 grid size-11 place-items-center rounded-full text-nuit/50 transition-colors hover:bg-nuit/5 hover:text-nuit focus-visible:outline-2 focus-visible:outline-bleu"
         >
           <X className="size-5" aria-hidden="true" />
         </button>
@@ -150,7 +150,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
             href={lien}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-whatsapp px-6 font-semibold text-white shadow-lg shadow-whatsapp/30 transition-transform hover:scale-[1.02] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+            className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-whatsapp px-6 font-semibold text-white shadow-lg shadow-whatsapp/30 transition-transform hover:scale-[1.02] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
           >
             <WhatsAppIcon className="size-5" />
             Rouvrir WhatsApp
@@ -159,7 +159,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
           <button
             type="button"
             onClick={onVider}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 font-semibold text-nuit ring-1 ring-nuit/15 transition-colors hover:bg-nuit/[0.03] hover:ring-nuit/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 font-semibold text-nuit ring-1 ring-nuit/15 transition-colors hover:bg-nuit/[0.03] hover:ring-nuit/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
           >
             <Trash2 className="size-4" aria-hidden="true" />
             Vider le panier
@@ -167,7 +167,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
           <button
             type="button"
             onClick={onFermer}
-            className="min-h-11 rounded-full text-sm font-medium text-nuit/60 hover:text-nuit focus-visible:outline-2 focus-visible:outline-violet"
+            className="min-h-11 rounded-full text-sm font-medium text-nuit/60 hover:text-nuit focus-visible:outline-2 focus-visible:outline-bleu"
           >
             Garder mon panier
           </button>

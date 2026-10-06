@@ -71,7 +71,7 @@ export function IntroMarque() {
         <div className="ji-panneau ji-avant bg-nuit-900">
           <div className="ji-contenu flex h-full flex-col items-center justify-center gap-6 px-6 text-center">
             <div className="relative size-28 sm:size-36">
-              <div className="ji-halo absolute -inset-6 rounded-full bg-[radial-gradient(circle,rgba(79,195,232,0.55),rgba(123,63,179,0.35)_45%,transparent_70%)] blur-xl" />
+              <div className="ji-halo absolute -inset-6 rounded-full bg-[radial-gradient(circle,rgba(79,195,232,0.55),rgba(29,111,224,0.35)_45%,transparent_70%)] blur-xl" />
               <Image
                 src="/brand/globe.webp"
                 alt=""

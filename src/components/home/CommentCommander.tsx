@@ -26,13 +26,13 @@ const etapes: Etape[] = [
     titre: "Choisissez vos produits",
     texte: "Parcourez la boutique et trouvez ce qui vous plaît : bien-être, beauté, accessoires.",
     Icone: MousePointerClick,
-    accent: "from-violet to-nuit-700",
+    accent: "from-bleu to-nuit-700",
   },
   {
     titre: "Ajoutez au panier",
     texte: "Un clic suffit. Votre panier est gardé sur votre téléphone, même si vous revenez plus tard.",
     Icone: ShoppingBag,
-    accent: "from-nuit-700 to-violet",
+    accent: "from-nuit-700 to-bleu",
   },
   {
     titre: "Envoyez sur WhatsApp",
@@ -92,14 +92,14 @@ export function CommentCommander() {
     >
       {/* Halos décoratifs */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-violet/10 blur-3xl" />
+        <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-bleu/10 blur-3xl" />
         <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-ciel/15 blur-3xl" />
       </div>
 
       <Container className="relative">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-violet shadow-sm ring-1 ring-violet/15">
-            <span className="h-1.5 w-1.5 rounded-full bg-violet" aria-hidden />
+          <p className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-bleu shadow-sm ring-1 ring-bleu/15">
+            <span className="h-1.5 w-1.5 rounded-full bg-bleu" aria-hidden />
             Simple comme bonjour
           </p>
           <h2
@@ -125,7 +125,7 @@ export function CommentCommander() {
           {/* Ligne verticale (mobile) */}
           <div aria-hidden className="absolute bottom-8 left-8 top-8 w-1 -translate-x-1/2 rounded-full bg-nuit/10 lg:hidden">
             <motion.div
-              className="h-full w-full origin-top rounded-full bg-gradient-to-b from-violet via-nuit-700 to-ciel"
+              className="h-full w-full origin-top rounded-full bg-gradient-to-b from-bleu via-nuit-700 to-ciel"
               style={{ scaleY: echelle }}
             />
           </div>
@@ -154,8 +154,8 @@ export function CommentCommander() {
                   </motion.div>
                 </div>
 
-                <div className="flex-1 rounded-3xl bg-white/80 p-5 shadow-sm ring-1 ring-nuit/5 transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-violet/10 lg:mt-7 lg:w-full lg:p-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-violet">Étape {i + 1}</p>
+                <div className="flex-1 rounded-3xl bg-white/80 p-5 shadow-sm ring-1 ring-nuit/5 transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-bleu/10 lg:mt-7 lg:w-full lg:p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bleu">Étape {i + 1}</p>
                   <h3 className="mt-1.5 font-display text-lg font-semibold text-nuit sm:text-xl">{etape.titre}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-nuit/70 sm:text-[0.95rem]">{etape.texte}</p>
                 </div>

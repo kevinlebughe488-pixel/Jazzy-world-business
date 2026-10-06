@@ -47,7 +47,7 @@ const lienQuestion = lienWhatsApp(messageQuestion());
 
 function Etiquette({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full bg-violet/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-violet">
+    <span className="inline-flex items-center gap-2 rounded-full bg-bleu/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-bleu">
       {children}
     </span>
   );
@@ -85,12 +85,12 @@ function CarteInfo({
       />
       <div className="relative">
         <div className="flex items-center justify-between gap-4">
-          <span className="degrade-marque grid size-14 place-items-center rounded-2xl text-white shadow-lg shadow-violet/30 transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-105">
+          <span className="degrade-marque grid size-14 place-items-center rounded-2xl text-white shadow-lg shadow-bleu/30 transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-105">
             <I className="size-7" aria-hidden />
           </span>
           {accent}
         </div>
-        <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-violet">{surtitre}</p>
+        <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-bleu">{surtitre}</p>
         <h2 className="mt-2 text-2xl font-bold leading-tight text-nuit sm:text-3xl">{titre}</h2>
         <div className="mt-5">{children}</div>
       </div>
@@ -173,7 +173,7 @@ const questions: QuestionFaq[] = [
           href={lienQuestion}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-semibold text-violet underline decoration-violet/30 underline-offset-4 hover:decoration-violet"
+          className="font-semibold text-bleu underline decoration-bleu/30 underline-offset-4 hover:decoration-bleu"
         >
           {boutique.whatsappAffiche}
         </a>{" "}
@@ -208,7 +208,7 @@ export default function Infos() {
       {/* ---------- En-tête ---------- */}
       <section className="relative pb-14 pt-28 sm:pb-20 lg:pt-36">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -left-24 top-10 size-80 rounded-full bg-violet/20 blur-3xl" />
+          <div className="absolute -left-24 top-10 size-80 rounded-full bg-bleu/20 blur-3xl" />
           <div className="absolute -right-20 top-40 size-96 rounded-full bg-ciel/25 blur-3xl" />
         </div>
         <Container className="grid items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
@@ -240,7 +240,7 @@ export default function Infos() {
                     key={t}
                     className="verre inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-nuit shadow-sm ring-1 ring-nuit/10"
                   >
-                    <I className="size-4 text-violet" aria-hidden />
+                    <I className="size-4 text-bleu" aria-hidden />
                     {t}
                   </li>
                 ))}
@@ -311,7 +311,7 @@ export default function Infos() {
       {/* ---------- Comment commander ---------- */}
       <section aria-labelledby="titre-commander" className="relative overflow-hidden bg-nuit py-20 text-white sm:py-28">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-32 -top-32 size-96 rounded-full bg-violet/40 blur-3xl" />
+          <div className="absolute -left-32 -top-32 size-96 rounded-full bg-bleu/40 blur-3xl" />
           <div className="absolute -bottom-40 right-0 size-[28rem] rounded-full bg-ciel/25 blur-3xl" />
         </div>
         <Container className="relative">
@@ -385,7 +385,7 @@ export default function Infos() {
       <section aria-labelledby="titre-contact" className="pb-24 sm:pb-32">
         <Container>
           <Reveal>
-            <div className="degrade-marque relative overflow-hidden rounded-[2rem] p-8 text-white shadow-2xl shadow-violet/30 sm:p-12 lg:p-16">
+            <div className="degrade-marque relative overflow-hidden rounded-[2rem] p-8 text-white shadow-2xl shadow-bleu/30 sm:p-12 lg:p-16">
               <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-white/15 blur-3xl" />
               <div className="relative grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
                 <div>
@@ -439,7 +439,7 @@ export default function Infos() {
           </Reveal>
           <p className="mt-8 text-center text-sm text-nuit/60">
             Envie de découvrir nos produits ?{" "}
-            <Link href="/boutique/" className="font-semibold text-violet underline decoration-violet/30 underline-offset-4 hover:decoration-violet">
+            <Link href="/boutique/" className="font-semibold text-bleu underline decoration-bleu/30 underline-offset-4 hover:decoration-bleu">
               Parcourir la boutique
             </Link>
           </p>

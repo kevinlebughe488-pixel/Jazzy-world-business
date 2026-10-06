@@ -12,7 +12,7 @@ export function ProduitsVedettes() {
     <section id="produits-phares" aria-labelledby="titre-produits-phares" className="relative isolate py-20 sm:py-28">
       {/* Halo décoratif */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] overflow-hidden">
-        <div className="absolute left-1/2 top-10 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-violet-300/20 blur-3xl" />
+        <div className="absolute left-1/2 top-10 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-bleu-300/20 blur-3xl" />
         <div className="absolute right-[8%] top-40 h-56 w-56 rounded-full bg-ciel-200/50 blur-3xl" />
       </div>
 
@@ -20,7 +20,7 @@ export function ProduitsVedettes() {
         <div className="mb-10 flex flex-col gap-6 sm:mb-14 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-violet shadow-sm ring-1 ring-violet/15">
+              <p className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-bleu shadow-sm ring-1 ring-bleu/15">
                 <Sparkles className="size-3.5" aria-hidden />
                 Sélection du moment
               </p>

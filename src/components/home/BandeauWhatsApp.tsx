@@ -26,7 +26,7 @@ export function BandeauWhatsApp() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="degrade-marque relative isolate overflow-hidden rounded-[2rem] px-6 py-12 text-white shadow-2xl shadow-violet/30 sm:rounded-[2.5rem] sm:px-12 sm:py-16 lg:px-16 lg:py-20"
+          className="degrade-marque relative isolate overflow-hidden rounded-[2rem] px-6 py-12 text-white shadow-2xl shadow-bleu/30 sm:rounded-[2.5rem] sm:px-12 sm:py-16 lg:px-16 lg:py-20"
         >
           {/* Reflet animé */}
           {!reduit && (
