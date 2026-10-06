@@ -164,7 +164,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                 >
                   <WhatsAppIcon className="size-5" />
                   <span>
-                    Commander <span className="hidden sm:inline">directement </span>sur WhatsApp
+                    Commander <span className="hidden xl:inline">directement </span>sur WhatsApp
                   </span>
                 </motion.a>
               </div>

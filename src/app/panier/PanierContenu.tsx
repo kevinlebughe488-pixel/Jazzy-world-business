@@ -159,7 +159,7 @@ export function PanierContenu({
           </p>
         </motion.div>
 
-        <div className="mt-8 grid items-start gap-8 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-10 xl:gap-14">
+        <div className="mt-8 grid grid-cols-1 items-start gap-8 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-10 xl:gap-14">
           {/* Lignes */}
           <section aria-labelledby="titre-articles">
             <h2 id="titre-articles" className="sr-only">
@@ -179,7 +179,7 @@ export function PanierContenu({
             </ul>
 
             <motion.ul
-              className="mt-6 grid gap-3 sm:grid-cols-3"
+              className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3"
               initial="cache"
               animate="visible"
               variants={{

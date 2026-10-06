@@ -155,8 +155,8 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-creme" />
       </motion.div>
 
-      <Container className="relative flex flex-1 flex-col justify-center pb-20 pt-10 sm:pt-6 lg:pb-28">
-        <div className="grid items-center gap-6 sm:gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-8">
+      <Container className="relative flex flex-1 flex-col justify-center pb-28 pt-10 sm:pb-32 sm:pt-12 lg:pb-28 lg:pt-6">
+        <div className="grid items-center gap-14 sm:gap-20 lg:grid-cols-[1.05fr_1fr] lg:gap-8">
           {/* ---------- Globe ---------- */}
           <motion.div
             style={{ y: globeY, scale: globeEchelle, opacity: contenuOpacite }}
@@ -288,7 +288,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={transitionInstant ?? { delay: 1.5, duration: 0.8, ease: EASE }}
-                className="verre absolute -bottom-[6%] -left-[14%] z-20 hidden items-center gap-3 rounded-2xl px-4 py-3 shadow-xl shadow-nuit/10 ring-1 ring-white/80 sm:flex"
+                className="verre absolute -bottom-[6%] -left-[14%] z-20 hidden items-center gap-3 rounded-2xl px-4 py-3 shadow-xl shadow-nuit/10 ring-1 ring-white/80 lg:flex"
               >
                 <span className="degrade-marque grid size-10 place-items-center rounded-xl text-white">
                   <Sparkles className="size-5" aria-hidden="true" />
