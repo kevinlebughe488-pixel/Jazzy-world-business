@@ -477,7 +477,7 @@ function BoutonCommander({
       whileHover={reduire ? undefined : { scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       className={clsx(
-        "group relative flex w-full items-center justify-center gap-2.5 overflow-hidden bg-noir px-5 font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-gris-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir",
+        "group relative flex w-full items-center justify-center gap-2.5 overflow-hidden bg-whatsapp px-5 font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir",
         grand ? "min-h-16 text-[0.85rem]" : "min-h-14 text-[0.72rem]",
       )}
     >

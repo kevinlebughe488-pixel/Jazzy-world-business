@@ -264,7 +264,7 @@ export function CartDrawer() {
                       rel="noopener noreferrer"
                       whileHover={reduire ? undefined : { scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
-                      className="flex min-h-13 w-full items-center justify-center gap-2 bg-white px-6 text-[0.75rem] font-bold uppercase tracking-[0.16em] text-noir ring-1 ring-inset ring-noir transition-colors hover:bg-noir hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+                      className="flex min-h-13 w-full items-center justify-center gap-2 bg-whatsapp px-6 text-[0.75rem] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
                     >
                       <WhatsAppIcon className="size-5" />
                       Commander sur WhatsApp

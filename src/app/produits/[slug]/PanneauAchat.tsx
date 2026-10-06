@@ -157,7 +157,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                   rel="noopener noreferrer"
                   whileHover={reduire ? undefined : { scale: 1.02 }}
                   whileTap={{ scale: 0.96 }}
-                  className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-white px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-noir ring-1 ring-inset ring-noir transition-colors duration-300 hover:bg-noir hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+                  className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-whatsapp px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
                 >
                   <WhatsAppIcon className="size-5" />
                   <span>
@@ -175,7 +175,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                 href={lienQuestion}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-noir px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+                className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-whatsapp px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
               >
                 <WhatsAppIcon className="size-5" />
                 Me prévenir sur WhatsApp

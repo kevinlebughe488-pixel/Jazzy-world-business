@@ -66,7 +66,7 @@ export function GrandFinal() {
               {boutique.whatsappAffiche}
             </a>
 
-            <ButtonLink href={lienWhatsApp(messageQuestion())} externe variante="inverse" className="mt-8 w-full max-w-xs sm:w-auto sm:max-w-none">
+            <ButtonLink href={lienWhatsApp(messageQuestion())} externe variante="whatsapp" className="mt-8 w-full max-w-xs sm:w-auto sm:max-w-none">
               <WhatsAppIcon className="size-5" />
               Écrire sur WhatsApp
             </ButtonLink>

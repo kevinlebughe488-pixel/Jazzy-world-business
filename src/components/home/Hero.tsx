@@ -175,7 +175,7 @@ export function Hero() {
                 Voir la boutique
                 <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href={lienWhatsApp(messageQuestion())} externe variante="secondaire">
+              <ButtonLink href={lienWhatsApp(messageQuestion())} externe variante="whatsapp">
                 <WhatsAppIcon className="size-4" />
                 Écrire sur WhatsApp
               </ButtonLink>

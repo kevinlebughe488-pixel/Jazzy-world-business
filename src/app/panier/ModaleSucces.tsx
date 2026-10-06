@@ -85,7 +85,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
         </button>
 
         <motion.div
-          className="relative mx-auto grid size-20 place-items-center bg-noir text-white"
+          className="relative mx-auto grid size-20 place-items-center rounded-full bg-whatsapp text-white"
           initial={reduire ? false : { scale: 0, rotate: -45 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{
@@ -98,7 +98,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
           {!reduire && (
             <motion.span
               aria-hidden="true"
-              className="absolute inset-0 bg-noir"
+              className="absolute inset-0 rounded-full bg-whatsapp"
               initial={{ scale: 1, opacity: 0.5 }}
               animate={{ scale: 1.8, opacity: 0 }}
               transition={{
@@ -146,7 +146,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
             href={lien}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-14 items-center justify-center gap-2 bg-noir px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-transform hover:scale-[1.02] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+            className="inline-flex min-h-14 items-center justify-center gap-2 bg-whatsapp px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-[transform,background-color] hover:scale-[1.02] hover:bg-whatsapp-fonce active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
           >
             <WhatsAppIcon className="size-5" />
             Rouvrir WhatsApp

@@ -83,7 +83,7 @@ export function PageIntrouvable() {
             <ButtonLink
               href={lienWhatsApp(messageQuestion())}
               externe
-              variante="secondaire"
+              variante="whatsapp"
               className="w-full sm:w-auto"
             >
               <WhatsAppIcon className="h-5 w-5" />

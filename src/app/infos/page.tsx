@@ -388,7 +388,7 @@ export default function Infos() {
                     rel="noopener noreferrer"
                     className="group flex min-h-20 items-center gap-4 bg-white p-4 text-noir transition-transform duration-300 ease-[var(--ease-doux)] hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-5"
                   >
-                    <span className="grid size-12 shrink-0 place-items-center bg-noir text-white">
+                    <span className="grid size-12 shrink-0 place-items-center bg-whatsapp text-white">
                       <WhatsAppIcon className="size-6" />
                     </span>
                     <span className="flex-1">
@@ -404,9 +404,9 @@ export default function Infos() {
                     href={boutique.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex min-h-20 items-center gap-4 bg-white/10 p-4 text-white ring-1 ring-white/25 transition-[transform,background-color] duration-300 ease-[var(--ease-doux)] hover:-translate-y-0.5 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-5"
+                    className="group flex min-h-20 items-center gap-4 bg-white/10 p-4 text-white ring-1 ring-white/25 transition-[transform,background-color] duration-300 ease-[var(--ease-doux)] hover:-translate-y-0.5 hover:bg-facebook/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-5"
                   >
-                    <span className="grid size-12 shrink-0 place-items-center bg-white text-noir">
+                    <span className="grid size-12 shrink-0 place-items-center bg-facebook text-white">
                       <FacebookIcon className="size-6" />
                     </span>
                     <span className="flex-1">

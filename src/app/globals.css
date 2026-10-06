@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Style « mode » : blanc, noir et gris neutres. Les seules couleurs viennent des photos produits. */
+/* Style « mode » : blanc, noir et gris neutres. Couleurs : photos produits, vert WhatsApp et bleu Facebook. */
 @theme {
   --color-noir: #000000;
   --color-gris-900: #111111;
@@ -11,6 +11,12 @@
   --color-gris-100: #f0f0f0;
   --color-gris-50: #f7f7f7;
   --color-blanc: #ffffff;
+
+  /* Seules couleurs vives de l'interface : celles des réseaux, pour être reconnues au premier coup d'œil */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-fonce: #1ebe5d;
+  --color-facebook: #1877f2;
+  --color-facebook-fonce: #0d65d9;
 
   --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;

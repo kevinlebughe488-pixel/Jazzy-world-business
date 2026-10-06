@@ -76,21 +76,21 @@ export function WhatsAppFloat() {
               )}
             </AnimatePresence>
 
-            <span className="relative grid h-14 w-14 place-items-center rounded-full bg-noir text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] ring-2 ring-white transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16">
+            <span className="relative grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] ring-2 ring-white transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16">
               {/* Anneaux de pulsation */}
               {!reduire && (
                 <>
                   <motion.span
                     aria-hidden="true"
-                    className="absolute inset-0 rounded-full border-2 border-noir"
-                    initial={{ scale: 1, opacity: 0.6 }}
+                    className="absolute inset-0 rounded-full bg-whatsapp"
+                    initial={{ scale: 1, opacity: 0.55 }}
                     animate={{ scale: 1.75, opacity: 0 }}
                     transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
                   />
                   <motion.span
                     aria-hidden="true"
-                    className="absolute inset-0 rounded-full border-2 border-noir"
-                    initial={{ scale: 1, opacity: 0.45 }}
+                    className="absolute inset-0 rounded-full bg-whatsapp"
+                    initial={{ scale: 1, opacity: 0.4 }}
                     animate={{ scale: 1.75, opacity: 0 }}
                     transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut", delay: 1.1 }}
                   />

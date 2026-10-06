@@ -252,7 +252,7 @@ export function Header() {
                 href={lienWhatsApp(messageQuestion())}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`hidden items-center gap-2 bg-noir px-4 py-2.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-gris-700 xl:inline-flex ${focus}`}
+                className={`hidden items-center gap-2 bg-whatsapp px-4 py-2.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-whatsapp-fonce xl:inline-flex ${focus}`}
               >
                 <WhatsAppIcon className="size-4" />
                 Nous écrire
@@ -435,7 +435,7 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
             href={lienWhatsApp(messageQuestion())}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex min-h-14 w-full items-center justify-center gap-3 bg-noir px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-transform active:scale-[0.97] ${focus}`}
+            className={`flex min-h-14 w-full items-center justify-center gap-3 bg-whatsapp px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-transform active:scale-[0.97] ${focus}`}
           >
             <WhatsAppIcon className="size-5" />
             Commander sur WhatsApp
