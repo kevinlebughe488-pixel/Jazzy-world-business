@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 
-/** Fine barre dégradée en haut de l'écran indiquant la progression du défilement. */
+/** Fine barre en haut de l'écran indiquant la progression du défilement (visible sur fond noir comme blanc). */
 export function BarreProgression() {
   const { scrollYProgress } = useScroll();
   const reduit = useReducedMotion();
@@ -11,7 +11,7 @@ export function BarreProgression() {
   return (
     <motion.div
       aria-hidden="true"
-      className="degrade-marque pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px] origin-left shadow-[0_0_12px_rgba(29,111,224,0.55)]"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-white mix-blend-difference"
       style={{ scaleX: reduit ? scrollYProgress : lisse }}
     />
   );

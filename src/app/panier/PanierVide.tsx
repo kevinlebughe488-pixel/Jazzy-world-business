@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -18,85 +17,53 @@ export function PanierVide() {
           transition: { duration: 0.3 },
         }
       : {
-          initial: { opacity: 0, y: 24, filter: "blur(6px)" },
-          animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-          transition: { duration: 0.7, delay: delai, ease },
+          initial: { opacity: 0, y: 28 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.8, delay: delai, ease },
         };
 
   return (
-    <Container className="flex min-h-[80svh] flex-col items-center justify-center pt-28 pb-20 text-center">
+    <Container className="flex min-h-[80svh] flex-col items-center justify-center pt-24 pb-20 text-center">
       <motion.div
-        className="relative mb-10 size-44 sm:size-52"
-        initial={
-          reduire ? { opacity: 0 } : { opacity: 0, scale: 0.6, rotate: -20 }
-        }
+        className="relative mb-10 grid size-36 place-items-center bg-noir text-white sm:size-44"
+        initial={reduire ? { opacity: 0 } : { opacity: 0, scale: 0.4, rotate: -25 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={
-          reduire
-            ? { duration: 0.3 }
-            : { type: "spring", stiffness: 140, damping: 16 }
-        }
+        transition={reduire ? { duration: 0.3 } : { type: "spring", stiffness: 140, damping: 14 }}
       >
-        <div
-          aria-hidden="true"
-          className="degrade-marque absolute inset-4 rounded-full opacity-30 blur-3xl"
-        />
-        <motion.div
-          className="relative size-full"
-          animate={reduire ? undefined : { y: [0, -10, 0], rotate: [0, 4, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Image
-            src="/brand/globe.webp"
-            alt=""
-            width={600}
-            height={600}
-            priority
-            className="size-full object-contain drop-shadow-xl"
-          />
-        </motion.div>
         <motion.span
-          className="absolute -right-1 bottom-3 grid size-14 place-items-center rounded-2xl bg-white text-bleu shadow-lg shadow-nuit/10 ring-1 ring-nuit/5"
-          initial={
-            reduire ? { opacity: 0 } : { opacity: 0, scale: 0, rotate: 30 }
-          }
-          animate={{ opacity: 1, scale: 1, rotate: -8 }}
-          transition={
-            reduire
-              ? { duration: 0.3 }
-              : { delay: 0.45, type: "spring", stiffness: 260, damping: 14 }
-          }
+          animate={reduire ? undefined : { y: [0, -8, 0], rotate: [0, -6, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ShoppingBag className="size-6" aria-hidden="true" />
+          <ShoppingBag className="size-14 sm:size-16" strokeWidth={1.4} aria-hidden="true" />
+        </motion.span>
+        <motion.span
+          className="absolute -right-3 -top-3 grid size-11 place-items-center bg-white font-affiche text-xl text-noir ring-2 ring-noir"
+          initial={reduire ? { opacity: 0 } : { opacity: 0, scale: 0, rotate: 30 }}
+          animate={{ opacity: 1, scale: 1, rotate: -8 }}
+          transition={reduire ? { duration: 0.3 } : { delay: 0.45, type: "spring", stiffness: 260, damping: 14 }}
+          aria-hidden="true"
+        >
+          0
         </motion.span>
       </motion.div>
 
-      <motion.p
-        {...entree(0.15)}
-        className="text-sm font-semibold uppercase tracking-[0.2em] text-bleu"
-      >
-        Mon panier
+      <motion.p {...entree(0.15)} className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">
+        — Mon panier
       </motion.p>
       <motion.h1
         {...entree(0.25)}
-        className="mt-3 text-4xl font-bold text-balance sm:text-5xl"
+        className="mt-4 font-affiche text-6xl uppercase leading-[0.9] text-balance sm:text-8xl"
       >
-        Votre panier est <span className="texte-degrade">encore vide</span>
+        Votre panier est <span className="texte-contour [-webkit-text-stroke-width:2px]">encore vide</span>
       </motion.h1>
-      <motion.p
-        {...entree(0.35)}
-        className="mt-4 max-w-md text-lg text-pretty text-nuit/70"
-      >
-        Découvrez nos produits bien-être, santé et accessoires, livrés partout à
-        Kinshasa avec paiement cash à la livraison.
+      <motion.p {...entree(0.35)} className="mt-5 max-w-md text-lg text-pretty text-gris-700">
+        Découvrez nos produits bien-être, santé et accessoires, livrés partout à Kinshasa avec paiement cash à la
+        livraison.
       </motion.p>
       <motion.div {...entree(0.45)} className="mt-9">
-        <ButtonLink href="/boutique/" className="group min-h-14 px-8 text-lg">
+        <ButtonLink href="/boutique/" className="group min-h-14 px-9">
           Découvrir la boutique
-          <ArrowRight
-            className="size-5 transition-transform group-hover:translate-x-1"
-            aria-hidden="true"
-          />
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
         </ButtonLink>
       </motion.div>
     </Container>

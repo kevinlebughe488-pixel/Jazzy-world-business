@@ -11,7 +11,7 @@ import { formatUSD } from "@/lib/format";
 type Props = { ligne: LigneDetaillee; index: number };
 
 const boutonStepper =
-  "grid size-9 place-items-center rounded-full text-nuit transition-colors hover:bg-nuit/5 active:bg-nuit/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bleu disabled:opacity-35 disabled:pointer-events-none";
+  "grid size-9 place-items-center text-noir transition-colors hover:bg-noir/5 active:bg-gris-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-noir disabled:opacity-35 disabled:pointer-events-none";
 
 export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDrawerLine({ ligne, index }, ref) {
   const { produit, quantite, total } = ligne;
@@ -36,12 +36,12 @@ export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDraw
           ? { opacity: 0, transition: { duration: 0.15 } }
           : { opacity: 0, x: 80, scale: 0.92, filter: "blur(4px)", transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } }
       }
-      className="group relative flex gap-4 rounded-3xl bg-white p-3 shadow-sm ring-1 ring-nuit/5"
+      className="group relative flex gap-4 bg-white p-3 ring-1 ring-gris-200"
     >
       <Link
         href={`/produits/${produit.id}/`}
         onClick={fermerTiroir}
-        className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-creme focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+        className="relative size-24 shrink-0 overflow-hidden bg-gris-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
         aria-label={`Voir ${produit.nom}`}
       >
         {image ? (
@@ -60,7 +60,7 @@ export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDraw
           <Link
             href={`/produits/${produit.id}/`}
             onClick={fermerTiroir}
-            className="line-clamp-2 pt-0.5 font-display text-[15px] leading-snug font-semibold text-nuit hover:text-bleu focus-visible:underline focus-visible:outline-none"
+            className="line-clamp-2 pt-0.5 text-sm leading-snug font-semibold text-noir hover:underline focus-visible:underline focus-visible:outline-none"
           >
             {produit.nom}
           </Link>
@@ -69,19 +69,19 @@ export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDraw
             onClick={() => retirer(produit.id)}
             whileTap={{ scale: 0.85 }}
             aria-label={`Retirer ${produit.nom} du panier`}
-            className="-mt-1 -mr-1 grid size-10 shrink-0 place-items-center rounded-full text-nuit/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-bleu"
+            className="-mt-1 -mr-1 grid size-10 shrink-0 place-items-center text-noir/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-noir"
           >
             <Trash2 className="size-[18px]" aria-hidden="true" />
           </motion.button>
         </div>
 
-        <p className="text-sm text-nuit/60">{formatUSD(produit.prix)} l’unité</p>
+        <p className="text-sm text-noir/60">{formatUSD(produit.prix)} l’unité</p>
 
         <div className="mt-auto flex items-center justify-between gap-2 pt-2">
           <div
             role="group"
             aria-label={`Quantité de ${produit.nom}`}
-            className="flex items-center rounded-full bg-creme p-0.5 ring-1 ring-nuit/10"
+            className="flex items-center bg-gris-50 p-0.5 ring-1 ring-gris-200"
           >
             <motion.button
               type="button"
@@ -116,7 +116,7 @@ export const CartDrawerLine = forwardRef<HTMLLIElement, Props>(function CartDraw
               <Plus className="size-4" aria-hidden="true" />
             </motion.button>
           </div>
-          <p className="font-display text-base font-bold text-nuit tabular-nums">{formatUSD(total)}</p>
+          <p className="text-base font-extrabold text-noir tabular-nums">{formatUSD(total)}</p>
         </div>
       </div>
     </motion.li>

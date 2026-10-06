@@ -137,7 +137,7 @@ export function PanierContenu({
         >
           <Link
             href="/boutique/"
-            className="group -ml-2 inline-flex min-h-11 items-center gap-1.5 rounded-full px-2 text-sm font-medium text-nuit/65 transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-bleu"
+            className="group -ml-2 inline-flex min-h-11 items-center gap-1.5 px-2 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-gris-500 transition-colors hover:text-noir focus-visible:outline-2 focus-visible:outline-noir"
           >
             <ArrowLeft
               className="size-4 transition-transform group-hover:-translate-x-1"
@@ -146,14 +146,14 @@ export function PanierContenu({
             Continuer mes achats
           </Link>
           <div className="mt-2 flex flex-wrap items-end gap-x-4 gap-y-2">
-            <h1 className="text-4xl font-bold sm:text-5xl">
-              Mon <span className="texte-degrade">panier</span>
+            <h1 className="font-affiche text-6xl uppercase leading-[0.9] tracking-[0.01em] sm:text-8xl">
+              Mon <span className="texte-contour [-webkit-text-stroke-width:2px]">panier</span>
             </h1>
-            <span className="mb-1.5 inline-flex items-center rounded-full bg-bleu/10 px-3 py-1 text-sm font-semibold text-bleu">
+            <span className="mb-2 inline-flex items-center bg-noir px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-white">
               {articles} article{articles > 1 ? "s" : ""}
             </span>
           </div>
-          <p className="mt-2 max-w-xl text-nuit/65">
+          <p className="mt-3 max-w-xl text-gris-700">
             Vérifiez vos articles, indiquez où vous livrer, puis envoyez la
             commande sur WhatsApp. Aucun paiement en ligne.
           </p>
@@ -218,16 +218,16 @@ export function PanierContenu({
             transition={{ duration: 0.7, delay: 0.2, ease }}
             className="lg:sticky lg:top-28"
           >
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-white shadow-xl shadow-nuit/[0.06] ring-1 ring-nuit/5">
-              <div aria-hidden="true" className="degrade-marque h-1.5 w-full" />
+            <div className="relative overflow-hidden bg-white ring-1 ring-gris-200">
+              <div aria-hidden="true" className="h-1.5 w-full bg-noir" />
               <div className="p-5 sm:p-7">
-                <h2 id="titre-recap" className="text-xl font-bold">
+                <h2 id="titre-recap" className="font-affiche text-3xl uppercase tracking-[0.02em]">
                   Récapitulatif
                 </h2>
 
                 <dl className="mt-5 space-y-3.5 text-[0.95rem]">
                   <div className="flex items-center justify-between gap-4">
-                    <dt className="text-nuit/65">
+                    <dt className="text-noir/65">
                       Sous-total ({articles} article{articles > 1 ? "s" : ""})
                     </dt>
                     <dd className="font-semibold tabular-nums">
@@ -235,9 +235,9 @@ export function PanierContenu({
                     </dd>
                   </div>
                   <div className="flex items-start justify-between gap-4">
-                    <dt className="flex items-center gap-2 text-nuit/65">
+                    <dt className="flex items-center gap-2 text-noir/65">
                       <Truck
-                        className="size-4 shrink-0 text-bleu"
+                        className="size-4 shrink-0 text-noir"
                         aria-hidden="true"
                       />
                       Livraison
@@ -246,15 +246,15 @@ export function PanierContenu({
                       <span className="font-semibold">
                         à partir de {formatFC(boutique.livraison.prixMinFC)}
                       </span>
-                      <span className="block text-xs text-nuit/55">
+                      <span className="block text-xs text-noir/55">
                         (selon le trajet, confirmé sur WhatsApp)
                       </span>
                     </dd>
                   </div>
                   <div className="flex items-center justify-between gap-4">
-                    <dt className="flex items-center gap-2 text-nuit/65">
+                    <dt className="flex items-center gap-2 text-noir/65">
                       <Banknote
-                        className="size-4 shrink-0 text-bleu"
+                        className="size-4 shrink-0 text-noir"
                         aria-hidden="true"
                       />
                       Paiement
@@ -263,14 +263,14 @@ export function PanierContenu({
                   </div>
                 </dl>
 
-                <div className="mt-5 flex items-end justify-between gap-4 border-t border-dashed border-nuit/15 pt-5">
+                <div className="mt-5 flex items-end justify-between gap-4 border-t border-dashed border-gris-300 pt-5">
                   <div>
-                    <p className="text-sm font-medium text-nuit/65">
+                    <p className="text-sm font-medium text-noir/65">
                       Total articles
                     </p>
-                    <p className="text-xs text-nuit/50">+ frais de livraison</p>
+                    <p className="text-xs text-noir/50">+ frais de livraison</p>
                   </div>
-                  <p className="font-display text-3xl font-bold tabular-nums">
+                  <p className="text-3xl font-extrabold tabular-nums">
                     <MontantAnime valeur={total} />
                   </p>
                 </div>
@@ -284,10 +284,10 @@ export function PanierContenu({
                   aria-labelledby="titre-form"
                 >
                   <div>
-                    <h3 id="titre-form" className="text-lg font-bold">
+                    <h3 id="titre-form" className="text-sm font-bold uppercase tracking-[0.14em]">
                       Vos informations de livraison
                     </h3>
-                    <p className="mt-0.5 text-sm text-nuit/55">
+                    <p className="mt-0.5 text-sm text-noir/55">
                       Enregistrées sur cet appareil pour vos prochaines
                       commandes.
                     </p>
@@ -348,14 +348,14 @@ export function PanierContenu({
                         className={clsx(
                           props.className,
                           "appearance-none pr-11",
-                          !client.commune && "text-nuit/45",
+                          !client.commune && "text-noir/45",
                         )}
                       >
                         <option value="" disabled>
                           Choisir votre commune
                         </option>
                         {COMMUNES.map((c) => (
-                          <option key={c} value={c} className="text-nuit">
+                          <option key={c} value={c} className="text-noir">
                             {c}
                           </option>
                         ))}
@@ -405,7 +405,7 @@ export function PanierContenu({
                       </motion.p>
                     )}
                   </AnimatePresence>
-                  <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-nuit/55">
+                  <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-noir/55">
                     <Lock className="size-3.5" aria-hidden="true" />
                     Rien n&apos;est payé maintenant : vous réglez cash à la
                     livraison.
@@ -426,17 +426,17 @@ export function PanierContenu({
             animate={reduire ? { opacity: 1 } : { y: 0 }}
             exit={reduire ? { opacity: 0 } : { y: "110%" }}
             transition={{ type: "spring", stiffness: 380, damping: 34 }}
-            className="fixed inset-x-0 bottom-0 z-30 border-t bg-white/90 backdrop-blur-xl border-nuit/10 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-12px_40px_-12px_rgba(15,27,61,0.25)] lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-30 border-t bg-white/90 backdrop-blur-xl border-gris-200 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden"
           >
             <div className="mx-auto flex max-w-xl items-center gap-3">
               <div className="min-w-0 shrink-0">
-                <p className="text-xs font-medium text-nuit/60">
+                <p className="text-xs font-medium text-noir/60">
                   Total · {articles} article{articles > 1 ? "s" : ""}
                 </p>
-                <p className="font-display text-xl leading-tight font-bold tabular-nums">
+                <p className="text-xl leading-tight font-extrabold tabular-nums">
                   <MontantAnime valeur={total} />
                 </p>
-                <p className="text-[0.65rem] text-nuit/50">+ livraison</p>
+                <p className="text-[0.65rem] text-noir/50">+ livraison</p>
               </div>
               <div className="flex-1">
                 <BoutonCommander lien={lien} onClick={commander} />
@@ -477,14 +477,14 @@ function BoutonCommander({
       whileHover={reduire ? undefined : { scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       className={clsx(
-        "group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-whatsapp px-5 font-semibold text-white shadow-lg shadow-whatsapp/35 transition-shadow hover:shadow-xl hover:shadow-whatsapp/45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu",
-        grand ? "min-h-16 text-lg" : "min-h-14 text-base",
+        "group relative flex w-full items-center justify-center gap-2.5 overflow-hidden bg-noir px-5 font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-gris-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir",
+        grand ? "min-h-16 text-[0.85rem]" : "min-h-14 text-[0.72rem]",
       )}
     >
       {!reduire && (
         <motion.span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/35 to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent"
           initial={{ x: "-150%" }}
           animate={{ x: "450%" }}
           transition={{
@@ -538,14 +538,14 @@ function Atout({
         cache: { opacity: 0, y: 16 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
       }}
-      className="flex items-center gap-3 rounded-2xl bg-white/70 p-3.5 ring-1 ring-nuit/5"
+      className="flex items-center gap-3 bg-gris-50 p-3.5"
     >
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-bleu/10 text-bleu">
+      <span className="grid size-10 shrink-0 place-items-center bg-noir text-white">
         {icone}
       </span>
       <span className="min-w-0">
-        <span className="block text-sm font-semibold">{titre}</span>
-        <span className="block text-xs text-nuit/55">{texte}</span>
+        <span className="block text-xs font-bold uppercase tracking-[0.1em]">{titre}</span>
+        <span className="block text-xs text-noir/55">{texte}</span>
       </span>
     </motion.li>
   );
@@ -587,29 +587,29 @@ function Champ({
       .filter(Boolean)
       .join(" ") || undefined;
   const className = clsx(
-    "block w-full rounded-2xl bg-creme text-base text-nuit ring-1 transition-[box-shadow,background-color] outline-none placeholder:text-nuit/40",
+    "block w-full bg-gris-50 text-base text-noir ring-1 transition-[box-shadow,background-color] outline-none placeholder:text-noir/40",
     "focus:bg-white focus:ring-2",
     icone ? "pl-11" : "pl-4",
     !select && "pr-4",
     "h-13",
     erreur
       ? "ring-red-500/70 focus:ring-red-500"
-      : "ring-nuit/10 hover:ring-nuit/20 focus:ring-bleu",
+      : "ring-gris-300 hover:ring-noir/40 focus:ring-noir",
   );
 
   return (
     <div data-invalide={erreur ? "true" : "false"}>
       <label
         htmlFor={`champ-${id}`}
-        className="mb-1.5 flex items-baseline gap-1 text-sm font-semibold text-nuit"
+        className="mb-1.5 flex items-baseline gap-1 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-noir"
       >
         {label}
         {requis ? (
-          <span className="text-bleu" aria-hidden="true">
+          <span className="text-noir" aria-hidden="true">
             *
           </span>
         ) : (
-          <span className="text-xs font-normal text-nuit/45">(facultatif)</span>
+          <span className="text-[0.65rem] font-medium normal-case tracking-normal text-noir/45">(facultatif)</span>
         )}
       </label>
       <div className="relative">
@@ -617,7 +617,7 @@ function Champ({
           <span
             className={clsx(
               "pointer-events-none absolute top-[1.625rem] left-4 -translate-y-1/2",
-              erreur ? "text-red-500" : "text-nuit/40",
+              erreur ? "text-red-500" : "text-noir/40",
             )}
           >
             {icone}
@@ -633,13 +633,13 @@ function Champ({
         })}
         {select && (
           <ChevronDown
-            className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-nuit/45"
+            className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-noir/45"
             aria-hidden="true"
           />
         )}
       </div>
       {aide && !erreur && (
-        <p id={idAide} className="mt-1.5 text-xs text-nuit/50">
+        <p id={idAide} className="mt-1.5 text-xs text-noir/50">
           {aide}
         </p>
       )}

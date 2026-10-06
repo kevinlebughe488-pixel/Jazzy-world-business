@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import clsx from "clsx";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
 import { Banknote, Check, MessageCircle, Minus, Plus, ShieldCheck, Truck } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
@@ -20,8 +19,8 @@ const conteneur: Variants = {
 };
 
 const element: Variants = {
-  cache: { opacity: 0, y: 24, filter: "blur(6px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: EASE } },
+  cache: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 };
 
 const POINTS_PAR_DEFAUT = [
@@ -81,8 +80,8 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
       >
         {categorie && (
           <motion.p variants={variantesElement}>
-            <span className="inline-flex items-center gap-2 rounded-full bg-bleu/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-bleu">
-              <span className="size-1.5 rounded-full bg-bleu" aria-hidden />
+            <span className="inline-flex items-center gap-2 text-[0.66rem] font-bold uppercase tracking-[0.32em] text-gris-500">
+              <span className="size-1.5 rounded-full bg-noir" aria-hidden />
               {categorie}
             </span>
           </motion.p>
@@ -90,32 +89,30 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
 
         <motion.h1
           variants={variantesElement}
-          className="mt-4 text-balance font-display text-4xl font-bold leading-[1.05] text-nuit sm:text-5xl"
+          className="mt-3 text-balance font-affiche text-5xl uppercase leading-[0.92] tracking-[0.01em] text-noir sm:text-6xl xl:text-7xl"
         >
           {produit.nom}
         </motion.h1>
 
-        <motion.p variants={variantesElement} className="mt-3 text-pretty text-lg leading-relaxed text-nuit/70">
+        <motion.p variants={variantesElement} className="mt-3 text-pretty text-lg leading-relaxed text-noir/70">
           {accroche || "Qualité vérifiée, livré chez vous à Kinshasa et payé à la réception."}
         </motion.p>
 
         <motion.div variants={variantesElement} className="mt-6 flex flex-wrap items-end gap-x-4 gap-y-2">
-          <p className="font-display text-5xl font-extrabold tracking-tight">
+          <p className="text-4xl font-extrabold tracking-tight sm:text-5xl">
             <span className="sr-only">Prix : </span>
-            <span className="texte-degrade">{formatUSD(produit.prix)}</span>
+            {formatUSD(produit.prix)}
           </p>
           {produit.enStock ? (
-            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700 ring-1 ring-emerald-600/15">
+            <span className="mb-1.5 inline-flex items-center gap-2 px-3 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.2em] text-noir ring-1 ring-inset ring-noir">
               <span className="relative flex size-2">
-                {!reduire && (
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                )}
-                <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+                <span className="absolute inline-flex size-full rounded-full bg-noir opacity-60 motion-safe:animate-ping" />
+                <span className="relative inline-flex size-2 rounded-full bg-noir" />
               </span>
               En stock
             </span>
           ) : (
-            <span className="mb-2 rounded-full bg-nuit/10 px-3 py-1 text-sm font-medium text-nuit">
+            <span className="mb-1.5 bg-noir px-3 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.2em] text-white">
               Bientôt de retour
             </span>
           )}
@@ -125,19 +122,19 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
         <motion.div
           ref={zoneAchat}
           variants={variantesElement}
-          className="mt-8 rounded-[1.75rem] bg-white p-4 shadow-[0_1px_2px_rgba(15,27,61,0.05),0_20px_40px_-24px_rgba(15,27,61,0.25)] ring-1 ring-nuit/5 sm:p-5"
+          className="mt-8 bg-white p-4 ring-1 ring-gris-200 sm:p-5"
         >
           {produit.enStock ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <span id="libelle-quantite" className="text-sm font-semibold text-nuit/70">
+                <span id="libelle-quantite" className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-noir">
                   Quantité
                 </span>
                 <Stepper quantite={quantite} onChange={setQuantite} />
               </div>
-              <div className="mt-4 flex items-baseline justify-between border-t border-dashed border-nuit/10 pt-4">
-                <span className="text-sm text-nuit/60">Total articles</span>
-                <span className="font-display text-2xl font-bold text-nuit" aria-live="polite">
+              <div className="mt-4 flex items-baseline justify-between border-t border-dashed border-gris-200 pt-4">
+                <span className="text-sm text-noir/60">Total articles</span>
+                <span className="text-2xl font-extrabold text-noir" aria-live="polite">
                   <AnimatePresence mode="popLayout" initial={false}>
                     <motion.span
                       key={total}
@@ -160,7 +157,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                   rel="noopener noreferrer"
                   whileHover={reduire ? undefined : { scale: 1.02 }}
                   whileTap={{ scale: 0.96 }}
-                  className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 text-base font-semibold text-white shadow-lg shadow-whatsapp/30 transition-shadow hover:shadow-whatsapp/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+                  className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-white px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-noir ring-1 ring-inset ring-noir transition-colors duration-300 hover:bg-noir hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
                 >
                   <WhatsAppIcon className="size-5" />
                   <span>
@@ -171,22 +168,22 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
             </>
           ) : (
             <div className="flex flex-col gap-3">
-              <p className="text-sm leading-relaxed text-nuit/70">
+              <p className="text-sm leading-relaxed text-noir/70">
                 Ce produit revient très vite. Écrivez-nous pour être prévenu(e) ou réserver le vôtre.
               </p>
               <a
                 href={lienQuestion}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-semibold text-white shadow-lg shadow-whatsapp/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+                className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-noir px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
               >
                 <WhatsAppIcon className="size-5" />
                 Me prévenir sur WhatsApp
               </a>
             </div>
           )}
-          <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-nuit/55">
-            <ShieldCheck className="size-3.5 text-bleu" aria-hidden />
+          <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-noir/55">
+            <ShieldCheck className="size-3.5 text-noir" aria-hidden />
             Aucun paiement en ligne : vous payez à la livraison.
           </p>
         </motion.div>
@@ -197,13 +194,11 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
             icone={<Truck className="size-5" aria-hidden />}
             titre={`Livraison dès ${formatFC(boutique.livraison.prixMinFC)}`}
             texte="Partout à Kinshasa. Le prix exact dépend du trajet, confirmé sur WhatsApp."
-            couleur="ciel"
           />
           <CarteInfo
             icone={<Banknote className="size-5" aria-hidden />}
             titre="Cash à la livraison"
             texte="Vous vérifiez votre colis, puis vous payez. Simple et sans risque."
-            couleur="violet"
           />
         </motion.div>
       </motion.div>
@@ -215,7 +210,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="font-display text-2xl font-bold text-nuit"
+          className="font-affiche text-3xl uppercase tracking-[0.02em] text-noir sm:text-4xl"
         >
           {points.length > 0 ? "Points forts" : "Pourquoi commander chez nous"}
         </motion.h2>
@@ -237,7 +232,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                       visible: { opacity: 1, x: 0, transition: { duration: 0.55, ease: EASE } },
                     }
               }
-              className="flex items-start gap-3 rounded-2xl bg-white/70 p-3.5 ring-1 ring-nuit/5"
+              className="flex items-start gap-3 bg-white/70 p-3.5 ring-1 ring-gris-200"
             >
               <motion.span
                 variants={
@@ -252,11 +247,11 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                         },
                       }
                 }
-                className="degrade-marque grid size-6 shrink-0 place-items-center rounded-full text-white"
+                className="bg-noir grid size-6 shrink-0 place-items-center text-white"
               >
                 <Check className="size-3.5" strokeWidth={3} aria-hidden />
               </motion.span>
-              <span className="pt-0.5 text-[15px] leading-snug text-nuit/85">{point}</span>
+              <span className="pt-0.5 text-[15px] leading-snug text-noir/85">{point}</span>
             </motion.li>
           ))}
         </motion.ul>
@@ -268,9 +263,9 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
           transition={{ duration: 0.6, ease: EASE }}
           className="mt-10"
         >
-          <h2 className="font-display text-2xl font-bold text-nuit">Description</h2>
+          <h2 className="font-affiche text-3xl uppercase tracking-[0.02em] text-noir sm:text-4xl">Description</h2>
           {description ? (
-            <div className="mt-4 space-y-4 text-pretty text-base leading-relaxed text-nuit/75">
+            <div className="mt-4 space-y-4 text-pretty text-base leading-relaxed text-noir/75">
               {description.split(/\n{2,}/).map((para, i) => (
                 <p key={i} className="whitespace-pre-line">
                   {para}
@@ -278,7 +273,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-pretty text-base leading-relaxed text-nuit/75">
+            <p className="mt-4 text-pretty text-base leading-relaxed text-noir/75">
               Vous voulez plus de détails sur ce produit (utilisation, taille, couleurs disponibles) ? Écrivez-nous
               sur WhatsApp, nous vous répondons rapidement avec photos et conseils.
             </p>
@@ -287,7 +282,7 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
             href={lienQuestion}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-5 inline-flex min-h-11 items-center gap-2 rounded-full font-semibold text-bleu focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bleu"
+            className="group mt-5 inline-flex min-h-11 items-center gap-2 font-semibold text-noir focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-noir"
           >
             <MessageCircle className="size-4" aria-hidden />
             <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1.5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_1.5px]">
@@ -312,22 +307,22 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                 className="fixed inset-x-0 bottom-0 z-30 lg:hidden"
               >
                 <div
-                  className="border-t border-nuit/10 bg-white/90 backdrop-blur-xl shadow-[0_-12px_32px_-12px_rgba(15,27,61,0.25)]"
+                  className="border-t border-gris-200 bg-white/90 backdrop-blur-xl"
                   style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
                 >
                   {/* pr : laisse la place au bouton WhatsApp flottant (bas à droite) */}
                   <div className="flex items-center gap-3 py-2.5 pl-4 pr-[5.25rem]">
                     {image && (
-                      <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-white ring-1 ring-nuit/10">
+                      <div className="relative size-12 shrink-0 overflow-hidden bg-white ring-1 ring-gris-200">
                         <Image src={image} alt="" fill sizes="48px" className="object-cover" />
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-xs font-medium text-nuit/65">
+                      <p className="truncate text-xs font-medium text-noir/65">
                         {quantite > 1 ? `${quantite} × ` : ""}
                         {produit.nom}
                       </p>
-                      <p className="font-display text-lg font-bold leading-tight text-nuit">{formatUSD(total)}</p>
+                      <p className="font-display text-lg font-bold leading-tight text-noir">{formatUSD(total)}</p>
                     </div>
                     <AddToCartButton produitId={produit.id} quantite={quantite} image={image} compact />
                   </div>
@@ -344,9 +339,9 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
 function Stepper({ quantite, onChange }: { quantite: number; onChange: (q: number) => void }) {
   const reduire = useReducedMotion();
   const classeBouton =
-    "grid size-11 place-items-center rounded-full text-nuit transition-colors hover:bg-white active:bg-white disabled:opacity-35 disabled:hover:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bleu";
+    "grid size-11 place-items-center text-noir transition-colors hover:bg-white active:bg-white disabled:opacity-35 disabled:hover:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-noir";
   return (
-    <div role="group" aria-labelledby="libelle-quantite" className="flex items-center gap-1 rounded-full bg-creme p-1 ring-1 ring-nuit/10">
+    <div role="group" aria-labelledby="libelle-quantite" className="flex items-center gap-1 bg-gris-50 p-1 ring-1 ring-gris-200">
       <motion.button
         type="button"
         whileTap={{ scale: 0.85 }}
@@ -385,30 +380,15 @@ function Stepper({ quantite, onChange }: { quantite: number; onChange: (q: numbe
   );
 }
 
-function CarteInfo({
-  icone,
-  titre,
-  texte,
-  couleur,
-}: {
-  icone: ReactNode;
-  titre: string;
-  texte: string;
-  couleur: "ciel" | "violet";
-}) {
+function CarteInfo({ icone, titre, texte }: { icone: ReactNode; titre: string; texte: string }) {
   return (
-    <div className="group flex gap-3.5 rounded-2xl bg-white p-4 ring-1 ring-nuit/5 transition-shadow duration-500 hover:shadow-[0_18px_36px_-20px_rgba(29,111,224,0.4)]">
-      <span
-        className={clsx(
-          "grid size-11 shrink-0 place-items-center rounded-xl transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-110",
-          couleur === "ciel" ? "bg-ciel/15 text-sky-700" : "bg-bleu/10 text-bleu",
-        )}
-      >
+    <div className="group flex gap-3.5 bg-gris-50 p-4">
+      <span className="grid size-11 shrink-0 place-items-center bg-noir text-white transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-110">
         {icone}
       </span>
       <div>
-        <p className="font-display font-semibold text-nuit">{titre}</p>
-        <p className="mt-1 text-sm leading-snug text-nuit/65">{texte}</p>
+        <p className="text-sm font-bold uppercase tracking-[0.08em] text-noir">{titre}</p>
+        <p className="mt-1 text-sm leading-snug text-noir/65">{texte}</p>
       </div>
     </div>
   );

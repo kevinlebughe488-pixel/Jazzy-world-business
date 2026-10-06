@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useSyncExternalStore, type SyntheticEvent } from "react";
@@ -150,7 +149,7 @@ export function CartDrawer() {
           <motion.div
             aria-hidden="true"
             onClick={fermerTiroir}
-            className="absolute inset-0 bg-nuit-900/45 backdrop-blur-sm"
+            className="absolute inset-0 bg-noir/45 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
@@ -163,7 +162,7 @@ export function CartDrawer() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="titre-tiroir-panier"
-            className="absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden bg-creme shadow-2xl shadow-nuit-900/40 sm:max-w-md sm:rounded-l-[2rem]"
+            className="absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden bg-white sm:max-w-md"
             initial={reduire ? { opacity: 0 } : { x: "100%" }}
             animate={reduire ? { opacity: 1 } : { x: 0 }}
             exit={
@@ -173,27 +172,17 @@ export function CartDrawer() {
             }
             transition={reduire ? { duration: 0.15 } : { type: "spring", stiffness: 320, damping: 36, mass: 0.9 }}
           >
-            {/* Halo décoratif */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full bg-bleu/15 blur-3xl"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute top-10 -left-24 size-56 rounded-full bg-ciel/15 blur-3xl"
-            />
-
             {/* En-tête */}
-            <header className="relative flex items-center justify-between gap-3 border-b border-nuit/8 px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4 sm:px-6">
+            <header className="relative flex items-center justify-between gap-3 border-b border-gris-200 px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4 sm:px-6">
               <div className="flex items-center gap-3">
-                <span className="degrade-marque grid size-11 place-items-center rounded-2xl text-white shadow-lg shadow-bleu/25">
+                <span className="bg-noir grid size-11 place-items-center text-white">
                   <ShoppingBag className="size-5" aria-hidden="true" />
                 </span>
                 <div>
-                  <h2 id="titre-tiroir-panier" className="text-xl font-bold text-nuit">
+                  <h2 id="titre-tiroir-panier" className="font-affiche text-2xl uppercase tracking-[0.02em] text-noir">
                     Mon panier
                   </h2>
-                  <p className="text-sm text-nuit/60" aria-live="polite">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-gris-500" aria-live="polite">
                     {vide ? "Aucun article" : `${articles} article${articles > 1 ? "s" : ""}`}
                   </p>
                 </div>
@@ -205,7 +194,7 @@ export function CartDrawer() {
                 whileHover={reduire ? undefined : { rotate: 90 }}
                 whileTap={{ scale: 0.88 }}
                 aria-label="Fermer le panier"
-                className="grid size-12 place-items-center rounded-full bg-white text-nuit shadow-sm ring-1 ring-nuit/10 transition-colors hover:bg-nuit hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+                className="grid size-12 place-items-center bg-white text-noir ring-1 ring-gris-200 transition-colors hover:bg-noir hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
               >
                 <X className="size-5" aria-hidden="true" />
               </motion.button>
@@ -228,29 +217,29 @@ export function CartDrawer() {
 
                 {/* Récapitulatif */}
                 <motion.footer
-                  className="relative border-t border-nuit/8 bg-white/80 px-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] backdrop-blur-md sm:px-6"
+                  className="relative border-t border-gris-200 bg-white/80 px-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] backdrop-blur-md sm:px-6"
                   initial={reduire ? { opacity: 0 } : { opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: reduire ? 0 : 0.2, duration: 0.5, ease: EASE }}
                 >
                   <div className="flex items-baseline justify-between">
-                    <span className="text-sm font-medium text-nuit/70">Sous-total</span>
-                    <span className="font-display text-2xl font-bold text-nuit">
+                    <span className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-noir">Sous-total</span>
+                    <span className="text-2xl font-extrabold text-noir">
                       <MontantAnime valeur={total} />
                     </span>
                   </div>
 
-                  <ul className="mt-3 space-y-1.5 rounded-2xl bg-creme px-3.5 py-3 text-[13px] leading-snug text-nuit/75">
+                  <ul className="mt-3 space-y-1.5 bg-gris-50 px-3.5 py-3 text-[13px] leading-snug text-noir/75">
                     <li className="flex items-start gap-2">
-                      <Truck className="mt-px size-4 shrink-0 text-bleu" aria-hidden="true" />
+                      <Truck className="mt-px size-4 shrink-0 text-noir" aria-hidden="true" />
                       <span>
                         Livraison à partir de{" "}
-                        <strong className="font-semibold text-nuit">{formatFC(boutique.livraison.prixMinFC)}</strong>,
+                        <strong className="font-semibold text-noir">{formatFC(boutique.livraison.prixMinFC)}</strong>,
                         confirmée sur WhatsApp
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Wallet className="mt-px size-4 shrink-0 text-bleu" aria-hidden="true" />
+                      <Wallet className="mt-px size-4 shrink-0 text-noir" aria-hidden="true" />
                       <span>Paiement cash à la livraison</span>
                     </li>
                   </ul>
@@ -260,7 +249,7 @@ export function CartDrawer() {
                       <Link
                         href="/panier/"
                         onClick={fermerTiroir}
-                        className="degrade-marque group flex min-h-14 w-full items-center justify-center gap-2 rounded-full px-6 text-base font-semibold text-white shadow-lg shadow-bleu/30 transition-shadow hover:shadow-bleu/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+                        className="group flex min-h-14 w-full items-center justify-center gap-2 bg-noir px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-gris-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
                       >
                         Finaliser ma commande
                         <ArrowRight
@@ -275,7 +264,7 @@ export function CartDrawer() {
                       rel="noopener noreferrer"
                       whileHover={reduire ? undefined : { scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
-                      className="flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-whatsapp/10 px-6 text-[15px] font-semibold text-[#0b7a3b] ring-1 ring-whatsapp/40 transition-colors hover:bg-whatsapp hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-whatsapp"
+                      className="flex min-h-13 w-full items-center justify-center gap-2 bg-white px-6 text-[0.75rem] font-bold uppercase tracking-[0.16em] text-noir ring-1 ring-inset ring-noir transition-colors hover:bg-noir hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
                     >
                       <WhatsAppIcon className="size-5" />
                       Commander sur WhatsApp
@@ -306,24 +295,13 @@ function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: bool
         }}
         className="relative mb-8"
       >
-        <div aria-hidden="true" className="absolute inset-4 rounded-full bg-gradient-to-br from-bleu/30 to-ciel/30 blur-2xl" />
         <motion.div
-          animate={reduire ? undefined : { y: [0, -10, 0], rotate: [0, 4, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="relative"
+          animate={reduire ? undefined : { y: [0, -8, 0], rotate: [0, -5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="grid size-32 place-items-center bg-noir text-white"
         >
-          <Image
-            src="/brand/globe.webp"
-            alt=""
-            width={600}
-            height={600}
-            sizes="176px"
-            className="size-40 drop-shadow-xl sm:size-44"
-          />
+          <ShoppingBag className="size-12" strokeWidth={1.4} aria-hidden="true" />
         </motion.div>
-        <span className="absolute -right-1 bottom-3 grid size-12 place-items-center rounded-full bg-white text-bleu shadow-lg ring-1 ring-nuit/5">
-          <ShoppingBag className="size-5" aria-hidden="true" />
-        </span>
       </motion.div>
 
       <motion.h3
@@ -331,7 +309,7 @@ function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: bool
           cache: reduire ? { opacity: 0 } : { opacity: 0, y: 14 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
         }}
-        className="text-2xl font-bold text-nuit"
+        className="font-affiche text-3xl uppercase tracking-[0.02em] text-noir"
       >
         Votre panier est vide
       </motion.h3>
@@ -340,7 +318,7 @@ function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: bool
           cache: reduire ? { opacity: 0 } : { opacity: 0, y: 14 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
         }}
-        className="mt-2 max-w-xs text-[15px] leading-relaxed text-nuit/65"
+        className="mt-2 max-w-xs text-[15px] leading-relaxed text-noir/65"
       >
         Parcourez nos trouvailles et ajoutez vos coups de cœur. Livraison partout à Kinshasa.
       </motion.p>
@@ -356,7 +334,7 @@ function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: bool
         <Link
           href="/boutique/"
           onClick={surFermer}
-          className="degrade-marque group inline-flex min-h-14 items-center gap-2 rounded-full px-7 text-base font-semibold text-white shadow-lg shadow-bleu/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+          className="bg-noir group inline-flex min-h-14 items-center gap-2 px-7 text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
         >
           Découvrir la boutique
           <ArrowRight className="size-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />

@@ -16,7 +16,7 @@ type Props = {
 };
 
 const boutonStepper =
-  "grid size-11 place-items-center rounded-full text-nuit transition-colors hover:bg-white active:bg-nuit/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-bleu disabled:opacity-30 disabled:pointer-events-none";
+  "grid size-11 place-items-center text-noir transition-colors hover:bg-white active:bg-gris-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-noir disabled:opacity-30 disabled:pointer-events-none";
 
 export const LigneCommande = forwardRef<HTMLLIElement, Props>(
   function LigneCommande({ ligne, index, onRetirer }, ref) {
@@ -55,13 +55,13 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
                 transition: { duration: 0.3, ease: [0.4, 0, 1, 1] },
               }
         }
-        className="group relative flex gap-4 rounded-[1.5rem] bg-white p-3 shadow-sm shadow-nuit/5 ring-1 ring-nuit/5 transition-shadow hover:shadow-lg hover:shadow-nuit/5 sm:gap-5 sm:p-4"
+        className="group relative flex gap-4 bg-white p-3 ring-1 ring-gris-200 transition-shadow sm:gap-5 sm:p-4"
       >
         <Link
           href={lien}
           tabIndex={-1}
           aria-hidden="true"
-          className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-creme sm:size-32"
+          className="relative size-24 shrink-0 overflow-hidden bg-gris-50 sm:size-32"
         >
           {image ? (
             <Image
@@ -78,17 +78,17 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               {categorie ? (
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-bleu/80">
+                <p className="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-gris-500">
                   {categorie}
                 </p>
               ) : null}
               <Link
                 href={lien}
-                className="mt-0.5 block rounded font-display text-base leading-snug font-semibold text-nuit hover:text-bleu focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu sm:text-lg"
+                className="mt-0.5 block text-sm leading-snug font-semibold text-noir hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir sm:text-lg"
               >
                 {produit.nom}
               </Link>
-              <p className="mt-0.5 text-sm text-nuit/60">
+              <p className="mt-0.5 text-sm text-noir/60">
                 {formatUSD(produit.prix)} / unité
               </p>
             </div>
@@ -97,7 +97,7 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
               whileTap={{ scale: 0.85 }}
               onClick={() => onRetirer(produit.id, quantite)}
               aria-label={`Retirer ${produit.nom} du panier`}
-              className="-mt-1 -mr-1 grid size-11 shrink-0 place-items-center rounded-full text-nuit/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-bleu"
+              className="-mt-1 -mr-1 grid size-11 shrink-0 place-items-center text-noir/45 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-noir"
             >
               <Trash2 className="size-[1.15rem]" aria-hidden="true" />
             </motion.button>
@@ -107,7 +107,7 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
             <div
               role="group"
               aria-label={`Quantité de ${produit.nom}`}
-              className="flex items-center rounded-full bg-creme p-0.5 ring-1 ring-nuit/10"
+              className="flex items-center bg-gris-50 p-0.5 ring-1 ring-gris-200"
             >
               <motion.button
                 type="button"
@@ -148,7 +148,7 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
             </div>
 
             <div className="text-right">
-              <p className="text-[0.7rem] font-medium uppercase tracking-wider text-nuit/45">
+              <p className="text-[0.7rem] font-medium uppercase tracking-wider text-noir/45">
                 Total
               </p>
               <AnimatePresence mode="popLayout" initial={false}>
@@ -158,7 +158,7 @@ export const LigneCommande = forwardRef<HTMLLIElement, Props>(
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25 }}
-                  className="font-display text-lg font-bold tabular-nums text-nuit sm:text-xl"
+                  className="text-lg font-extrabold tabular-nums text-noir sm:text-xl"
                 >
                   {formatUSD(total)}
                 </motion.p>

@@ -4,45 +4,46 @@ import sharp from "sharp";
 
 const W = 1200;
 const H = 630;
-const GLOBE = 400;
+
+// Trois photos produits en colonne de droite (style vitrine noir et blanc)
+const PHOTOS = [
+  "public/produits/montre-arabe/1.webp",
+  "public/produits/sac-de-voyage/1.webp",
+  "public/produits/lunettes-chromees/1.webp",
+];
+const TAILLE = 250;
 
 const fond = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="0.55">
-      <stop offset="0" stop-color="#1d6fe0"/>
-      <stop offset="0.48" stop-color="#0f1b3d"/>
-      <stop offset="1" stop-color="#4fc3e8"/>
-    </linearGradient>
-    <radialGradient id="halo" cx="0.24" cy="0.5" r="0.4">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="${W}" height="${H}" fill="url(#g)"/>
-  <rect width="${W}" height="${H}" fill="url(#halo)"/>
-  <circle cx="1120" cy="70" r="180" fill="#ffffff" fill-opacity="0.06"/>
-  <circle cx="1060" cy="600" r="120" fill="#ffffff" fill-opacity="0.05"/>
+  <rect width="${W}" height="${H}" fill="#000000"/>
+  <rect x="0" y="0" width="${W}" height="44" fill="#ffffff"/>
 </svg>`;
 
 const texte = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <style>
-    .titre { font-family: Outfit, 'DejaVu Sans', Arial, sans-serif; font-weight: 800; fill: #ffffff; }
-    .sous { font-family: Inter, 'DejaVu Sans', Arial, sans-serif; font-weight: 500; fill: #ffffff; }
+    .titre { font-family: 'DejaVu Sans Condensed', 'DejaVu Sans', Arial, sans-serif; font-weight: 800; fill: #ffffff; }
+    .sous { font-family: 'DejaVu Sans', Arial, sans-serif; font-weight: 700; fill: #ffffff; }
+    .bandeau { font-family: 'DejaVu Sans', Arial, sans-serif; font-weight: 700; fill: #000000; }
   </style>
-  <text x="530" y="200" class="sous" font-size="26" letter-spacing="4" fill-opacity="0.8">BOUTIQUE EN LIGNE · KINSHASA</text>
-  <text x="526" y="292" class="titre" font-size="78">Jazzy World</text>
-  <text x="526" y="380" class="titre" font-size="78">Business</text>
-  <rect x="530" y="418" width="96" height="6" rx="3" fill="#4fc3e8"/>
-  <text x="530" y="490" class="sous" font-size="24">Livraison partout à Kinshasa · Paiement à la livraison</text>
+  <text x="60" y="29" class="bandeau" font-size="17" letter-spacing="4">LIVRAISON PARTOUT À KINSHASA · PAIEMENT CASH À LA LIVRAISON</text>
+  <text x="60" y="150" class="sous" font-size="20" letter-spacing="6" fill-opacity="0.6">BOUTIQUE EN LIGNE · KINSHASA</text>
+  <text x="54" y="285" class="titre" font-size="128" letter-spacing="-2">JAZZY</text>
+  <text x="54" y="410" class="titre" font-size="128" letter-spacing="-2">WORLD</text>
+  <text x="62" y="455" class="sous" font-size="22" letter-spacing="14">BUSINESS</text>
+  <rect x="62" y="500" width="120" height="3" fill="#ffffff"/>
+  <text x="62" y="550" class="sous" font-size="22" fill-opacity="0.85">Commandez sur WhatsApp · Livraison dès 8 000 FC</text>
 </svg>`;
 
-const globe = await sharp("public/brand/globe.webp").resize(GLOBE, GLOBE).png().toBuffer();
+const photos = await Promise.all(
+  PHOTOS.map((p) => sharp(p).resize(TAILLE, TAILLE, { fit: "cover" }).png().toBuffer()),
+);
 
 await sharp(Buffer.from(fond))
   .composite([
-    { input: globe, left: 80, top: Math.round((H - GLOBE) / 2) },
+    { input: photos[0], left: 690, top: 80 },
+    { input: photos[1], left: 690 + TAILLE + 10, top: 80 },
+    { input: photos[2], left: 690 + (TAILLE + 10) / 2, top: 80 + TAILLE + 10 },
     { input: Buffer.from(texte), left: 0, top: 0 },
   ])
   .png({ compressionLevel: 9 })

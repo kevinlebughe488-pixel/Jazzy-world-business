@@ -85,31 +85,25 @@ export default async function Page({ params }: Props) {
     <div className="relative overflow-x-clip pb-28 pt-24 lg:pb-24 lg:pt-28">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
 
-      {/* Halo décoratif */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] overflow-hidden">
-        <div className="absolute -left-40 -top-32 size-[32rem] rounded-full bg-bleu-300/25 blur-[110px]" />
-        <div className="absolute -right-32 top-10 size-[28rem] rounded-full bg-ciel-200/50 blur-[110px]" />
-      </div>
-
       <Container>
         {/* Fil d'Ariane */}
         <nav aria-label="Fil d'Ariane" className="mb-6 lg:mb-10">
-          <ol className="flex flex-wrap items-center gap-1 text-sm text-nuit/60">
+          <ol className="flex flex-wrap items-center gap-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-gris-500">
             <li>
               <Link
                 href="/"
-                className="rounded-md px-1 py-1.5 transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-bleu"
+                className="px-1 py-1.5 transition-colors hover:text-noir focus-visible:outline-2 focus-visible:outline-noir"
               >
                 Accueil
               </Link>
             </li>
             <li aria-hidden>
-              <ChevronRight className="size-3.5 text-nuit/30" />
+              <ChevronRight className="size-3.5 text-noir/30" />
             </li>
             <li>
               <Link
                 href="/boutique/"
-                className="rounded-md px-1 py-1.5 transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-bleu"
+                className="px-1 py-1.5 transition-colors hover:text-noir focus-visible:outline-2 focus-visible:outline-noir"
               >
                 Boutique
               </Link>
@@ -117,15 +111,15 @@ export default async function Page({ params }: Props) {
             {categorie && (
               <>
                 <li aria-hidden>
-                  <ChevronRight className="size-3.5 text-nuit/30" />
+                  <ChevronRight className="size-3.5 text-noir/30" />
                 </li>
                 <li className="px-1 py-1.5">{categorie.nom}</li>
               </>
             )}
             <li aria-hidden>
-              <ChevronRight className="size-3.5 text-nuit/30" />
+              <ChevronRight className="size-3.5 text-noir/30" />
             </li>
-            <li aria-current="page" className="max-w-[14rem] truncate px-1 py-1.5 font-medium text-nuit">
+            <li aria-current="page" className="max-w-[14rem] truncate px-1 py-1.5 font-medium text-noir">
               {produit.nom}
             </li>
           </ol>
@@ -146,20 +140,20 @@ export default async function Page({ params }: Props) {
           <Container>
             <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4 lg:mb-10">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-bleu">À découvrir</p>
-                <h2 id="titre-similaires" className="mt-2 font-display text-3xl font-bold text-nuit sm:text-4xl">
-                  Vous aimerez <span className="texte-degrade">aussi</span>
+                <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">— À découvrir</p>
+                <h2 id="titre-similaires" className="mt-3 font-affiche text-5xl uppercase leading-[0.9] text-noir sm:text-7xl">
+                  Vous aimerez <span className="texte-contour [-webkit-text-stroke-width:1.5px]">aussi</span>
                 </h2>
               </div>
               <Link
                 href="/boutique/"
-                className="group inline-flex min-h-11 items-center gap-1.5 rounded-full px-1 font-semibold text-nuit transition-colors hover:text-bleu focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+                className="group inline-flex min-h-11 items-center gap-1.5 px-1 text-[0.72rem] font-bold uppercase tracking-[0.18em] text-noir transition-colors hover:text-gris-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
               >
                 Voir toute la boutique
                 <ChevronRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
               </Link>
             </Reveal>
-            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-9 sm:gap-x-5 lg:grid-cols-4 lg:gap-x-6">
               {similaires.map((p, i) => (
                 <ProductCard key={p.id} produit={p} index={i} />
               ))}

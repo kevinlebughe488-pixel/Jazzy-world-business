@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { CheckCheck, ChevronDown, Eye } from "lucide-react";
@@ -17,15 +16,15 @@ export function ApercuWhatsApp({ message }: { message: string }) {
   });
 
   return (
-    <div className="rounded-2xl ring-1 ring-nuit/10">
+    <div className="ring-1 ring-gris-300">
       <button
         type="button"
         onClick={() => setOuvert((o) => !o)}
         aria-expanded={ouvert}
         aria-controls={id}
-        className="flex min-h-12 w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold text-nuit transition-colors hover:bg-nuit/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+        className="flex min-h-12 w-full items-center gap-3 px-4 py-3 text-left text-[0.72rem] font-bold uppercase tracking-[0.12em] text-noir transition-colors hover:bg-noir/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
       >
-        <Eye className="size-4 text-bleu" aria-hidden="true" />
+        <Eye className="size-4 text-noir" aria-hidden="true" />
         <span className="flex-1">
           {ouvert
             ? "Masquer l'aperçu du message"
@@ -35,7 +34,7 @@ export function ApercuWhatsApp({ message }: { message: string }) {
           animate={{ rotate: ouvert ? 180 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <ChevronDown className="size-4 text-nuit/50" aria-hidden="true" />
+          <ChevronDown className="size-4 text-noir/50" aria-hidden="true" />
         </motion.span>
       </button>
 
@@ -54,14 +53,8 @@ export function ApercuWhatsApp({ message }: { message: string }) {
           >
             <div className="overflow-hidden rounded-xl bg-[#efeae2]">
               <div className="flex items-center gap-2.5 bg-[#075e54] px-3 py-2 text-white">
-                <span className="grid size-8 place-items-center overflow-hidden rounded-full bg-white">
-                  <Image
-                    src="/brand/globe.webp"
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="size-7 object-contain"
-                  />
+                <span className="grid size-8 place-items-center rounded-full bg-noir font-affiche text-xs tracking-wide text-white ring-2 ring-white/80">
+                  JW
                 </span>
                 <div className="min-w-0 leading-tight">
                   <p className="truncate text-sm font-semibold">

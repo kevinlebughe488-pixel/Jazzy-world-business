@@ -1,15 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  type Variants,
-} from "framer-motion";
+import { AnimatePresence, motion, useInView, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
 import { ArrowRight, Banknote, Check, CheckCheck, MousePointerClick, ShoppingBag, Truck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { boutique, getProduit } from "@/lib/catalogue";
@@ -18,35 +10,44 @@ import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { useProgression } from "@/components/animations/useProgression";
+import { useMonte } from "@/lib/useMonte";
 
-type Etape = { titre: string; texte: string; Icone: LucideIcon | typeof WhatsAppIcon; accent: string };
+type Ton = "noir" | "gris" | "blanc";
+type Etape = { titre: string; texte: string; Icone: LucideIcon | typeof WhatsAppIcon; ton: Ton };
 
 const etapes: Etape[] = [
   {
     titre: "Choisissez vos produits",
     texte: "Parcourez la boutique et trouvez ce qui vous plaît : bien-être, beauté, accessoires.",
     Icone: MousePointerClick,
-    accent: "from-bleu to-nuit-700",
+    ton: "noir",
   },
   {
     titre: "Ajoutez au panier",
     texte: "Un clic suffit. Votre panier est gardé sur votre téléphone, même si vous revenez plus tard.",
     Icone: ShoppingBag,
-    accent: "from-nuit-700 to-bleu",
+    ton: "gris",
   },
   {
     titre: "Envoyez sur WhatsApp",
     texte: "Votre commande est écrite pour vous. Il ne reste qu’à appuyer sur « Envoyer ».",
     Icone: WhatsAppIcon,
-    accent: "from-whatsapp to-[#128c7e]",
+    ton: "blanc",
   },
   {
     titre: "Payez à la livraison",
     texte: `Livraison partout à Kinshasa dès ${formatFC(boutique.livraison.prixMinFC)}. Vous payez cash en recevant le colis.`,
     Icone: Banknote,
-    accent: "from-ciel to-nuit-700",
+    ton: "noir",
   },
 ];
+
+const TONS: Record<Ton, { carte: string; numero: string; icone: string; texte: string }> = {
+  noir: { carte: "bg-noir text-white", numero: "texte-contour-blanc", icone: "bg-white text-noir", texte: "text-white/70" },
+  gris: { carte: "bg-gris-100 text-noir", numero: "texte-contour", icone: "bg-noir text-white", texte: "text-gris-700" },
+  blanc: { carte: "bg-white text-noir ring-2 ring-inset ring-noir", numero: "text-noir", icone: "bg-noir text-white", texte: "text-gris-700" },
+};
 
 /* Message d'exemple construit à partir du vrai catalogue. */
 const exemple = [getProduit("montre-arabe"), getProduit("lunettes-chromees")].filter(
@@ -63,138 +64,68 @@ const messageExemple = [
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const varianteEtape: Variants = {
-  cache: { opacity: 0, y: 28 },
-  visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.12 * i, ease } }),
-};
-
-const variantePastille: Variants = {
-  cache: { scale: 0, rotate: -45 },
-  visible: (i: number) => ({
-    scale: 1,
-    rotate: 0,
-    transition: { type: "spring", stiffness: 320, damping: 16, delay: 0.12 * i + 0.15 },
-  }),
-};
-
 export function CommentCommander() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const reduire = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start 85%", "end 55%"] });
-  const progression = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
-  const echelle = reduire ? 1 : progression;
+  const pile = useRef<HTMLOListElement>(null);
+  const p = useProgression(pile, ["start start", "end end"], false);
 
   return (
-    <section
-      id="comment-commander"
-      aria-labelledby="titre-comment-commander"
-      className="relative overflow-hidden bg-creme py-20 sm:py-28"
-    >
-      {/* Halos décoratifs */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-bleu/10 blur-3xl" />
-        <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-ciel/15 blur-3xl" />
-      </div>
-
-      <Container className="relative">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-bleu shadow-sm ring-1 ring-bleu/15">
-            <span className="h-1.5 w-1.5 rounded-full bg-bleu" aria-hidden />
-            Simple comme bonjour
-          </p>
+    <section id="comment-commander" aria-labelledby="titre-comment-commander" className="relative overflow-x-clip bg-white pt-24 sm:pt-32">
+      <Container>
+        <Reveal className="max-w-3xl">
+          <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">— Simple comme bonjour</p>
           <h2
             id="titre-comment-commander"
-            className="mt-5 font-display text-3xl font-bold text-nuit sm:text-4xl lg:text-5xl"
+            className="mt-3 font-affiche text-[16vw] uppercase leading-[0.86] tracking-[0.01em] sm:text-8xl lg:text-9xl"
           >
-            Commander en <span className="texte-degrade">4 étapes</span>
+            Commander <br />
+            en <span className="texte-contour [-webkit-text-stroke-width:2px]">4 étapes</span>
           </h2>
-          <p className="mt-4 text-base text-nuit/70 sm:text-lg">
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-gris-700 sm:text-lg">
             Pas de compte, pas de carte bancaire. Vous choisissez, vous envoyez sur WhatsApp, on vous livre.
           </p>
         </Reveal>
+      </Container>
 
-        {/* Frise chronologique */}
-        <div ref={sectionRef} className="relative mt-14 lg:mt-20">
-          {/* Ligne horizontale (desktop) */}
-          <div aria-hidden className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-1 rounded-full bg-nuit/10 lg:block">
-            <motion.div
-              className="degrade-marque h-full origin-left rounded-full"
-              style={{ scaleX: echelle }}
-            />
-          </div>
-          {/* Ligne verticale (mobile) */}
-          <div aria-hidden className="absolute bottom-8 left-8 top-8 w-1 -translate-x-1/2 rounded-full bg-nuit/10 lg:hidden">
-            <motion.div
-              className="h-full w-full origin-top rounded-full bg-gradient-to-b from-bleu via-nuit-700 to-ciel"
-              style={{ scaleY: echelle }}
-            />
-          </div>
+      {/* Cartes qui s'empilent : chacune se fige puis recule quand la suivante arrive */}
+      <ol ref={pile} className="relative mt-4">
+        {etapes.map((etape, i) => (
+          <CarteEtape key={etape.titre} etape={etape} index={i} total={etapes.length} progression={p} />
+        ))}
+      </ol>
 
-          <ol className="relative grid gap-10 lg:grid-cols-4 lg:gap-6">
-            {etapes.map((etape, i) => (
-              <motion.li
-                key={etape.titre}
-                custom={i}
-                variants={varianteEtape}
-                initial={reduire ? false : "cache"}
-                whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}
-                className="group relative flex gap-5 lg:flex-col lg:items-center lg:gap-0 lg:text-center"
-              >
-                <div className="relative shrink-0">
-                  <motion.div
-                    custom={i}
-                    variants={variantePastille}
-                    className={`relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${etape.accent} text-white shadow-lg shadow-nuit/20 ring-4 ring-creme transition-transform duration-300 group-hover:-translate-y-1 group-hover:rotate-3`}
-                  >
-                    <etape.Icone className="h-7 w-7" aria-hidden />
-                    <span className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white font-display text-sm font-bold text-nuit shadow-md ring-1 ring-nuit/10">
-                      {i + 1}
-                    </span>
-                  </motion.div>
-                </div>
-
-                <div className="flex-1 rounded-3xl bg-white/80 p-5 shadow-sm ring-1 ring-nuit/5 transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-bleu/10 lg:mt-7 lg:w-full lg:p-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bleu">Étape {i + 1}</p>
-                  <h3 className="mt-1.5 font-display text-lg font-semibold text-nuit sm:text-xl">{etape.titre}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-nuit/70 sm:text-[0.95rem]">{etape.texte}</p>
-                </div>
-              </motion.li>
-            ))}
-          </ol>
-        </div>
-
-        {/* Démonstration WhatsApp */}
-        <div className="mt-20 grid items-center gap-12 lg:mt-28 lg:grid-cols-2 lg:gap-16">
+      {/* Démonstration WhatsApp */}
+      <Container className="pb-24 pt-10 sm:pb-32">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
-            <h3 className="font-display text-2xl font-bold text-nuit sm:text-3xl">
-              Votre message est <span className="texte-degrade">déjà prêt</span>
+            <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">— Sur WhatsApp</p>
+            <h3 className="mt-3 font-affiche text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl">
+              Votre message est <span className="texte-contour [-webkit-text-stroke-width:1.5px]">déjà prêt</span>
             </h3>
-            <p className="mt-4 max-w-lg text-base leading-relaxed text-nuit/70 sm:text-lg">
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-gris-700 sm:text-lg">
               En appuyant sur « Commander sur WhatsApp », la liste de vos articles et le total s’écrivent
               automatiquement. Vous vérifiez, vous envoyez, et nous vous confirmons le prix de la livraison.
             </p>
-            <ul className="mt-6 space-y-3 text-nuit/80">
+            <ul className="mt-6 space-y-3 text-gris-900">
               {[
                 "Réponse rapide de notre équipe",
                 `Livraison partout à Kinshasa dès ${formatFC(boutique.livraison.prixMinFC)}`,
                 "Paiement cash à la réception",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-whatsapp/15 text-[#128c7e]">
-                    <Check className="h-4 w-4" aria-hidden />
+                  <span className="mt-0.5 grid size-6 shrink-0 place-items-center bg-noir text-white">
+                    <Check className="size-3.5" strokeWidth={3} aria-hidden />
                   </span>
                   <span>{t}</span>
                 </li>
               ))}
             </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/boutique/" className="min-h-12">
+              <ButtonLink href="/boutique/" className="group">
                 Voir la boutique
-                <ArrowRight className="h-5 w-5" aria-hidden />
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
               </ButtonLink>
-              <ButtonLink href="/infos/" variante="secondaire" className="min-h-12">
-                <Truck className="h-5 w-5" aria-hidden />
+              <ButtonLink href="/infos/" variante="secondaire">
+                <Truck className="size-4" aria-hidden />
                 Livraison &amp; paiement
               </ButtonLink>
             </div>
@@ -206,6 +137,60 @@ export function CommentCommander() {
         </div>
       </Container>
     </section>
+  );
+}
+
+function CarteEtape({
+  etape,
+  index,
+  total,
+  progression,
+}: {
+  etape: Etape;
+  index: number;
+  total: number;
+  progression: MotionValue<number>;
+}) {
+  const ref = useRef<HTMLLIElement>(null);
+  // Arrivée : la carte monte en pivotant, de plus en plus fort d'une étape à l'autre.
+  const arrivee = useProgression(ref, ["start end", "start start"], false, 1);
+  const rotation = useTransform(arrivee, [0, 1], [(index % 2 ? 1 : -1) * (6 + index * 3), 0]);
+  const iconeEchelle = useTransform(arrivee, [0.4, 1], [0.3, 1]);
+  const iconeRotation = useTransform(arrivee, [0.4, 1], [-90, 0]);
+  // Départ : quand les suivantes arrivent, elle recule et s'assombrit légèrement.
+  const echelleCible = 1 - (total - 1 - index) * 0.05;
+  const echelle = useTransform(progression, [index / total, 1], [1, echelleCible]);
+  const voile = useTransform(progression, [index / total, 1], [0, index === total - 1 ? 0 : 0.35]);
+  const ton = TONS[etape.ton];
+
+  return (
+    <li ref={ref} className="sticky top-0 flex h-[100svh] items-center justify-center px-4 sm:px-6">
+      <motion.div
+        style={{ scale: echelle, rotate: rotation, top: `calc(-6svh + ${index * 22}px)` }}
+        className={`relative flex h-[min(66svh,540px)] w-full max-w-5xl origin-top flex-col justify-between overflow-hidden p-6 sm:p-10 lg:p-14 ${ton.carte}`}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <span
+            aria-hidden="true"
+            className={`font-affiche text-[34vw] leading-[0.8] [-webkit-text-stroke-width:2px] sm:text-[12rem] lg:text-[15rem] ${ton.numero}`}
+          >
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <motion.span
+            style={{ scale: iconeEchelle, rotate: iconeRotation }}
+            className={`grid size-16 shrink-0 place-items-center sm:size-20 ${ton.icone}`}
+          >
+            <etape.Icone className="size-7 sm:size-9" aria-hidden />
+          </motion.span>
+        </div>
+        <div className="max-w-2xl">
+          <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] opacity-60">Étape {index + 1} / {total}</p>
+          <h3 className="mt-3 font-affiche text-4xl uppercase leading-[0.92] sm:text-6xl lg:text-7xl">{etape.titre}</h3>
+          <p className={`mt-4 max-w-lg text-[0.95rem] leading-relaxed sm:text-lg ${ton.texte}`}>{etape.texte}</p>
+        </div>
+        <motion.div aria-hidden="true" style={{ opacity: voile }} className="pointer-events-none absolute inset-0 bg-noir" />
+      </motion.div>
+    </li>
   );
 }
 
@@ -222,8 +207,11 @@ function ChatDemo() {
   const [nbCar, setNbCar] = useState(0);
   const [phase, setPhase] = useState<Phase>("attente");
 
-  const texteAffiche = reduire ? messageExemple : messageExemple.slice(0, nbCar);
-  const phaseAffichee: Phase = reduire ? "reponse" : phase;
+  // Version immobile seulement après l'hydratation : le HTML serveur et le premier rendu client restent identiques.
+  const monte = useMonte();
+  const immobile = monte && !!reduire;
+  const texteAffiche = immobile ? messageExemple : messageExemple.slice(0, nbCar);
+  const phaseAffichee: Phase = immobile ? "reponse" : phase;
 
   useEffect(() => {
     if (!visible || reduire) return;
@@ -260,21 +248,17 @@ function ChatDemo() {
   return (
     <motion.div
       ref={ref}
-      initial={reduire ? false : { opacity: 0, y: 40, rotate: -2 }}
-      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+      initial={reduire ? false : { opacity: 0, y: 120, rotate: -10, scale: 0.85 }}
+      whileInView={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9, ease }}
+      transition={{ duration: 1.1, ease }}
       className="relative mx-auto w-full max-w-sm"
     >
-      {/* Lueur */}
-      <div aria-hidden className="degrade-marque absolute -inset-6 rounded-[3rem] opacity-25 blur-3xl" />
-
-      <figure className="relative overflow-hidden rounded-[2rem] bg-[#efeae2] shadow-2xl shadow-nuit/25 ring-1 ring-nuit/10">
+      <figure className="relative overflow-hidden rounded-[2.4rem] bg-[#efeae2] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.55)] ring-[10px] ring-noir">
         {/* Barre de conversation */}
         <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white p-1">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/globe.webp" alt="" width={40} height={40} className="h-full w-full object-contain" />
+          <div className="grid h-10 w-10 place-items-center rounded-full bg-noir font-affiche text-sm tracking-wide text-white ring-2 ring-white/80">
+            JW
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">{boutique.nom}</p>

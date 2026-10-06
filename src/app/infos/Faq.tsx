@@ -13,7 +13,7 @@ export function Faq({ questions }: { questions: QuestionFaq[] }) {
   const base = useId();
 
   return (
-    <ul className="divide-y divide-nuit/10 overflow-hidden rounded-[var(--radius-carte)] bg-white shadow-xl shadow-nuit/5 ring-1 ring-nuit/5">
+    <ul className="divide-y divide-gris-200 overflow-hidden border-y border-noir bg-white">
       {questions.map((q, i) => {
         const estOuverte = ouverte === i;
         const idBouton = `${base}-q-${i}`;
@@ -25,12 +25,12 @@ export function Faq({ questions }: { questions: QuestionFaq[] }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: Math.min(i, 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className={clsx("relative transition-colors duration-300", estOuverte && "bg-creme/60")}
+            className={clsx("relative transition-colors duration-300", estOuverte && "bg-gris-50/60")}
           >
             <span
               aria-hidden="true"
               className={clsx(
-                "degrade-marque absolute inset-y-0 left-0 w-1 origin-top transition-transform duration-500 ease-[var(--ease-doux)]",
+                "bg-noir absolute inset-y-0 left-0 w-1 origin-top transition-transform duration-500 ease-[var(--ease-doux)]",
                 estOuverte ? "scale-y-100" : "scale-y-0",
               )}
             />
@@ -41,15 +41,15 @@ export function Faq({ questions }: { questions: QuestionFaq[] }) {
                 aria-expanded={estOuverte}
                 aria-controls={idPanneau}
                 onClick={() => setOuverte(estOuverte ? null : i)}
-                className="group flex min-h-16 w-full items-center gap-4 px-5 py-4 text-left font-semibold text-nuit focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bleu sm:px-7 sm:py-5"
+                className="group flex min-h-16 w-full items-center gap-4 px-5 py-4 text-left font-semibold text-noir focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-noir sm:px-7 sm:py-5"
               >
-                <span className="flex-1 leading-snug sm:text-lg">{q.question}</span>
+                <span className="flex-1 text-sm font-bold uppercase leading-snug tracking-[0.06em] sm:text-base">{q.question}</span>
                 <motion.span
                   animate={{ rotate: estOuverte ? 45 : 0 }}
                   transition={reduit ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 22 }}
                   className={clsx(
-                    "grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-300",
-                    estOuverte ? "degrade-marque text-white" : "bg-nuit/5 text-nuit group-hover:bg-bleu/10 group-hover:text-bleu",
+                    "grid size-9 shrink-0 place-items-center transition-colors duration-300",
+                    estOuverte ? "bg-noir text-white" : "bg-noir/5 text-noir group-hover:bg-gris-100 group-hover:text-noir",
                   )}
                 >
                   <Plus className="size-5" aria-hidden="true" />
@@ -78,7 +78,7 @@ export function Faq({ questions }: { questions: QuestionFaq[] }) {
                     animate={{ y: 0 }}
                     exit={{ y: -8 }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="px-5 pb-6 pr-16 text-[15px] leading-relaxed text-nuit/75 sm:px-7 sm:pr-20 sm:text-base"
+                    className="px-5 pb-6 pr-16 text-[15px] leading-relaxed text-noir/75 sm:px-7 sm:pr-20 sm:text-base"
                   >
                     {q.reponse}
                   </motion.div>

@@ -1,7 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -13,11 +12,12 @@ import {
   useScroll,
   type Variants,
 } from "framer-motion";
-import { ArrowUpRight, ShoppingBag, Truck, Banknote } from "lucide-react";
+import { ArrowUpRight, ShoppingBag } from "lucide-react";
 import { usePanier, nombreArticles } from "@/lib/cart";
 import { boutique } from "@/lib/catalogue";
 import { lienWhatsApp, messageQuestion } from "@/lib/whatsapp";
 import { formatFC } from "@/lib/format";
+import { Logo } from "@/components/ui/Logo";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 
 const LIENS = [
@@ -25,6 +25,13 @@ const LIENS = [
   { href: "/boutique/", label: "Boutique" },
   { href: "/infos/", label: "Livraison & infos" },
 ] as const;
+
+const ANNONCES = [
+  `Livraison partout à Kinshasa dès ${formatFC(boutique.livraison.prixMinFC)}`,
+  "Paiement cash à la livraison",
+  "Commande en un clic sur WhatsApp",
+  "Aucun paiement en ligne",
+];
 
 const abonnementVide = () => () => {};
 function useMonte() {
@@ -47,6 +54,31 @@ function estActif(pathname: string, href: string) {
 }
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const focus = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir";
+
+/** Bandeau noir d'annonces qui défile en continu (CSS pur, très léger). */
+function BandeauAnnonces() {
+  const liste = (cache: boolean) => (
+    <ul className="flex shrink-0 items-center" aria-hidden={cache || undefined}>
+      {[...ANNONCES, ...ANNONCES].map((a, i) => (
+        <li key={i} className="flex items-center whitespace-nowrap px-6">
+          <span className="mr-6 size-1 rounded-full bg-white/60" aria-hidden="true" />
+          {a}
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <div className="relative h-8 overflow-hidden bg-noir text-[0.68rem] font-semibold uppercase leading-8 tracking-[0.2em] text-white">
+      <p className="sr-only">{ANNONCES.join(". ")}.</p>
+      <div className="flex w-max motion-safe:animate-defile">
+        {liste(true)}
+        {liste(true)}
+      </div>
+    </div>
+  );
+}
 
 export function Header() {
   const pathname = usePathname() ?? "/";
@@ -72,7 +104,7 @@ export function Header() {
   useMotionValueEvent(scrollY, "change", (y) => {
     const precedent = scrollY.getPrevious() ?? 0;
     setDefile(y > 12);
-    if (y < 80) setCache(false);
+    if (y < 120) setCache(false);
     else if (y > precedent + 4) setCache(true);
     else if (y < precedent - 4) setCache(false);
   });
@@ -107,58 +139,79 @@ export function Header() {
   }, []);
 
   const visible = !cache || menuOuvert;
-  const vitreux = defile || menuOuvert;
+
+  // Les barres collantes des pages (filtres de la boutique) remontent quand l'en-tête se cache.
+  useEffect(() => {
+    document.documentElement.dataset.entete = visible ? "visible" : "cache";
+  }, [visible]);
 
   return (
     <>
       <a
         href="#contenu"
-        className="sr-only z-[70] rounded-full bg-nuit px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-[70] bg-noir px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Aller au contenu
       </a>
 
       <motion.header
-        initial={reduire ? false : { y: -96, opacity: 0 }}
-        animate={{ y: visible ? 0 : "-110%", opacity: 1 }}
-        transition={{ duration: reduire ? 0 : 0.45, ease }}
+        initial={reduire ? false : { y: -120 }}
+        animate={{ y: visible ? 0 : "-100%" }}
+        transition={{ duration: reduire ? 0 : 0.5, ease }}
         className="fixed inset-x-0 top-0 z-50"
       >
+        <BandeauAnnonces />
         <div
           className={clsx(
-            "relative transition-[background-color,box-shadow,backdrop-filter] duration-500",
-            vitreux
-              ? "verre shadow-[0_8px_30px_-12px_rgba(15,27,61,0.25)] ring-1 ring-nuit/5"
-              : "bg-transparent",
+            "relative bg-white transition-shadow duration-500",
+            defile || menuOuvert ? "shadow-[0_1px_0_#e5e5e5]" : "shadow-none",
           )}
         >
-          <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
-            {/* Logo */}
-            <Link
-              href="/"
-              aria-label={`${boutique.nom} — accueil`}
-              className="group relative -ml-1 flex shrink-0 items-center rounded-xl p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+          <div className="mx-auto grid h-14 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 sm:px-6 lg:h-16 lg:grid-cols-[auto_1fr_auto] lg:px-8">
+            {/* Menu (mobile) */}
+            <button
+              ref={boutonMenu}
+              type="button"
+              onClick={() => setMenuOuvert((o) => !o)}
+              aria-expanded={menuOuvert}
+              aria-controls="menu-mobile"
+              aria-label={menuOuvert ? "Fermer le menu" : "Ouvrir le menu"}
+              className={`relative -ml-2 grid size-12 place-items-center text-noir lg:hidden ${focus}`}
             >
+              <span aria-hidden="true" className="relative block h-3.5 w-6">
+                <motion.span
+                  className="absolute left-0 top-0 h-[2px] w-6 origin-center bg-current"
+                  animate={menuOuvert ? { y: 6, rotate: 45 } : { y: 0, rotate: 0 }}
+                  transition={{ duration: reduire ? 0 : 0.35, ease }}
+                />
+                <motion.span
+                  className="absolute left-0 top-[6px] h-[2px] w-4 bg-current"
+                  animate={menuOuvert ? { opacity: 0, x: 8 } : { opacity: 1, x: 0 }}
+                  transition={{ duration: reduire ? 0 : 0.25, ease }}
+                />
+                <motion.span
+                  className="absolute left-0 top-[12px] h-[2px] w-6 origin-center bg-current"
+                  animate={menuOuvert ? { y: -6, rotate: -45 } : { y: 0, rotate: 0 }}
+                  transition={{ duration: reduire ? 0 : 0.35, ease }}
+                />
+              </span>
+            </button>
+
+            {/* Logo */}
+            <Link href="/" aria-label={`${boutique.nom} — accueil`} className={`group justify-self-center lg:justify-self-start ${focus}`}>
               <motion.span
                 className="block"
                 whileHover={reduire ? undefined : { scale: 1.04 }}
                 whileTap={reduire ? undefined : { scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
-                <Image
-                  src="/brand/logo.webp"
-                  alt={boutique.nom}
-                  width={640}
-                  height={308}
-                  priority
-                  className="h-9 w-auto lg:h-11"
-                />
+                <Logo />
               </motion.span>
             </Link>
 
             {/* Navigation bureau */}
-            <nav aria-label="Navigation principale" className="hidden lg:block">
-              <ul className="flex items-center gap-1 rounded-full bg-white/50 p-1.5 ring-1 ring-nuit/5">
+            <nav aria-label="Navigation principale" className="hidden justify-self-center lg:block">
+              <ul className="flex items-center gap-2">
                 {LIENS.map((lien) => {
                   const actif = estActif(pathname, lien.href);
                   return (
@@ -167,19 +220,25 @@ export function Header() {
                         href={lien.href}
                         aria-current={actif ? "page" : undefined}
                         className={clsx(
-                          "relative z-10 block rounded-full px-5 py-2 text-[0.95rem] font-medium transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu",
-                          actif ? "text-white" : "text-nuit/75 hover:text-nuit",
+                          "group relative block px-4 py-2 text-[0.78rem] font-bold uppercase tracking-[0.18em] transition-colors duration-300",
+                          actif ? "text-noir" : "text-gris-500 hover:text-noir",
+                          focus,
                         )}
                       >
-                        {actif && (
+                        {lien.label}
+                        {actif ? (
                           <motion.span
                             layoutId="nav-actif"
                             aria-hidden="true"
-                            className="degrade-marque absolute inset-0 -z-10 rounded-full shadow-md shadow-bleu/30"
+                            className="absolute inset-x-4 -bottom-0.5 h-[2px] bg-noir"
                             transition={reduire ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }}
                           />
+                        ) : (
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-x-4 -bottom-0.5 h-[2px] origin-right scale-x-0 bg-noir transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100"
+                          />
                         )}
-                        {lien.label}
                       </Link>
                     </li>
                   );
@@ -188,46 +247,17 @@ export function Header() {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center justify-self-end gap-1 sm:gap-2">
               <a
                 href={lienWhatsApp(messageQuestion())}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden items-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-whatsapp/30 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-whatsapp/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu xl:inline-flex"
+                className={`hidden items-center gap-2 bg-noir px-4 py-2.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-gris-700 xl:inline-flex ${focus}`}
               >
                 <WhatsAppIcon className="size-4" />
                 Nous écrire
               </a>
-
               <BoutonPanier nombre={nombre} onClick={ouvrirTiroir} reduire={!!reduire} />
-
-              <button
-                ref={boutonMenu}
-                type="button"
-                onClick={() => setMenuOuvert((o) => !o)}
-                aria-expanded={menuOuvert}
-                aria-controls="menu-mobile"
-                aria-label={menuOuvert ? "Fermer le menu" : "Ouvrir le menu"}
-                className="relative grid size-12 place-items-center rounded-full text-nuit transition-colors hover:bg-nuit/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu lg:hidden"
-              >
-                <span aria-hidden="true" className="relative block h-4 w-6">
-                  <motion.span
-                    className="absolute left-0 top-0 h-0.5 w-6 origin-center rounded-full bg-current"
-                    animate={menuOuvert ? { y: 7, rotate: 45 } : { y: 0, rotate: 0 }}
-                    transition={{ duration: reduire ? 0 : 0.35, ease }}
-                  />
-                  <motion.span
-                    className="absolute left-0 top-[7px] h-0.5 w-4 rounded-full bg-current"
-                    animate={menuOuvert ? { opacity: 0, x: 8 } : { opacity: 1, x: 0 }}
-                    transition={{ duration: reduire ? 0 : 0.25, ease }}
-                  />
-                  <motion.span
-                    className="absolute left-0 top-[14px] h-0.5 w-6 origin-center rounded-full bg-current"
-                    animate={menuOuvert ? { y: -7, rotate: -45 } : { y: 0, rotate: 0 }}
-                    transition={{ duration: reduire ? 0 : 0.35, ease }}
-                  />
-                </span>
-              </button>
             </div>
           </div>
         </div>
@@ -251,19 +281,19 @@ function BoutonPanier({ nombre, onClick, reduire }: { nombre: number; onClick: (
       id="icone-panier"
       type="button"
       onClick={onClick}
-      whileHover={reduire ? undefined : { scale: 1.06 }}
-      whileTap={reduire ? undefined : { scale: 0.92 }}
+      whileHover={reduire ? undefined : { scale: 1.08 }}
+      whileTap={reduire ? undefined : { scale: 0.9 }}
       aria-label={nombre > 0 ? `Ouvrir le panier (${nombre} article${nombre > 1 ? "s" : ""})` : "Ouvrir le panier (vide)"}
-      className="relative grid size-12 place-items-center rounded-full bg-white text-nuit shadow-sm ring-1 ring-nuit/10 transition-shadow hover:shadow-md hover:shadow-bleu/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
+      className={`relative -mr-2 grid size-12 place-items-center text-noir ${focus}`}
     >
       <motion.span
         key={`sac-${nombre}`}
         className="grid place-items-center"
-        initial={reduire || nombre === 0 ? false : { rotate: -14, y: -2 }}
+        initial={reduire || nombre === 0 ? false : { rotate: -16, y: -3 }}
         animate={{ rotate: 0, y: 0 }}
         transition={{ type: "spring", stiffness: 500, damping: 12 }}
       >
-        <ShoppingBag className="size-[22px]" strokeWidth={1.9} aria-hidden="true" />
+        <ShoppingBag className="size-6" strokeWidth={1.7} aria-hidden="true" />
       </motion.span>
 
       <AnimatePresence>
@@ -274,24 +304,24 @@ function BoutonPanier({ nombre, onClick, reduire }: { nombre: number; onClick: (
             animate={{ scale: 1, opacity: 1 }}
             exit={reduire ? { opacity: 0 } : { scale: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 520, damping: 22 }}
-            className="absolute -right-1 -top-1"
+            className="absolute right-1 top-1.5"
             aria-hidden="true"
           >
             {!reduire && (
               <motion.span
                 key={`onde-${nombre}`}
-                className="absolute inset-0 rounded-full bg-bleu"
-                initial={{ scale: 1, opacity: 0.55 }}
-                animate={{ scale: 2.2, opacity: 0 }}
+                className="absolute inset-0 rounded-full bg-noir"
+                initial={{ scale: 1, opacity: 0.45 }}
+                animate={{ scale: 2.4, opacity: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
               />
             )}
             <motion.span
               key={`chiffre-${nombre}`}
-              initial={reduire ? false : { scale: 1.6, y: -6 }}
+              initial={reduire ? false : { scale: 1.7, y: -6 }}
               animate={{ scale: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 600, damping: 14 }}
-              className="degrade-marque relative grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11px] font-bold leading-none text-white tabular-nums shadow-md shadow-bleu/40 ring-2 ring-white"
+              className="relative grid h-[18px] min-w-[18px] place-items-center rounded-full bg-noir px-1 text-[10px] font-bold leading-none text-white tabular-nums ring-2 ring-white"
             >
               {affiche}
             </motion.span>
@@ -305,22 +335,25 @@ function BoutonPanier({ nombre, onClick, reduire }: { nombre: number; onClick: (
 /* ---------------------------------------------------------------- */
 
 const conteneurMenu: Variants = {
-  ferme: { opacity: 0 },
-  ouvert: { opacity: 1, transition: { duration: 0.3, when: "beforeChildren", staggerChildren: 0.07, delayChildren: 0.05 } },
-  sortie: { opacity: 0, transition: { duration: 0.25, when: "afterChildren", staggerChildren: 0.03, staggerDirection: -1 } },
+  ferme: { clipPath: "inset(0 0 100% 0)" },
+  ouvert: {
+    clipPath: "inset(0 0 0% 0)",
+    transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1], when: "beforeChildren", staggerChildren: 0.07 },
+  },
+  sortie: {
+    clipPath: "inset(0 0 100% 0)",
+    transition: { duration: 0.45, ease: [0.76, 0, 0.24, 1], when: "afterChildren", staggerChildren: 0.03, staggerDirection: -1 },
+  },
 };
 
 const elementMenu: Variants = {
-  ferme: { opacity: 0, y: 32, filter: "blur(6px)" },
-  ouvert: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.55, ease } },
-  sortie: { opacity: 0, y: 16, transition: { duration: 0.2 } },
+  ferme: { opacity: 0, y: "100%" },
+  ouvert: { opacity: 1, y: "0%", transition: { duration: 0.6, ease } },
+  sortie: { opacity: 0, y: "40%", transition: { duration: 0.2 } },
 };
 
-const elementMenuReduit: Variants = {
-  ferme: { opacity: 0 },
-  ouvert: { opacity: 1 },
-  sortie: { opacity: 0 },
-};
+const conteneurMenuReduit: Variants = { ferme: { opacity: 0 }, ouvert: { opacity: 1 }, sortie: { opacity: 0 } };
+const elementMenuReduit: Variants = { ferme: { opacity: 0 }, ouvert: { opacity: 1 }, sortie: { opacity: 0 } };
 
 function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: boolean; fermer: () => void }) {
   const premierLien = useRef<HTMLAnchorElement>(null);
@@ -337,106 +370,79 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
       aria-modal="true"
       aria-label="Menu"
       data-lenis-prevent
-      variants={conteneurMenu}
+      variants={reduire ? conteneurMenuReduit : conteneurMenu}
       initial="ferme"
       animate="ouvert"
       exit="sortie"
-      className="fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain bg-creme pt-16 lg:hidden"
+      className="fixed inset-0 z-[45] flex flex-col overflow-y-auto overscroll-contain bg-white pt-[5.5rem] lg:hidden"
     >
-      {/* Décor */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute -right-24 -top-24 size-80 rounded-full bg-bleu/25 blur-3xl"
-          initial={reduire ? false : { scale: 0.6, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.9, ease }}
-        />
-        <motion.div
-          className="absolute -bottom-32 -left-24 size-96 rounded-full bg-ciel/25 blur-3xl"
-          initial={reduire ? false : { scale: 0.6, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.1, ease, delay: 0.1 }}
-        />
-        <Image
-          src="/brand/globe.webp"
-          alt=""
-          width={600}
-          height={600}
-          className="absolute -right-20 bottom-40 w-64 opacity-[0.07]"
-        />
-      </div>
-
-      <nav aria-label="Navigation mobile" className="relative flex-1 px-6 pt-8 sm:px-10">
-        <motion.p variants={item} className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-bleu">
-          Menu
-        </motion.p>
-        <ul className="space-y-1">
+      <nav aria-label="Navigation mobile" className="relative flex-1 px-5 pt-6 sm:px-10">
+        <div className="overflow-hidden">
+          <motion.p variants={item} className="mb-3 text-[0.7rem] font-bold uppercase tracking-[0.3em] text-gris-500">
+            Menu
+          </motion.p>
+        </div>
+        <ul className="border-t border-gris-200">
           {LIENS.map((lien, i) => {
             const actif = estActif(pathname, lien.href);
             return (
-              <motion.li key={lien.href} variants={item}>
-                <Link
-                  ref={i === 0 ? premierLien : undefined}
-                  href={lien.href}
-                  onClick={fermer}
-                  aria-current={actif ? "page" : undefined}
-                  className="group flex items-center justify-between gap-4 rounded-2xl py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
-                >
-                  <span className="flex items-baseline gap-4">
-                    <span className="w-6 font-display text-sm font-medium text-nuit/40 tabular-nums">
-                      0{i + 1}
+              <li key={lien.href} className="overflow-hidden border-b border-gris-200">
+                <motion.div variants={item}>
+                  <Link
+                    ref={i === 0 ? premierLien : undefined}
+                    href={lien.href}
+                    onClick={fermer}
+                    aria-current={actif ? "page" : undefined}
+                    className={`group flex items-center justify-between gap-4 py-4 ${focus}`}
+                  >
+                    <span className="flex items-baseline gap-4">
+                      <span className="w-6 text-xs font-bold text-gris-500 tabular-nums">0{i + 1}</span>
+                      <span
+                        className={clsx(
+                          "font-affiche text-5xl uppercase leading-none tracking-wide",
+                          actif ? "text-noir" : "texte-contour",
+                        )}
+                      >
+                        {lien.label}
+                      </span>
                     </span>
                     <span
                       className={clsx(
-                        "font-display text-4xl font-semibold tracking-tight sm:text-5xl",
-                        actif ? "texte-degrade" : "text-nuit",
+                        "grid size-11 shrink-0 place-items-center transition-transform duration-300 group-hover:translate-x-1 group-active:scale-90",
+                        actif ? "bg-noir text-white" : "text-noir ring-1 ring-inset ring-noir",
                       )}
                     >
-                      {lien.label}
+                      <ArrowUpRight className="size-5" aria-hidden="true" />
                     </span>
-                  </span>
-                  <span
-                    className={clsx(
-                      "grid size-11 shrink-0 place-items-center rounded-full transition-[transform,background-color] duration-300 group-hover:translate-x-1 group-active:scale-90",
-                      actif ? "degrade-marque text-white" : "bg-white text-nuit ring-1 ring-nuit/10",
-                    )}
-                  >
-                    <ArrowUpRight className="size-5" aria-hidden="true" />
-                  </span>
-                </Link>
-              </motion.li>
+                  </Link>
+                </motion.div>
+              </li>
             );
           })}
         </ul>
 
-        <motion.ul variants={item} className="mt-10 grid gap-3 text-sm text-nuit/75">
-          <li className="flex items-center gap-3">
-            <span className="grid size-9 place-items-center rounded-full bg-white ring-1 ring-nuit/10">
-              <Truck className="size-4 text-bleu" aria-hidden="true" />
-            </span>
-            Livraison partout à Kinshasa dès {formatFC(boutique.livraison.prixMinFC)}
-          </li>
-          <li className="flex items-center gap-3">
-            <span className="grid size-9 place-items-center rounded-full bg-white ring-1 ring-nuit/10">
-              <Banknote className="size-4 text-bleu" aria-hidden="true" />
-            </span>
-            Paiement cash à la livraison
-          </li>
-        </motion.ul>
+        <div className="overflow-hidden">
+          <motion.ul variants={item} className="mt-8 grid gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-gris-700">
+            <li>— Livraison partout à Kinshasa dès {formatFC(boutique.livraison.prixMinFC)}</li>
+            <li>— Paiement cash à la livraison</li>
+          </motion.ul>
+        </div>
       </nav>
 
-      <motion.div variants={item} className="relative px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-8 sm:px-10">
-        <a
-          href={lienWhatsApp(messageQuestion())}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex w-full items-center justify-center gap-3 rounded-full bg-whatsapp px-6 py-4 text-base font-semibold text-white shadow-lg shadow-whatsapp/30 transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu"
-        >
-          <WhatsAppIcon className="size-5" />
-          Commander sur WhatsApp
-        </a>
-        <p className="mt-3 text-center text-sm text-nuit/60">{boutique.whatsappAffiche}</p>
-      </motion.div>
+      <div className="overflow-hidden">
+        <motion.div variants={item} className="relative px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-8 sm:px-10">
+          <a
+            href={lienWhatsApp(messageQuestion())}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex min-h-14 w-full items-center justify-center gap-3 bg-noir px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-transform active:scale-[0.97] ${focus}`}
+          >
+            <WhatsAppIcon className="size-5" />
+            Commander sur WhatsApp
+          </a>
+          <p className="mt-3 text-center text-sm text-gris-500">{boutique.whatsappAffiche}</p>
+        </motion.div>
+      </div>
     </motion.div>
   );
 }

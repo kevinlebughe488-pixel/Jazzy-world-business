@@ -85,7 +85,7 @@ export function PanierClient() {
 
       <div
         aria-live="polite"
-        className="pointer-events-none fixed inset-x-0 top-20 z-40 flex justify-center px-4 lg:top-24"
+        className="pointer-events-none fixed inset-x-0 top-24 z-40 flex justify-center px-4 lg:top-28"
       >
         <AnimatePresence>
           {retrait && (
@@ -99,7 +99,7 @@ export function PanierClient() {
                 reduire ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.95 }
               }
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className="pointer-events-auto flex max-w-md items-center gap-3 rounded-full bg-nuit py-1.5 pr-1.5 pl-5 text-sm text-white shadow-xl shadow-nuit/30"
+              className="pointer-events-auto flex max-w-md items-center gap-3 bg-noir py-1.5 pr-1.5 pl-5 text-sm text-white"
             >
               <span className="min-w-0 truncate">
                 <span className="font-semibold">{retrait.nom}</span> retiré du
@@ -108,7 +108,7 @@ export function PanierClient() {
               <button
                 type="button"
                 onClick={annuler}
-                className="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-full bg-white/15 px-4 font-semibold transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ciel"
+                className="inline-flex min-h-10 shrink-0 items-center gap-1.5 bg-white/15 px-4 font-semibold transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gris-300"
               >
                 <Undo2 className="size-4" aria-hidden="true" />
                 Annuler
@@ -126,18 +126,18 @@ function Squelette() {
   return (
     <Container className="pt-24 pb-24 lg:pt-32">
       <div aria-hidden="true" className="animate-pulse">
-        <div className="h-4 w-28 rounded-full bg-nuit/10" />
-        <div className="mt-4 h-10 w-56 rounded-2xl bg-nuit/10" />
+        <div className="h-4 w-28 bg-gris-100" />
+        <div className="mt-4 h-10 w-56 bg-gris-100" />
         <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_400px]">
           <div className="space-y-4">
             {[0, 1].map((i) => (
               <div
                 key={i}
-                className="h-32 rounded-[1.5rem] bg-white/70 ring-1 ring-nuit/5"
+                className="h-32 bg-white/70 ring-1 ring-gris-200"
               />
             ))}
           </div>
-          <div className="h-96 rounded-[1.75rem] bg-white/70 ring-1 ring-nuit/5" />
+          <div className="h-96 bg-white/70 ring-1 ring-gris-200" />
         </div>
       </div>
       <span className="sr-only">Chargement du panier…</span>

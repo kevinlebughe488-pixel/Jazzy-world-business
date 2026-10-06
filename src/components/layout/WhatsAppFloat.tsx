@@ -56,14 +56,14 @@ export function WhatsAppFloat() {
             onFocus={() => setSurvol(true)}
             onBlur={() => setSurvol(false)}
             whileTap={reduire ? undefined : { scale: 0.92 }}
-            className="group relative flex items-center rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ciel focus-visible:ring-offset-2 focus-visible:ring-offset-creme"
+            className="group relative flex items-center rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-noir focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
             {/* Étiquette qui se déploie au survol (desktop) */}
             <AnimatePresence>
               {survol && (
                 <motion.span
                   aria-hidden="true"
-                  className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-nuit px-4 py-2.5 text-sm font-semibold text-white shadow-xl shadow-nuit/25 md:block"
+                  className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap bg-noir px-4 py-2.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-white ring-1 ring-white/30 md:block"
                   initial={reduire ? { opacity: 0 } : { opacity: 0, x: 12, scale: 0.9 }}
                   animate={reduire ? { opacity: 1 } : { opacity: 1, x: 0, scale: 1 }}
                   exit={reduire ? { opacity: 0 } : { opacity: 0, x: 8, scale: 0.95 }}
@@ -71,26 +71,26 @@ export function WhatsAppFloat() {
                   style={{ transformOrigin: "right center" }}
                 >
                   Une question ?
-                  <span className="absolute right-[-5px] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 bg-nuit" />
+                  <span className="absolute right-[-5px] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 bg-noir" />
                 </motion.span>
               )}
             </AnimatePresence>
 
-            <span className="relative grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-white shadow-lg shadow-whatsapp/40 transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16">
+            <span className="relative grid h-14 w-14 place-items-center rounded-full bg-noir text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] ring-2 ring-white transition-transform duration-300 group-hover:scale-105 sm:h-16 sm:w-16">
               {/* Anneaux de pulsation */}
               {!reduire && (
                 <>
                   <motion.span
                     aria-hidden="true"
-                    className="absolute inset-0 rounded-full bg-whatsapp"
-                    initial={{ scale: 1, opacity: 0.55 }}
+                    className="absolute inset-0 rounded-full border-2 border-noir"
+                    initial={{ scale: 1, opacity: 0.6 }}
                     animate={{ scale: 1.75, opacity: 0 }}
                     transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
                   />
                   <motion.span
                     aria-hidden="true"
-                    className="absolute inset-0 rounded-full bg-whatsapp"
-                    initial={{ scale: 1, opacity: 0.4 }}
+                    className="absolute inset-0 rounded-full border-2 border-noir"
+                    initial={{ scale: 1, opacity: 0.45 }}
                     animate={{ scale: 1.75, opacity: 0 }}
                     transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut", delay: 1.1 }}
                   />

@@ -17,7 +17,7 @@ type Vol = {
 
 const DUREE_VOL = 0.85;
 const DUREE_SUCCES = 1700;
-const COULEURS_ETINCELLES = ["#1d6fe0", "#4fc3e8", "#8fbaf3", "#25d366", "#f5c542"];
+const COULEURS_ETINCELLES = ["#000000", "#3d3d3d", "#767676", "#c8c8c8", "#111111"];
 
 /** Photo du produit qui suit une courbe jusqu'à l'icône du panier (rendue dans un portail). */
 function ImageVolante({ vol, onFin }: { vol: Vol; onFin: (cle: number) => void }) {
@@ -30,7 +30,7 @@ function ImageVolante({ vol, onFin }: { vol: Vol; onFin: (cle: number) => void }
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[9999] overflow-hidden rounded-2xl bg-white shadow-2xl shadow-bleu/40 ring-2 ring-white"
+      className="pointer-events-none fixed left-0 top-0 z-[9999] overflow-hidden bg-white shadow-2xl shadow-noir/40 ring-2 ring-white"
       style={{ width: taille, height: taille, willChange: "transform, opacity" }}
       initial={{ x: depart.x - demi, y: depart.y - demi, scale: 0.4, opacity: 0, rotate: 0 }}
       animate={{
@@ -190,12 +190,10 @@ export function AddToCartButton({
         whileTap={{ scale: 0.94 }}
         aria-label={compact ? "Ajouter au panier" : undefined}
         className={clsx(
-          "relative isolate inline-flex select-none items-center justify-center gap-2 rounded-full font-semibold text-white transition-[background-color,box-shadow] duration-300",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu",
-          compact ? "min-h-11 px-4 text-sm" : "min-h-14 px-7 text-base",
-          ajoute
-            ? "bg-emerald-600 shadow-lg shadow-emerald-600/30"
-            : "degrade-marque shadow-lg shadow-bleu/25 hover:shadow-bleu/45",
+          "relative isolate inline-flex select-none items-center justify-center gap-2 font-bold uppercase transition-colors duration-300",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir",
+          compact ? "min-h-10 px-3.5 text-[0.66rem] tracking-[0.14em]" : "min-h-14 px-7 text-[0.8rem] tracking-[0.16em]",
+          ajoute ? "bg-white text-noir ring-1 ring-inset ring-noir" : "bg-noir text-white hover:bg-gris-700",
           className,
         )}
       >

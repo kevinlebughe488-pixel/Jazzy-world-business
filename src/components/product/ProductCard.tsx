@@ -17,9 +17,20 @@ import { formatUSD } from "@/lib/format";
 import { AddToCartButton } from "@/components/product/AddToCartButton";
 
 const RESSORT = { stiffness: 220, damping: 20, mass: 0.6 };
-const INCLINAISON_MAX = 7; // degrés
+const INCLINAISON_MAX = 6; // degrés
 
-export function ProductCard({ produit, index = 0 }: { produit: Produit; index?: number }) {
+export function ProductCard({
+  produit,
+  index = 0,
+  entree = true,
+  className,
+}: {
+  produit: Produit;
+  index?: number;
+  /** Animation d'apparition au défilement (désactivée quand le parent anime déjà la carte). */
+  entree?: boolean;
+  className?: string;
+}) {
   const reduire = useReducedMotion();
   const categorie = getCategorie(produit.categorie);
   const [image1, image2] = produit.images;
@@ -34,7 +45,7 @@ export function ProductCard({ produit, index = 0 }: { produit: Produit; index?: 
   // Reflet lumineux qui suit le pointeur.
   const refletX = useTransform(px, [-0.5, 0.5], [0, 100]);
   const refletY = useTransform(py, [-0.5, 0.5], [0, 100]);
-  const reflet = useMotionTemplate`radial-gradient(420px circle at ${refletX}% ${refletY}%, rgba(255,255,255,0.35), transparent 45%)`;
+  const reflet = useMotionTemplate`radial-gradient(380px circle at ${refletX}% ${refletY}%, rgba(255,255,255,0.32), transparent 45%)`;
 
   function suivrePointeur(e: PointerEvent<HTMLDivElement>) {
     if (reduire || e.pointerType !== "mouse") return;
@@ -48,31 +59,25 @@ export function ProductCard({ produit, index = 0 }: { produit: Produit; index?: 
     py.set(0);
   }
 
+  const apparition = entree
+    ? {
+        initial: reduire ? { opacity: 0 } : { opacity: 0, y: 70, scale: 0.92, rotate: index % 2 ? 2 : -2 },
+        whileInView: { opacity: 1, y: 0, scale: 1, rotate: 0 },
+        viewport: { once: true, margin: "-40px" },
+        transition: { duration: 0.9, delay: (index % 4) * 0.08, ease: [0.22, 1, 0.36, 1] as const },
+      }
+    : {};
+
   return (
-    <motion.div
-      className="h-full [perspective:1000px]"
-      initial={reduire ? { opacity: 0 } : { opacity: 0, y: 48, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.75, delay: (index % 4) * 0.09, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <motion.div className={clsx("h-full [perspective:1000px]", className)} {...apparition}>
       <motion.article
         onPointerMove={suivrePointeur}
         onPointerLeave={reinitialiser}
         style={reduire ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className={clsx(
-          "group relative flex h-full flex-col rounded-[var(--radius-carte)] bg-white",
-          "shadow-[0_1px_2px_rgba(15,27,61,0.06),0_8px_24px_-12px_rgba(15,27,61,0.18)] ring-1 ring-nuit/5",
-          "transition-shadow duration-500 hover:shadow-[0_2px_4px_rgba(15,27,61,0.06),0_28px_50px_-20px_rgba(29,111,224,0.35)]",
-          "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-bleu",
-        )}
+        className="group relative flex h-full flex-col bg-white has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-noir"
       >
         {/* Visuel */}
-        <div className="relative aspect-square overflow-hidden rounded-t-[var(--radius-carte)] bg-gradient-to-br from-creme via-white to-ciel-200/40">
-          <div
-            aria-hidden
-            className="absolute -right-10 -top-10 size-40 rounded-full bg-bleu-300/25 blur-3xl transition-transform duration-700 group-hover:scale-125"
-          />
+        <div className="relative aspect-square overflow-hidden bg-gris-50">
           {image1 && (
             <Image
               src={image1}
@@ -100,46 +105,47 @@ export function ProductCard({ produit, index = 0 }: { produit: Produit; index?: 
             />
           )}
 
-          {/* Reflet suivant le pointeur (desktop) */}
-          {!reduire && (
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 [@media(hover:hover)]:group-hover:opacity-100"
-              style={{ backgroundImage: reflet }}
-            />
-          )}
+          {/* Reflet suivant le pointeur (bureau) */}
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 motion-reduce:hidden [@media(hover:hover)]:group-hover:opacity-100"
+            style={{ backgroundImage: reflet }}
+          />
 
           {categorie && (
-            <span className="verre absolute left-2.5 top-2.5 z-[1] max-w-[calc(100%-1.25rem)] truncate rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide text-nuit ring-1 ring-white/60 sm:left-3 sm:top-3 sm:text-xs">
+            <span className="absolute left-0 top-0 z-[1] max-w-[calc(100%-1rem)] truncate bg-white px-2 py-1 text-[0.58rem] font-bold uppercase tracking-[0.16em] text-noir sm:text-[0.62rem]">
               {categorie.nom}
             </span>
           )}
           {!produit.enStock && (
-            <span className="absolute bottom-2.5 left-2.5 z-[1] rounded-full bg-nuit/85 px-2.5 py-1 text-[11px] font-semibold text-white sm:text-xs">
+            <span className="absolute bottom-0 left-0 z-[1] bg-noir px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-white">
               Bientôt de retour
             </span>
           )}
+
+          {/* Barre « Voir » qui monte au survol (bureau) */}
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 z-[1] hidden translate-y-full bg-noir/90 py-2.5 text-center text-[0.65rem] font-bold uppercase tracking-[0.24em] text-white transition-transform duration-500 ease-[var(--ease-doux)] group-hover:translate-y-0 [@media(hover:hover)]:block"
+          >
+            Voir le produit
+          </span>
         </div>
 
         {/* Texte */}
-        <div className="flex flex-1 flex-col gap-1.5 p-3.5 sm:p-5" style={{ transform: "translateZ(20px)" }}>
-          <h3 className="font-display text-[15px] font-semibold leading-snug text-nuit sm:text-lg">
+        <div className="flex flex-1 flex-col gap-1 pt-3" style={{ transform: "translateZ(20px)" }}>
+          <h3 className="text-[0.82rem] font-medium leading-snug text-gris-700 sm:text-sm">
             {/* Le lien couvre toute la carte ; le bouton d'ajout reste au-dessus (z-10). */}
-            <Link
-              href={lien}
-              className="outline-none after:absolute after:inset-0 after:z-[2] after:rounded-[var(--radius-carte)] after:content-['']"
-            >
-              <span className="line-clamp-2 bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1.5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_1.5px]">
+            <Link href={lien} className="outline-none after:absolute after:inset-0 after:z-[2] after:content-['']">
+              <span className="line-clamp-2 bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_1px]">
                 {produit.nom}
               </span>
             </Link>
           </h3>
-          {accroche ? (
-            <p className="line-clamp-2 text-xs leading-relaxed text-nuit/60 sm:text-sm">{accroche}</p>
-          ) : null}
+          {accroche ? <p className="line-clamp-1 text-xs text-gris-500">{accroche}</p> : null}
 
           <div className="mt-auto flex flex-col gap-2.5 pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-            <p className="font-display text-xl font-bold tracking-tight text-nuit sm:text-2xl">
+            <p className="text-lg font-extrabold tracking-tight text-noir sm:text-xl">
               <span className="sr-only">Prix : </span>
               {formatUSD(produit.prix)}
             </p>

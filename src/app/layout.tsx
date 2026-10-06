@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -8,7 +8,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Providers } from "@/components/providers/Providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: "swap" });
+const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton", display: "swap" });
 
 const SITE_URL = "https://jazzy-world-business.vercel.app";
 
@@ -48,16 +48,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f1b3d",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="fr" className={`${inter.variable} ${anton.variable}`} suppressHydrationWarning>
       <body>
         <Providers>
           <Header />
-          <main id="contenu" className="min-h-screen">
+          <main id="contenu" className="min-h-screen overflow-x-clip pt-8">
             {children}
           </main>
           <Footer />

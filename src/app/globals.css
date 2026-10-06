@@ -1,22 +1,32 @@
 @import "tailwindcss";
 
-/* Fond blanc, bleu nuit pour le texte, bleu vif et bleu ciel en accent (repris du globe du logo) */
+/* Style « mode » : blanc, noir et gris neutres. Les seules couleurs viennent des photos produits. */
 @theme {
-  --color-nuit: #0f1b3d;
-  --color-nuit-900: #0a1229;
-  --color-nuit-700: #1e3a6e;
-  --color-bleu: #1d6fe0;
-  --color-bleu-300: #8fbaf3;
-  --color-ciel: #38bdf8;
-  --color-ciel-200: #c7ecfc;
-  --color-creme: #ffffff;
-  --color-whatsapp: #25d366;
+  --color-noir: #000000;
+  --color-gris-900: #111111;
+  --color-gris-700: #3d3d3d;
+  --color-gris-500: #767676;
+  --color-gris-300: #c8c8c8;
+  --color-gris-200: #e5e5e5;
+  --color-gris-100: #f0f0f0;
+  --color-gris-50: #f7f7f7;
+  --color-blanc: #ffffff;
 
-  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Police d'affiche (très grands titres condensés) */
+  --font-affiche: var(--font-anton), "Arial Narrow", Impact, sans-serif;
 
-  --radius-carte: 1.5rem;
+  --radius-carte: 0px;
   --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Défilement continu (bandeau d'annonces) : deux copies côte à côte */
+  --animate-defile: defile 32s linear infinite;
+  @keyframes defile {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
 }
 
 @layer base {
@@ -24,29 +34,94 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-creme text-nuit font-sans antialiased;
+    @apply bg-blanc text-noir font-sans antialiased;
   }
   h1, h2, h3, h4 {
     @apply font-display tracking-tight;
   }
   ::selection {
-    @apply bg-bleu text-white;
+    @apply bg-noir text-white;
   }
 }
 
-@utility degrade-marque {
-  background-image: linear-gradient(120deg, var(--color-bleu) 0%, var(--color-nuit-700) 45%, var(--color-ciel) 100%);
+/* Lettres évidées (contour seul), pour les très grands titres */
+@utility texte-contour {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-noir);
 }
 
-@utility texte-degrade {
-  background-image: linear-gradient(100deg, var(--color-bleu) 0%, var(--color-ciel) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
+@utility texte-contour-blanc {
   color: transparent;
+  -webkit-text-stroke: 1.5px #fff;
+}
+
+/*
+ * Animations d'entrée en CSS pur : elles démarrent dès l'affichage du HTML,
+ * sans attendre le JavaScript (téléphones lents). Retardées pendant l'intro de marque.
+ * Usage : class="entree" style="--d: 0.2s"
+ */
+.entree,
+.entree-fondu,
+.entree-zoom {
+  animation-duration: 1s;
+  animation-timing-function: var(--ease-doux);
+  animation-fill-mode: both;
+  animation-delay: var(--d, 0s);
+}
+.entree {
+  animation-name: entree-monte;
+}
+.entree-fondu {
+  animation-name: entree-fondu;
+}
+.entree-zoom {
+  animation-name: entree-zoom;
+  animation-duration: 1.3s;
+}
+html[data-intro] :is(.entree, .entree-fondu, .entree-zoom) {
+  animation-delay: calc(var(--d, 0s) + 1.25s);
+}
+@keyframes entree-monte {
+  from {
+    transform: translate3d(0, 105%, 0) rotate(4deg);
+  }
+}
+@keyframes entree-fondu {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+}
+@keyframes entree-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(var(--r, 0deg));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entree,
+  .entree-fondu,
+  .entree-zoom {
+    animation: none;
+  }
+}
+
+/* Élément collant juste sous l'en-tête ; remonte en haut quand l'en-tête se cache au défilement */
+.sous-entete {
+  top: 5.5rem;
+  transition: top 0.5s var(--ease-doux);
+}
+@media (min-width: 1024px) {
+  .sous-entete {
+    top: 6rem;
+  }
+}
+html[data-entete="cache"] .sous-entete {
+  top: 0;
 }
 
 @utility verre {
-  background-color: color-mix(in oklab, white 70%, transparent);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  background-color: color-mix(in oklab, white 85%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
 }

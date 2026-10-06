@@ -1,448 +1,283 @@
 "use client";
 
+import clsx from "clsx";
 import Image from "next/image";
-import { useRef } from "react";
+import Link from "next/link";
+import { useRef, type CSSProperties, type PointerEvent } from "react";
 import {
   motion,
+  useMotionValue,
   useReducedMotion,
-  useScroll,
   useSpring,
   useTransform,
-  type Variants,
+  type MotionValue,
 } from "framer-motion";
-import { ArrowRight, Banknote, ChevronDown, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { useProgression } from "@/components/animations/useProgression";
 import { boutique, getProduit } from "@/lib/catalogue";
-import { formatFC } from "@/lib/format";
+import { formatUSD } from "@/lib/format";
 import { lienWhatsApp, messageQuestion } from "@/lib/whatsapp";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+/* ---------- Photos produits disposées autour du titre ---------- */
 
-/* ---------- Titre : mots révélés un par un ---------- */
-
-type Mot = { texte: string; degrade?: boolean };
-
-const TITRE: Mot[] = [
-  { texte: "Le" },
-  { texte: "bien-être", degrade: true },
-  { texte: "et" },
-  { texte: "le" },
-  { texte: "style,", degrade: true },
-  { texte: "livrés" },
-  { texte: "partout" },
-  { texte: "à" },
-  { texte: "Kinshasa", degrade: true },
-];
-
-const conteneurTitre: Variants = {
-  cache: {},
-  visible: { transition: { staggerChildren: 0.075, delayChildren: 0.15 } },
+type Vignette = {
+  id: string;
+  /** Position et taille (mobile → bureau) */
+  classe: string;
+  rotation: number;
+  /** Direction de l'« explosion » au défilement (x, y) */
+  vers: [number, number];
+  /** Sensibilité au mouvement de la souris */
+  profondeur: number;
 };
-const conteneurTitreReduit: Variants = { cache: {}, visible: {} };
 
-function creerMotVariantes(reduit: boolean): Variants {
-  return {
-    cache: { opacity: 0, y: "0.45em", filter: "blur(12px)" },
-    visible: {
-      opacity: 1,
-      y: "0em",
-      filter: "blur(0px)",
-      transition: reduit ? { duration: 0 } : { duration: 0.9, ease: EASE },
-    },
-  };
-}
-
-function creerApparition(reduit: boolean): Variants {
-  return {
-    cache: { opacity: 0, y: 24, filter: "blur(6px)" },
-    visible: (delai: number = 0) => ({
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: reduit ? { duration: 0 } : { duration: 0.8, delay: delai, ease: EASE },
-    }),
-  };
-}
-
-/* ---------- Bulles produits en orbite ---------- */
-
-const ORBITE = [
-  { id: "montre-arabe", angle: -60 },
-  { id: "lunettes-chromees", angle: 12 },
-  { id: "sac-de-voyage", angle: 84 },
-  { id: "tensiometre", angle: 156 },
-  { id: "blanchiment-des-dents", angle: 228 },
-]
-  .map(({ id, angle }) => {
-    const p = getProduit(id);
-    return p && p.images[0] ? { id, angle, nom: p.nom, image: p.images[0] } : null;
-  })
-  .filter((b): b is { id: string; angle: number; nom: string; image: string } => b !== null);
-
-const DUREE_ORBITE = 70;
-
-/* ---------- Badges de confiance ---------- */
-
-const BADGES = [
-  { icone: MapPin, texte: "Livraison partout à Kinshasa" },
-  { icone: Banknote, texte: "Paiement cash à la livraison" },
-  { icone: WhatsAppIcon, texte: "Commande sur WhatsApp" },
+const VIGNETTES: Vignette[] = [
+  {
+    id: "montre-arabe",
+    classe: "left-[-6%] top-[15%] w-[29vw] sm:left-[3%] sm:top-[17%] sm:w-[19vw] lg:left-[5%] lg:w-[13vw]",
+    rotation: -8,
+    vers: [-1, -0.8],
+    profondeur: 1.2,
+  },
+  {
+    id: "lunettes-chromees",
+    classe: "right-[-6%] top-[18%] w-[28vw] sm:right-[3%] sm:top-[14%] sm:w-[18vw] lg:right-[6%] lg:w-[12.5vw]",
+    rotation: 7,
+    vers: [1, -0.9],
+    profondeur: 1,
+  },
+  {
+    id: "sac-de-voyage",
+    classe: "left-[-4%] bottom-[4%] w-[29vw] sm:left-[7%] sm:bottom-[7%] sm:w-[17vw] lg:left-[11%] lg:w-[12vw]",
+    rotation: 6,
+    vers: [-1.1, 0.9],
+    profondeur: 0.8,
+  },
+  {
+    id: "blanchiment-des-dents",
+    classe: "right-[-5%] bottom-[6%] w-[27vw] sm:right-[8%] sm:bottom-[5%] sm:w-[17vw] lg:right-[12%] lg:w-[12.5vw]",
+    rotation: -6,
+    vers: [1.1, 1],
+    profondeur: 1.1,
+  },
+  {
+    id: "tensiometre",
+    classe: "hidden lg:block lg:left-[18%] lg:top-[47%] lg:w-[8vw]",
+    rotation: 4,
+    vers: [-1.5, 0.15],
+    profondeur: 1.7,
+  },
+  {
+    id: "stimulateur-fessier",
+    classe: "hidden lg:block lg:right-[21%] lg:top-[24%] lg:w-[8vw]",
+    rotation: -5,
+    vers: [1.5, 0.1],
+    profondeur: 1.6,
+  },
 ];
+
+const varCss = (vars: Record<string, string>) => vars as CSSProperties;
 
 export function Hero() {
   const reduit = useReducedMotion() ?? false;
   const section = useRef<HTMLElement>(null);
+  const p = useProgression(section);
 
-  const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end start"] });
-  const progression = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
+  // Souris (bureau) : léger relief des photos.
+  const sourisX = useMotionValue(0);
+  const sourisY = useMotionValue(0);
+  const sx = useSpring(sourisX, { stiffness: 70, damping: 18 });
+  const sy = useSpring(sourisY, { stiffness: 70, damping: 18 });
 
-  const globeY = useTransform(progression, [0, 1], reduit ? [0, 0] : [0, 160]);
-  const globeEchelle = useTransform(progression, [0, 1], reduit ? [1, 1] : [1, 0.86]);
-  const globeRotation = useTransform(progression, [0, 1], reduit ? [0, 0] : [0, 40]);
-  const texteY = useTransform(progression, [0, 1], reduit ? [0, 0] : [0, -70]);
-  const contenuOpacite = useTransform(progression, [0, 0.75], reduit ? [1, 1] : [1, 0]);
-  const blobsY = useTransform(progression, [0, 1], reduit ? [0, 0] : [0, 90]);
-
-  const transitionInstant = reduit ? { duration: 0 } : undefined;
-  const apparition = creerApparition(reduit);
-  const motVariantes = creerMotVariantes(reduit);
-
-  function defilerVersLaSuite() {
-    const el = section.current;
-    if (!el) return;
-    const haut = el.getBoundingClientRect().bottom + window.scrollY - 64;
-    window.scrollTo({ top: haut, behavior: reduit ? "auto" : "smooth" });
+  function bougerSouris(e: PointerEvent<HTMLElement>) {
+    if (reduit || e.pointerType !== "mouse") return;
+    sourisX.set(e.clientX / window.innerWidth - 0.5);
+    sourisY.set(e.clientY / window.innerHeight - 0.5);
   }
+
+  // Le titre se déchire en deux, le texte s'efface, puis un cercle noir envahit l'écran.
+  const gaucheX = useTransform(p, [0, 0.6], ["0vw", "-62vw"]);
+  const droiteX = useTransform(p, [0, 0.6], ["0vw", "62vw"]);
+  const titreEchelle = useTransform(p, [0, 0.6], [1, 1.35]);
+  const infosOpacite = useTransform(p, [0, 0.2], [1, 0]);
+  const infosY = useTransform(p, [0, 0.2], [0, -70]);
+  const indiceOpacite = useTransform(p, [0, 0.08], [1, 0]);
+  const rideau = useTransform(p, [0.42, 0.9], ["circle(0% at 50% 55%)", "circle(75% at 50% 55%)"]);
+  const finEchelle = useTransform(p, [0.45, 1], [1.6, 1]);
+  const finOpacite = useTransform(p, [0.55, 0.8], [0, 1]);
+  const finLigne = useTransform(p, [0.7, 0.95], [0, 1]);
 
   return (
     <section
       ref={section}
       aria-labelledby="hero-titre"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-creme pt-24 lg:pt-24"
+      onPointerMove={bougerSouris}
+      className="relative h-[240svh] motion-reduce:h-auto"
     >
-      {/* ---------- Fond : blobs dégradés ---------- */}
-      <motion.div aria-hidden="true" style={{ y: blobsY }} className="pointer-events-none absolute inset-0 -z-10">
-        <motion.div
-          className="absolute -left-[30%] -top-[10%] h-[70vmax] w-[70vmax] rounded-full opacity-60 lg:-left-[10%]"
-          style={{ background: "radial-gradient(circle, rgb(180 138 224 / 0.55) 0%, transparent 62%)" }}
-          animate={reduit ? undefined : { x: [0, 40, -20, 0], y: [0, 30, 60, 0], scale: [1, 1.08, 0.96, 1] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -right-[35%] top-[15%] h-[65vmax] w-[65vmax] rounded-full opacity-60 lg:-right-[12%]"
-          style={{ background: "radial-gradient(circle, rgb(79 195 232 / 0.45) 0%, transparent 62%)" }}
-          animate={reduit ? undefined : { x: [0, -50, 10, 0], y: [0, -30, 30, 0], scale: [1, 0.94, 1.06, 1] }}
-          transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -bottom-[25%] left-[20%] h-[55vmax] w-[55vmax] rounded-full opacity-50"
-          style={{ background: "radial-gradient(circle, rgb(123 63 179 / 0.28) 0%, transparent 60%)" }}
-          animate={reduit ? undefined : { x: [0, 60, -40, 0], scale: [1, 1.1, 1, 1] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-        />
-        {/* Trame de points discrète */}
-        <div
-          className="absolute inset-0 opacity-[0.35]"
-          style={{
-            backgroundImage: "radial-gradient(rgb(36 26 82 / 0.14) 1px, transparent 1px)",
-            backgroundSize: "26px 26px",
-            maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 75%)",
-            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 75%)",
-          }}
-        />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-creme" />
-      </motion.div>
+      <div className="sticky top-0 h-[100svh] min-h-[560px] overflow-hidden bg-white motion-reduce:relative">
+        {/* ---------- Photos ---------- */}
+        <div className="absolute inset-0">
+          {VIGNETTES.map((v, i) => (
+            <PhotoVolante key={v.id} vignette={v} index={i} p={p} sx={sx} sy={sy} />
+          ))}
+        </div>
 
-      <Container className="relative flex flex-1 flex-col justify-center pb-28 pt-10 sm:pb-32 sm:pt-12 lg:pb-28 lg:pt-6">
-        <div className="grid items-center gap-14 sm:gap-20 lg:grid-cols-[1.05fr_1fr] lg:gap-8">
-          {/* ---------- Globe ---------- */}
-          <motion.div
-            style={{ y: globeY, scale: globeEchelle, opacity: contenuOpacite }}
-            className="relative mx-auto aspect-square w-[min(58vw,250px)] sm:w-[340px] lg:order-2 lg:w-[min(42vw,520px)]"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.6, filter: "blur(20px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              transition={transitionInstant ?? { duration: 1.4, ease: EASE }}
-              className="relative h-full w-full"
+        {/* ---------- Texte ---------- */}
+        <div className="pointer-events-none relative z-10 flex h-full flex-col items-center justify-center px-4 pt-[5.5rem] text-center">
+          <motion.p style={{ opacity: infosOpacite, y: infosY }} className="overflow-hidden">
+            <span
+              className="entree-fondu block text-[0.66rem] font-bold uppercase tracking-[0.38em] text-noir sm:text-xs"
+              style={varCss({ "--d": "0.05s" })}
             >
-              {/* Aura lumineuse */}
-              <motion.div
-                aria-hidden="true"
-                className="absolute -inset-[22%] -z-10 rounded-full"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, rgb(123 63 179 / 0.55), rgb(79 195 232 / 0.5), rgb(58 45 122 / 0.35), rgb(180 138 224 / 0.55), rgb(123 63 179 / 0.55))",
-                  maskImage: "radial-gradient(circle, black 18%, transparent 68%)",
-                  WebkitMaskImage: "radial-gradient(circle, black 18%, transparent 68%)",
-                }}
-                animate={reduit ? undefined : { rotate: 360, scale: [1, 1.08, 1] }}
-                transition={{
-                  rotate: { duration: 30, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-                }}
-              />
+              Boutique en ligne · Kinshasa
+            </span>
+          </motion.p>
 
-              {/* Anneaux d'orbite */}
-              <div
-                aria-hidden="true"
-                className="absolute -inset-[13%] rounded-full border border-dashed border-nuit/15"
-              />
-              <div aria-hidden="true" className="absolute -inset-[3%] rounded-full border border-white/70" />
-
-              {/* Globe flottant + rotation lente */}
-              <motion.div
-                className="absolute inset-0"
-                animate={reduit ? undefined : { y: [0, -14, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <motion.div style={{ rotate: globeRotation }} className="h-full w-full">
-                  <motion.div
-                    className="h-full w-full"
-                    animate={reduit ? undefined : { rotate: 360 }}
-                    transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-                  >
-                    <Image
-                      src="/brand/globe.webp"
-                      alt="Globe Jazzy World Business : le monde à portée de main"
-                      width={600}
-                      height={600}
-                      priority
-                      sizes="(min-width: 1024px) 520px, (min-width: 640px) 340px, 62vw"
-                      className="h-full w-full select-none object-contain drop-shadow-[0_30px_45px_rgba(15,27,61,0.28)]"
-                      draggable={false}
-                    />
-                  </motion.div>
-                </motion.div>
-                {/* Reflet */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-[6%] rounded-full"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.45) 0%, transparent 38%)",
-                  }}
-                />
-              </motion.div>
-
-              {/* Bulles produits en orbite (décoratives) */}
-              <motion.div
-                aria-hidden="true"
-                className="absolute -inset-[13%]"
-                animate={reduit ? undefined : { rotate: 360 }}
-                transition={{ duration: DUREE_ORBITE, repeat: Infinity, ease: "linear" }}
-              >
-                {ORBITE.map((b, i) => {
-                  const rad = (b.angle * Math.PI) / 180;
-                  const gauche = 50 + 50 * Math.cos(rad);
-                  const haut = 50 + 50 * Math.sin(rad);
-                  return (
-                    <div
-                      key={b.id}
-                      className="absolute -translate-x-1/2 -translate-y-1/2"
-                      style={{ left: `${gauche}%`, top: `${haut}%` }}
-                    >
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={
-                          transitionInstant ?? {
-                            delay: 0.9 + i * 0.12,
-                            type: "spring",
-                            stiffness: 260,
-                            damping: 18,
-                          }
-                        }
-                      >
-                        {/* Contre-rotation : la photo reste droite */}
-                        <motion.div
-                          animate={reduit ? undefined : { rotate: -360 }}
-                          transition={{ duration: DUREE_ORBITE, repeat: Infinity, ease: "linear" }}
-                        >
-                          <motion.div
-                            animate={reduit ? undefined : { y: [0, i % 2 ? 6 : -6, 0] }}
-                            transition={{ duration: 3.5 + i * 0.4, repeat: Infinity, ease: "easeInOut" }}
-                            className="relative size-12 overflow-hidden rounded-full bg-white p-0.5 shadow-lg shadow-nuit/20 ring-2 ring-white sm:size-16 lg:size-[4.5rem]"
-                          >
-                            <Image
-                              src={b.image}
-                              alt=""
-                              width={96}
-                              height={96}
-                              sizes="72px"
-                              className="h-full w-full rounded-full object-cover"
-                              draggable={false}
-                            />
-                          </motion.div>
-                        </motion.div>
-                      </motion.div>
-                    </div>
-                  );
-                })}
-              </motion.div>
-
-              {/* Carte flottante prix livraison (desktop) */}
-              <motion.div
-                initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={transitionInstant ?? { delay: 1.5, duration: 0.8, ease: EASE }}
-                className="verre absolute -bottom-[6%] -left-[14%] z-20 hidden items-center gap-3 rounded-2xl px-4 py-3 shadow-xl shadow-nuit/10 ring-1 ring-white/80 lg:flex"
-              >
-                <span className="degrade-marque grid size-10 place-items-center rounded-xl text-white">
-                  <Sparkles className="size-5" aria-hidden="true" />
-                </span>
-                <span className="text-left leading-tight">
-                  <span className="block text-xs font-medium text-nuit/60">Livraison dès</span>
-                  <span className="block font-display text-base font-bold text-nuit">
-                    {formatFC(boutique.livraison.prixMinFC)}
-                  </span>
-                </span>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* ---------- Texte ---------- */}
-          <motion.div
-            style={{ y: texteY, opacity: contenuOpacite }}
-            initial="cache"
-            animate="visible"
-            className="relative text-center lg:order-1 lg:text-left"
+          <h1
+            id="hero-titre"
+            className="mt-3 font-affiche text-[length:min(31vw,24svh)] uppercase leading-[0.86] tracking-[0.01em] text-noir sm:mt-4"
           >
-            <motion.p
-              variants={apparition}
-              custom={0}
-              className="verre mx-auto mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-nuit-700 shadow-sm ring-1 ring-bleu/15 lg:mx-0"
-            >
-              <span className="relative flex size-2">
-                {!reduit && (
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-whatsapp opacity-75" />
-                )}
-                <span className="relative inline-flex size-2 rounded-full bg-whatsapp" />
+            <span className="sr-only">{boutique.nom} : le bien-être et le style, livrés partout à Kinshasa</span>
+            <motion.span aria-hidden="true" className="block" style={{ x: gaucheX, scale: titreEchelle }}>
+              <span className="block overflow-hidden">
+                <span className="entree block" style={varCss({ "--d": "0.12s" })}>
+                  Jazzy
+                </span>
               </span>
-              Le monde à portée de main
-            </motion.p>
-
-            <motion.h1
-              id="hero-titre"
-              variants={reduit ? conteneurTitreReduit : conteneurTitre}
-              aria-label={TITRE.map((m) => m.texte).join(" ")}
-              className="font-display text-[2.4rem] font-extrabold leading-[1.05] tracking-tight text-nuit sm:text-6xl lg:text-[4.4rem] xl:text-[5rem]"
-            >
-              {TITRE.map((mot, i) => (
-                <span key={i} aria-hidden="true">
-                  <motion.span
-                    variants={motVariantes}
-                    className={
-                      mot.degrade
-                        ? "texte-degrade inline-block pb-[0.08em] will-change-transform"
-                        : "inline-block will-change-transform"
-                    }
-                  >
-                    {mot.texte}
-                  </motion.span>
-                  {i < TITRE.length - 1 ? " " : ""}
+            </motion.span>
+            <motion.span aria-hidden="true" className="block" style={{ x: droiteX, scale: titreEchelle }}>
+              <span className="block overflow-hidden">
+                <span
+                  className="entree texte-contour block [-webkit-text-stroke-width:2px] lg:[-webkit-text-stroke-width:3px]"
+                  style={varCss({ "--d": "0.26s" })}
+                >
+                  World
                 </span>
-              ))}
-            </motion.h1>
+              </span>
+            </motion.span>
+          </h1>
 
-            <motion.p
-              variants={apparition}
-              custom={0.85}
-              className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-nuit/70 sm:text-lg lg:mx-0"
+          <motion.div style={{ opacity: infosOpacite, y: infosY }} className="pointer-events-auto mt-5 flex w-full flex-col items-center sm:mt-7">
+            <p
+              className="entree-fondu max-w-[19rem] text-sm leading-relaxed text-gris-700 sm:max-w-md sm:text-base"
+              style={varCss({ "--d": "0.45s" })}
             >
-              Montres, lunettes, soins et appareils bien-être sélectionnés pour vous.{" "}
-              <strong className="font-semibold text-nuit">Vous payez cash à la livraison</strong>, après
-              avoir vu votre article. Livraison dès {formatFC(boutique.livraison.prixMinFC)}.
-            </motion.p>
-
-            <motion.div
-              variants={apparition}
-              custom={1.05}
-              className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start"
+              Montres, lunettes, soins et bien-être sélectionnés pour vous.{" "}
+              <strong className="font-semibold text-noir">Payez cash à la livraison.</strong>
+            </p>
+            <div
+              className="entree-fondu mt-6 flex w-full max-w-[19rem] flex-col gap-2.5 sm:w-auto sm:max-w-none sm:flex-row sm:gap-3"
+              style={varCss({ "--d": "0.6s" })}
             >
-              <ButtonLink href="/boutique/" className="group min-h-14 w-full px-7 text-lg sm:w-auto">
+              <ButtonLink href="/boutique/" className="group">
                 Voir la boutique
-                <ArrowRight
-                  className="size-5 transition-transform duration-300 group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
+                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink
-                href={lienWhatsApp(messageQuestion())}
-                externe
-                variante="whatsapp"
-                className="min-h-14 w-full px-7 text-lg sm:w-auto"
-              >
-                <WhatsAppIcon className="size-5" />
+              <ButtonLink href={lienWhatsApp(messageQuestion())} externe variante="secondaire">
+                <WhatsAppIcon className="size-4" />
                 Écrire sur WhatsApp
               </ButtonLink>
-            </motion.div>
-
-            <motion.ul
-              variants={{
-                cache: {},
-                visible: {
-                  transition: reduit ? {} : { staggerChildren: 0.1, delayChildren: 1.3 },
-                },
-              }}
-              aria-label="Nos engagements"
-              className="mt-8 flex flex-wrap justify-center gap-2 lg:justify-start"
-            >
-              {BADGES.map(({ icone: Icone, texte }) => (
-                <motion.li
-                  key={texte}
-                  variants={{
-                    cache: { opacity: 0, y: 14, scale: 0.9 },
-                    visible: { opacity: 1, y: 0, scale: 1 },
-                  }}
-                  transition={transitionInstant ?? { type: "spring", stiffness: 300, damping: 22 }}
-                  className="verre inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[0.8rem] font-medium text-nuit shadow-sm ring-1 ring-nuit/10 sm:text-sm"
-                >
-                  <Icone className="size-4 shrink-0 text-bleu" aria-hidden="true" />
-                  {texte}
-                </motion.li>
-              ))}
-            </motion.ul>
+            </div>
           </motion.div>
         </div>
-      </Container>
 
-      {/* ---------- Indicateur de défilement ---------- */}
-      <motion.button
-        type="button"
-        onClick={defilerVersLaSuite}
-        aria-label="Faire défiler vers la suite"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={transitionInstant ?? { delay: 2, duration: 0.8, ease: EASE }}
-        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1.5 rounded-full p-2 text-nuit/60 transition-colors hover:text-nuit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu sm:flex"
-      >
-        <span className="text-[0.7rem] font-semibold uppercase tracking-[0.2em]">Découvrir</span>
-        <span className="flex h-10 w-6 justify-center rounded-full border-2 border-current pt-1.5">
-          <motion.span
-            className="block h-2 w-1 rounded-full bg-current"
-            animate={reduit ? undefined : { y: [0, 12, 0], opacity: [1, 0.2, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </span>
-      </motion.button>
-      <motion.button
-        type="button"
-        onClick={defilerVersLaSuite}
-        aria-label="Faire défiler vers la suite"
-        initial={{ opacity: 0 }}
-        animate={reduit ? { opacity: 1 } : { opacity: 1, y: [0, 6, 0] }}
-        transition={
-          reduit
-            ? { duration: 0 }
-            : { opacity: { delay: 2, duration: 0.6 }, y: { duration: 1.6, repeat: Infinity, ease: "easeInOut" } }
-        }
-        className="absolute bottom-3 left-1/2 -ml-6 grid size-12 place-items-center rounded-full text-nuit/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bleu sm:hidden"
-      >
-        <ChevronDown className="size-6" aria-hidden="true" />
-      </motion.button>
+        {/* ---------- Indice de défilement (bureau) ---------- */}
+        <motion.div
+          aria-hidden="true"
+          style={{ opacity: indiceOpacite }}
+          className="pointer-events-none absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex"
+        >
+          <span className="text-[0.62rem] font-bold uppercase tracking-[0.4em]">Défiler</span>
+          <span className="relative block h-12 w-px overflow-hidden bg-gris-200">
+            <motion.span
+              className="absolute inset-x-0 top-0 block h-1/2 bg-noir"
+              animate={reduit ? undefined : { y: ["-100%", "200%"] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
+            />
+          </span>
+        </motion.div>
+
+        {/* ---------- Cercle noir qui envahit l'écran ---------- */}
+        <motion.div
+          aria-hidden="true"
+          style={{ clipPath: rideau }}
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-noir px-4 pt-[5.5rem] text-center text-white motion-reduce:hidden"
+        >
+          <motion.div style={{ scale: finEchelle, opacity: finOpacite }}>
+            <p className="font-affiche text-[length:min(20vw,15svh)] uppercase leading-[0.88] tracking-[0.01em]">
+              Le style,
+              <br />
+              <span className="texte-contour-blanc [-webkit-text-stroke-width:2px]">livré</span>
+              <br />
+              chez vous.
+            </p>
+            <motion.span style={{ scaleX: finLigne }} className="mx-auto mt-6 block h-px w-40 origin-left bg-white sm:w-64" />
+            <p className="mt-5 text-[0.66rem] font-bold uppercase tracking-[0.38em] text-white/70 sm:text-xs">
+              Partout à Kinshasa · Cash à la livraison
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
+  );
+}
+
+function PhotoVolante({
+  vignette,
+  index,
+  p,
+  sx,
+  sy,
+}: {
+  vignette: Vignette;
+  index: number;
+  p: MotionValue<number>;
+  sx: MotionValue<number>;
+  sy: MotionValue<number>;
+}) {
+  const produit = getProduit(vignette.id);
+  const [vx, vy] = vignette.vers;
+  const x = useTransform(p, [0, 0.65], ["0vw", `${vx * 48}vw`]);
+  const y = useTransform(p, [0, 0.65], ["0svh", `${vy * 42}svh`]);
+  const echelle = useTransform(p, [0, 0.65], [1, 1.7]);
+  const rotation = useTransform(p, [0, 0.65], [vignette.rotation, vignette.rotation * 3.2]);
+  const px = useTransform(sx, (v) => v * 46 * vignette.profondeur);
+  const py = useTransform(sy, (v) => v * 46 * vignette.profondeur);
+
+  if (!produit?.images[0]) return null;
+
+  return (
+    <motion.div className={clsx("absolute", vignette.classe)} style={{ x, y, scale: echelle, rotate: rotation }}>
+      <motion.div style={{ x: px, y: py }}>
+        <div
+          className="entree-zoom"
+          style={varCss({ "--d": `${(0.2 + index * 0.08).toFixed(2)}s`, "--r": `${vignette.rotation * 2}deg` })}
+        >
+          <Link
+            href={`/produits/${produit.id}/`}
+            className="group block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-noir"
+            aria-label={`${produit.nom}, ${formatUSD(produit.prix)}`}
+          >
+            <span className="relative block aspect-[3/4] overflow-hidden bg-gris-100 shadow-[0_30px_50px_-28px_rgba(0,0,0,0.55)]">
+              <Image
+                src={produit.images[0]}
+                alt=""
+                fill
+                priority={index < 4}
+                sizes="(min-width: 1024px) 13vw, (min-width: 640px) 19vw, 30vw"
+                className="object-cover transition-transform duration-700 ease-[var(--ease-doux)] group-hover:scale-110"
+                draggable={false}
+              />
+            </span>
+            <span className="mt-1.5 flex items-baseline justify-between gap-2 text-left text-[0.55rem] font-bold uppercase tracking-[0.14em] text-noir sm:text-[0.62rem]">
+              <span className="truncate">{produit.nom}</span>
+              <span className="shrink-0">{formatUSD(produit.prix)}</span>
+            </span>
+          </Link>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }

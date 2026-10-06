@@ -2,6 +2,7 @@
 
 import { MotionConfig } from "framer-motion";
 import type { ReactNode } from "react";
+import { EnergieDefilement } from "@/components/animations/Energie";
 import { DefilementFluide } from "./DefilementFluide";
 import { BarreProgression } from "./BarreProgression";
 import { IntroMarque } from "./IntroMarque";
@@ -9,17 +10,21 @@ import { IntroMarque } from "./IntroMarque";
 /**
  * Fournisseurs globaux côté client :
  * - MotionConfig respecte « réduire les animations » du système ;
+ * - intro de marque jouée une fois par session (placée en premier : son script
+ *   s'exécute avant que le reste de la page soit lu par le navigateur) ;
  * - défilement fluide (Lenis) sur ordinateur uniquement ;
- * - barre de progression de lecture ;
- * - intro de marque jouée une fois par session (superposée, le contenu reste rendu).
+ * - énergie de défilement partagée (vitesse + profondeur) pour les animations ;
+ * - barre de progression de lecture.
  */
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
-      <DefilementFluide />
-      <BarreProgression />
-      {children}
       <IntroMarque />
+      <DefilementFluide />
+      <EnergieDefilement>
+        <BarreProgression />
+        {children}
+      </EnergieDefilement>
     </MotionConfig>
   );
 }

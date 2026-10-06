@@ -1,17 +1,22 @@
 import { Hero } from "@/components/home/Hero";
-import { Avantages } from "@/components/home/Avantages";
+import { Manifeste } from "@/components/home/Manifeste";
 import { ProduitsVedettes } from "@/components/home/ProduitsVedettes";
 import { CommentCommander } from "@/components/home/CommentCommander";
-import { BandeauWhatsApp } from "@/components/home/BandeauWhatsApp";
+import { GrandFinal } from "@/components/home/GrandFinal";
 
+/*
+ * Accueil : l'intensité des animations monte au fil du défilement.
+ * Hero qui explose → bandeaux qui accélèrent → vitrine horizontale
+ * → cartes qui s'empilent → cercle noir final.
+ */
 export default function Accueil() {
   return (
     <>
       <Hero />
-      <Avantages />
+      <Manifeste />
       <ProduitsVedettes />
       <CommentCommander />
-      <BandeauWhatsApp />
+      <GrandFinal />
     </>
   );
 }

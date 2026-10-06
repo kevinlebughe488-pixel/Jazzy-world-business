@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import type { ComponentType, ReactNode } from "react";
 import {
@@ -47,7 +46,7 @@ const lienQuestion = lienWhatsApp(messageQuestion());
 
 function Etiquette({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full bg-bleu/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-bleu">
+    <span className="inline-flex items-center gap-2 text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">
       {children}
     </span>
   );
@@ -56,10 +55,10 @@ function Etiquette({ children }: { children: ReactNode }) {
 function Point({ icone: I, children }: { icone: Icone; children: ReactNode }) {
   return (
     <li className="flex items-start gap-3">
-      <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-ciel/15 text-nuit-700">
+      <span className="mt-0.5 grid size-7 shrink-0 place-items-center bg-noir text-white">
         <I className="size-4" aria-hidden />
       </span>
-      <span className="leading-relaxed text-nuit/80">{children}</span>
+      <span className="leading-relaxed text-noir/80">{children}</span>
     </li>
   );
 }
@@ -78,20 +77,16 @@ function CarteInfo({
   accent?: ReactNode;
 }) {
   return (
-    <article className="group relative h-full overflow-hidden rounded-[var(--radius-carte)] bg-white p-6 shadow-xl shadow-nuit/5 ring-1 ring-nuit/5 transition-transform duration-500 ease-[var(--ease-doux)] hover:-translate-y-1 sm:p-8">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-ciel/15 blur-3xl transition-transform duration-700 ease-[var(--ease-doux)] group-hover:scale-125"
-      />
+    <article className="group relative h-full overflow-hidden bg-white p-6 ring-1 ring-gris-200 transition-transform duration-500 ease-[var(--ease-doux)] hover:-translate-y-1 sm:p-8">
       <div className="relative">
         <div className="flex items-center justify-between gap-4">
-          <span className="degrade-marque grid size-14 place-items-center rounded-2xl text-white shadow-lg shadow-bleu/30 transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-105">
+          <span className="bg-noir grid size-14 place-items-center text-white transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-105">
             <I className="size-7" aria-hidden />
           </span>
           {accent}
         </div>
-        <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-bleu">{surtitre}</p>
-        <h2 className="mt-2 text-2xl font-bold leading-tight text-nuit sm:text-3xl">{titre}</h2>
+        <p className="mt-6 text-[0.66rem] font-bold uppercase tracking-[0.32em] text-gris-500">{surtitre}</p>
+        <h2 className="mt-2 font-affiche text-4xl uppercase leading-[0.95] text-noir sm:text-5xl">{titre}</h2>
         <div className="mt-5">{children}</div>
       </div>
     </article>
@@ -146,7 +141,7 @@ const questions: QuestionFaq[] = [
     question: "Combien coûte la livraison ?",
     reponse: (
       <p>
-        La livraison est à partir de <strong className="font-semibold text-nuit">{prixLivraison}</strong>. Le prix
+        La livraison est à partir de <strong className="font-semibold text-noir">{prixLivraison}</strong>. Le prix
         varie selon le trajet jusqu&apos;à chez vous et vous est confirmé sur WhatsApp avant la livraison.
       </p>
     ),
@@ -173,7 +168,7 @@ const questions: QuestionFaq[] = [
           href={lienQuestion}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-semibold text-bleu underline decoration-bleu/30 underline-offset-4 hover:decoration-bleu"
+          className="font-semibold text-noir underline decoration-noir/30 underline-offset-4 hover:decoration-noir"
         >
           {boutique.whatsappAffiche}
         </a>{" "}
@@ -206,11 +201,7 @@ export default function Infos() {
   return (
     <div className="relative overflow-x-clip">
       {/* ---------- En-tête ---------- */}
-      <section className="relative pb-14 pt-28 sm:pb-20 lg:pt-36">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -left-24 top-10 size-80 rounded-full bg-bleu/20 blur-3xl" />
-          <div className="absolute -right-20 top-40 size-96 rounded-full bg-ciel/25 blur-3xl" />
-        </div>
+      <section className="relative pb-14 pt-24 sm:pb-20 lg:pt-32">
         <Container className="grid items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
           <div>
             <Reveal>
@@ -219,12 +210,13 @@ export default function Infos() {
               </Etiquette>
             </Reveal>
             <Reveal delai={0.08}>
-              <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] text-nuit sm:text-5xl lg:text-6xl">
-                Commander, recevoir, <span className="texte-degrade">payer à la livraison.</span>
+              <h1 className="mt-4 font-affiche text-6xl uppercase leading-[0.9] tracking-[0.01em] text-noir sm:text-7xl lg:text-8xl">
+                Commander, recevoir,{" "}
+                <span className="texte-contour [-webkit-text-stroke-width:2px]">payer à la livraison.</span>
               </h1>
             </Reveal>
             <Reveal delai={0.16}>
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-nuit/70">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-gris-700">
                 Tout ce qu&apos;il faut savoir pour commander chez {boutique.nom} : livraison partout à Kinshasa,
                 paiement cash à la réception, et une commande qui se fait en un message WhatsApp.
               </p>
@@ -238,25 +230,23 @@ export default function Infos() {
                 ].map(({ I, t }) => (
                   <li
                     key={t}
-                    className="verre inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-nuit shadow-sm ring-1 ring-nuit/10"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-noir ring-1 ring-inset ring-noir"
                   >
-                    <I className="size-4 text-bleu" aria-hidden />
+                    <I className="size-4 text-noir" aria-hidden />
                     {t}
                   </li>
                 ))}
               </ul>
             </Reveal>
           </div>
-          <Reveal delai={0.2} className="relative mx-auto hidden w-full max-w-sm sm:block">
-            <div aria-hidden="true" className="degrade-marque absolute inset-6 rounded-full opacity-30 blur-3xl" />
-            <Image
-              src="/brand/globe.webp"
-              alt="Globe Jazzy World Business"
-              width={600}
-              height={600}
-              priority
-              className="relative h-auto w-full drop-shadow-2xl"
-            />
+          <Reveal delai={0.2} className="relative w-full">
+            <div className="flex aspect-[5/4] flex-col justify-between bg-noir p-7 text-white sm:p-10">
+              <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-white/60">Livraison dès</p>
+              <p className="font-affiche text-[16vw] leading-[0.85] sm:text-8xl lg:text-[7rem]">{prixLivraison}</p>
+              <p className="text-sm leading-relaxed text-white/70">
+                Partout à Kinshasa. Le prix exact dépend du trajet et vous est confirmé sur WhatsApp.
+              </p>
+            </div>
           </Reveal>
         </Container>
       </section>
@@ -270,7 +260,7 @@ export default function Infos() {
               surtitre="Livraison"
               titre="Partout à Kinshasa"
               accent={
-                <span className="rounded-full bg-nuit px-4 py-2 text-sm font-bold text-white">
+                <span className="bg-noir px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-white">
                   dès {prixLivraison}
                 </span>
               }
@@ -278,7 +268,7 @@ export default function Infos() {
               <ul className="space-y-3.5">
                 <Point icone={MapPin}>Nous livrons dans toutes les communes de Kinshasa, directement chez vous.</Point>
                 <Point icone={Route}>
-                  À partir de <strong className="font-semibold text-nuit">{prixLivraison}</strong>. Le prix varie
+                  À partir de <strong className="font-semibold text-noir">{prixLivraison}</strong>. Le prix varie
                   selon le trajet et vous est confirmé sur WhatsApp.
                 </Point>
                 <Point icone={MessageCircleMore}>Le délai de livraison vous est confirmé sur WhatsApp.</Point>
@@ -291,7 +281,7 @@ export default function Infos() {
               surtitre="Paiement"
               titre="Cash à la livraison"
               accent={
-                <span className="rounded-full bg-whatsapp/15 px-4 py-2 text-sm font-bold text-nuit">
+                <span className="px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-noir ring-1 ring-inset ring-noir">
                   0 paiement en ligne
                 </span>
               }
@@ -309,17 +299,13 @@ export default function Infos() {
       </section>
 
       {/* ---------- Comment commander ---------- */}
-      <section aria-labelledby="titre-commander" className="relative overflow-hidden bg-nuit py-20 text-white sm:py-28">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-32 -top-32 size-96 rounded-full bg-bleu/40 blur-3xl" />
-          <div className="absolute -bottom-40 right-0 size-[28rem] rounded-full bg-ciel/25 blur-3xl" />
-        </div>
+      <section aria-labelledby="titre-commander" className="relative overflow-hidden bg-noir py-20 text-white sm:py-28">
         <Container className="relative">
           <Reveal className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-ciel-200">
+            <span className="inline-flex items-center gap-2 text-[0.66rem] font-bold uppercase tracking-[0.38em] text-white/50">
               <ShoppingBag className="size-4" aria-hidden /> En 4 étapes
             </span>
-            <h2 id="titre-commander" className="mt-5 text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+            <h2 id="titre-commander" className="mt-4 font-affiche text-6xl uppercase leading-[0.9] sm:text-7xl lg:text-8xl">
               Comment commander ?
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-white/70">
@@ -331,16 +317,16 @@ export default function Infos() {
             {etapes.map(({ icone: I, titre, texte }, i) => (
               <li key={titre} className="h-full">
                 <Reveal delai={i * 0.1} className="h-full">
-                  <div className="group relative h-full rounded-[var(--radius-carte)] bg-white/[0.06] p-6 ring-1 ring-white/10 transition-colors duration-500 hover:bg-white/10">
+                  <div className="group relative h-full bg-white/[0.06] p-6 ring-1 ring-white/10 transition-colors duration-500 hover:bg-white/10">
                     <div className="flex items-center justify-between">
-                      <span className="grid size-12 place-items-center rounded-2xl bg-white/10 text-ciel transition-transform duration-500 ease-[var(--ease-doux)] group-hover:scale-110">
+                      <span className="grid size-12 place-items-center bg-white text-noir transition-transform duration-500 ease-[var(--ease-doux)] group-hover:scale-110">
                         <I className="size-6" aria-hidden />
                       </span>
-                      <span aria-hidden="true" className="font-display text-5xl font-extrabold text-white/10">
+                      <span aria-hidden="true" className="texte-contour-blanc font-affiche text-6xl leading-none opacity-60">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </div>
-                    <h3 className="mt-6 text-lg font-semibold">
+                    <h3 className="mt-6 text-base font-bold uppercase tracking-[0.06em]">
                       <span className="sr-only">Étape {i + 1} : </span>
                       {titre}
                     </h3>
@@ -352,11 +338,11 @@ export default function Infos() {
           </ol>
 
           <Reveal delai={0.2} className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/boutique/" className="w-full sm:w-auto">
-              Voir la boutique <ArrowRight className="size-5" aria-hidden />
+            <ButtonLink href="/boutique/" variante="inverse" className="w-full sm:w-auto">
+              Voir la boutique <ArrowRight className="size-4" aria-hidden />
             </ButtonLink>
-            <ButtonLink href="/panier/" variante="secondaire" className="w-full sm:w-auto">
-              <ShoppingBag className="size-5" aria-hidden /> Voir mon panier
+            <ButtonLink href="/panier/" variante="secondaire" className="w-full bg-transparent text-white ring-white hover:bg-white hover:text-noir sm:w-auto">
+              <ShoppingBag className="size-4" aria-hidden /> Voir mon panier
             </ButtonLink>
           </Reveal>
         </Container>
@@ -367,10 +353,10 @@ export default function Infos() {
         <Container className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
             <Etiquette>Questions fréquentes</Etiquette>
-            <h2 id="titre-faq" className="mt-5 text-3xl font-bold leading-tight text-nuit sm:text-4xl">
-              Vos questions, <span className="texte-degrade">nos réponses</span>
+            <h2 id="titre-faq" className="mt-4 font-affiche text-6xl uppercase leading-[0.9] text-noir sm:text-7xl">
+              Vos questions, <span className="texte-contour [-webkit-text-stroke-width:2px]">nos réponses</span>
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-nuit/70">
+            <p className="mt-4 text-lg leading-relaxed text-noir/70">
               Vous ne trouvez pas votre réponse ? Écrivez-nous, on vous répond sur WhatsApp.
             </p>
             <ButtonLink href={lienQuestion} externe variante="whatsapp" className="mt-6 w-full sm:w-auto">
@@ -385,11 +371,10 @@ export default function Infos() {
       <section aria-labelledby="titre-contact" className="pb-24 sm:pb-32">
         <Container>
           <Reveal>
-            <div className="degrade-marque relative overflow-hidden rounded-[2rem] p-8 text-white shadow-2xl shadow-bleu/30 sm:p-12 lg:p-16">
-              <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-white/15 blur-3xl" />
+            <div className="bg-noir relative overflow-hidden p-8 text-white sm:p-12 lg:p-16">
               <div className="relative grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
                 <div>
-                  <h2 id="titre-contact" className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+                  <h2 id="titre-contact" className="font-affiche text-6xl uppercase leading-[0.9] sm:text-7xl lg:text-8xl">
                     Une question ? Parlons-en.
                   </h2>
                   <p className="mt-4 max-w-lg text-lg leading-relaxed text-white/85">
@@ -401,17 +386,17 @@ export default function Infos() {
                     href={lienQuestion}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex min-h-20 items-center gap-4 rounded-2xl bg-white p-4 text-nuit shadow-lg transition-transform duration-300 ease-[var(--ease-doux)] hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-5"
+                    className="group flex min-h-20 items-center gap-4 bg-white p-4 text-noir transition-transform duration-300 ease-[var(--ease-doux)] hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-5"
                   >
-                    <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-whatsapp text-white">
+                    <span className="grid size-12 shrink-0 place-items-center bg-noir text-white">
                       <WhatsAppIcon className="size-6" />
                     </span>
                     <span className="flex-1">
-                      <span className="block text-sm font-medium text-nuit/60">WhatsApp</span>
+                      <span className="block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-noir/50">WhatsApp</span>
                       <span className="block whitespace-nowrap text-lg font-bold">{boutique.whatsappAffiche}</span>
                     </span>
                     <ArrowRight
-                      className="size-5 text-nuit/40 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-nuit"
+                      className="size-5 text-noir/40 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-noir"
                       aria-hidden
                     />
                   </a>
@@ -419,13 +404,13 @@ export default function Infos() {
                     href={boutique.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex min-h-20 items-center gap-4 rounded-2xl bg-white/10 p-4 text-white ring-1 ring-white/25 transition-[transform,background-color] duration-300 ease-[var(--ease-doux)] hover:-translate-y-0.5 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-5"
+                    className="group flex min-h-20 items-center gap-4 bg-white/10 p-4 text-white ring-1 ring-white/25 transition-[transform,background-color] duration-300 ease-[var(--ease-doux)] hover:-translate-y-0.5 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:p-5"
                   >
-                    <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-white text-[#1877f2]">
+                    <span className="grid size-12 shrink-0 place-items-center bg-white text-noir">
                       <FacebookIcon className="size-6" />
                     </span>
                     <span className="flex-1">
-                      <span className="block text-sm font-medium text-white/70">Facebook</span>
+                      <span className="block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/60">Facebook</span>
                       <span className="block text-lg font-bold">Suivez-nous sur Facebook</span>
                     </span>
                     <ArrowRight
@@ -437,9 +422,9 @@ export default function Infos() {
               </div>
             </div>
           </Reveal>
-          <p className="mt-8 text-center text-sm text-nuit/60">
+          <p className="mt-8 text-center text-sm text-noir/60">
             Envie de découvrir nos produits ?{" "}
-            <Link href="/boutique/" className="font-semibold text-bleu underline decoration-bleu/30 underline-offset-4 hover:decoration-bleu">
+            <Link href="/boutique/" className="font-semibold text-noir underline decoration-noir/30 underline-offset-4 hover:decoration-noir">
               Parcourir la boutique
             </Link>
           </p>
