@@ -1,0 +1,107 @@
+{
+  "boutique": {
+    "nom": "Jazzy World Business",
+    "slogan": "Le monde du bien-être et du style, livré chez vous à Kinshasa",
+    "whatsapp": "243960240705",
+    "whatsappAffiche": "+243 960 240 705",
+    "facebook": "https://www.facebook.com/search/top?q=Jazzy%20world%20business",
+    "devise": "USD",
+    "livraison": {
+      "zone": "Partout à Kinshasa",
+      "prixMinFC": 8000,
+      "note": "Le prix varie selon le trajet et vous est confirmé sur WhatsApp."
+    },
+    "paiement": "Cash à la livraison"
+  },
+  "categories": [
+    { "id": "bien-etre", "nom": "Bien-être & forme" },
+    { "id": "sante", "nom": "Santé & beauté" },
+    { "id": "accessoires", "nom": "Accessoires" }
+  ],
+  "produits": [
+    {
+      "id": "stimulateur-fessier",
+      "nom": "Stimulateur fessier",
+      "prix": 20,
+      "categorie": "bien-etre",
+      "accroche": "",
+      "description": "",
+      "pointsForts": [],
+      "images": ["/produits/stimulateur-fessier/1.webp", "/produits/stimulateur-fessier/2.webp"],
+      "enStock": true,
+      "vedette": true
+    },
+    {
+      "id": "blanchiment-des-dents",
+      "nom": "Blanchiment des dents",
+      "prix": 10,
+      "categorie": "sante",
+      "accroche": "",
+      "description": "",
+      "pointsForts": [],
+      "images": ["/produits/blanchiment-des-dents/1.webp", "/produits/blanchiment-des-dents/2.webp", "/produits/blanchiment-des-dents/3.webp"],
+      "enStock": true,
+      "vedette": true
+    },
+    {
+      "id": "stimulateur-abdominal",
+      "nom": "Stimulateur abdominal",
+      "prix": 15,
+      "categorie": "bien-etre",
+      "accroche": "",
+      "description": "",
+      "pointsForts": [],
+      "images": ["/produits/stimulateur-abdominal/1.webp"],
+      "enStock": true,
+      "vedette": true
+    },
+    {
+      "id": "montre-arabe",
+      "nom": "Montre arabe",
+      "prix": 10,
+      "categorie": "accessoires",
+      "accroche": "",
+      "description": "",
+      "pointsForts": [],
+      "images": ["/produits/montre-arabe/1.webp"],
+      "enStock": true,
+      "vedette": false
+    },
+    {
+      "id": "lunettes-chromees",
+      "nom": "Lunettes chromées",
+      "prix": 10,
+      "categorie": "accessoires",
+      "accroche": "",
+      "description": "",
+      "pointsForts": [],
+      "images": ["/produits/lunettes-chromees/1.webp", "/produits/lunettes-chromees/2.webp"],
+      "enStock": true,
+      "vedette": false
+    },
+    {
+      "id": "sac-de-voyage",
+      "nom": "Sac de voyage",
+      "prix": 20,
+      "categorie": "accessoires",
+      "accroche": "",
+      "description": "",
+      "pointsForts": [],
+      "images": ["/produits/sac-de-voyage/1.webp", "/produits/sac-de-voyage/2.webp", "/produits/sac-de-voyage/3.webp"],
+      "enStock": true,
+      "vedette": true
+    },
+    {
+      "id": "tensiometre",
+      "nom": "Tensiomètre",
+      "prix": 15,
+      "categorie": "sante",
+      "accroche": "",
+      "description": "",
+      "pointsForts": [],
+      "images": ["/produits/tensiometre/1.webp", "/produits/tensiometre/2.webp", "/produits/tensiometre/3.webp"],
+      "enStock": true,
+      "vedette": false
+    }
+  ]
+}

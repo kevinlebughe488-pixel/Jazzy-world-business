@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/* Couleurs tirées du logo : bleu nuit du texte, violet et bleu ciel du globe */
+@theme {
+  --color-nuit: #241a52;
+  --color-nuit-900: #150f33;
+  --color-nuit-700: #3a2d7a;
+  --color-violet: #7b3fb3;
+  --color-violet-300: #b48ae0;
+  --color-ciel: #4fc3e8;
+  --color-ciel-200: #bfeaf8;
+  --color-creme: #f7f5fc;
+  --color-whatsapp: #25d366;
+
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-carte: 1.5rem;
+  --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-creme text-nuit font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+  ::selection {
+    @apply bg-violet text-white;
+  }
+}
+
+@utility degrade-marque {
+  background-image: linear-gradient(120deg, var(--color-violet) 0%, var(--color-nuit-700) 45%, var(--color-ciel) 100%);
+}
+
+@utility texte-degrade {
+  background-image: linear-gradient(100deg, var(--color-violet) 0%, var(--color-ciel) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility verre {
+  background-color: color-mix(in oklab, white 70%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
