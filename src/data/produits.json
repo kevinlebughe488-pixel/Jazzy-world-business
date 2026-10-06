@@ -4,7 +4,7 @@
     "slogan": "Le monde du bien-être et du style, livré chez vous à Kinshasa",
     "whatsapp": "243960240705",
     "whatsappAffiche": "+243 960 240 705",
-    "facebook": "https://www.facebook.com/search/top?q=Jazzy%20world%20business",
+    "facebook": "https://www.facebook.com/profile.php?id=61580798244160",
     "devise": "USD",
     "livraison": {
       "zone": "Partout à Kinshasa",
@@ -14,9 +14,18 @@
     "paiement": "Cash à la livraison"
   },
   "categories": [
-    { "id": "bien-etre", "nom": "Bien-être & forme" },
-    { "id": "sante", "nom": "Santé & beauté" },
-    { "id": "accessoires", "nom": "Accessoires" }
+    {
+      "id": "bien-etre",
+      "nom": "Bien-être & forme"
+    },
+    {
+      "id": "sante",
+      "nom": "Santé & beauté"
+    },
+    {
+      "id": "accessoires",
+      "nom": "Accessoires"
+    }
   ],
   "produits": [
     {
@@ -24,10 +33,18 @@
       "nom": "Stimulateur fessier",
       "prix": 20,
       "categorie": "bien-etre",
-      "accroche": "",
-      "description": "",
-      "pointsForts": [],
-      "images": ["/produits/stimulateur-fessier/1.webp", "/produits/stimulateur-fessier/2.webp"],
+      "accroche": "Tonifiez vos fessiers à la maison, sans aller à la salle",
+      "description": "Ce stimulateur EMS en forme de papillon se pose directement sur les fessiers et travaille pendant que vous vous détendez, regardez un film ou faites votre ménage. Léger et discret sous les vêtements, il accompagne votre routine sport pour vous aider à raffermir et à galber la silhouette dont vous rêvez.",
+      "pointsForts": [
+        "6 modes et 10 niveaux d’intensité",
+        "Forme papillon qui épouse les fessiers",
+        "Commande simple sur le boîtier central",
+        "Léger, discret, sans fil"
+      ],
+      "images": [
+        "/produits/stimulateur-fessier/1.webp",
+        "/produits/stimulateur-fessier/2.webp"
+      ],
       "enStock": true,
       "vedette": true
     },
@@ -36,10 +53,19 @@
       "nom": "Blanchiment des dents",
       "prix": 10,
       "categorie": "sante",
-      "accroche": "",
-      "description": "",
-      "pointsForts": [],
-      "images": ["/produits/blanchiment-des-dents/1.webp", "/produits/blanchiment-des-dents/2.webp", "/produits/blanchiment-des-dents/3.webp"],
+      "accroche": "Un sourire plus éclatant, depuis chez vous",
+      "description": "Retrouvez un sourire lumineux et plein d’assurance sans rendez-vous chez le dentiste. Ce kit de blanchiment à lumière LED s’utilise facilement à la maison : appliquez le gel, placez la gouttière et laissez agir quelques minutes. Idéal avant un mariage, une fête ou une séance photo.",
+      "pointsForts": [
+        "Lumière LED bleue pour une action ciblée",
+        "Gouttière souple qui s’adapte à la dentition",
+        "Stylo de gel facile à appliquer",
+        "Utilisation simple à la maison"
+      ],
+      "images": [
+        "/produits/blanchiment-des-dents/1.webp",
+        "/produits/blanchiment-des-dents/2.webp",
+        "/produits/blanchiment-des-dents/3.webp"
+      ],
       "enStock": true,
       "vedette": true
     },
@@ -48,10 +74,17 @@
       "nom": "Stimulateur abdominal",
       "prix": 15,
       "categorie": "bien-etre",
-      "accroche": "",
-      "description": "",
-      "pointsForts": [],
-      "images": ["/produits/stimulateur-abdominal/1.webp"],
+      "accroche": "Votre mini-salle de sport pour un ventre plus ferme",
+      "description": "Le kit Smart Fitness EMS accompagne vos efforts pour tonifier le ventre et les bras, où que vous soyez : à la maison, au bureau ou en déplacement. Il suffit de coller les patchs, d’allumer le boîtier et de choisir votre programme. Associé à une bonne alimentation et un peu d’exercice, c’est l’allié idéal de votre motivation.",
+      "pointsForts": [
+        "Patch abdominal 6 zones + 2 patchs pour les bras",
+        "Plusieurs programmes et intensités réglables",
+        "Patchs adhésifs, sans fil, faciles à poser",
+        "Se porte discrètement sous les vêtements"
+      ],
+      "images": [
+        "/produits/stimulateur-abdominal/1.webp"
+      ],
       "enStock": true,
       "vedette": true
     },
@@ -60,10 +93,17 @@
       "nom": "Montre arabe",
       "prix": 10,
       "categorie": "accessoires",
-      "accroche": "",
-      "description": "",
-      "pointsForts": [],
-      "images": ["/produits/montre-arabe/1.webp"],
+      "accroche": "Le chic noir mat, avec des chiffres arabes au cadran",
+      "description": "Une montre au design moderne et épuré, entièrement noire mat, qui s’accorde aussi bien avec une tenue de soirée qu’un look décontracté. Son cadran aux chiffres arabes lui donne une vraie personnalité. Livrée dans son coffret, elle fait aussi un très beau cadeau.",
+      "pointsForts": [
+        "Finition noir mat élégante",
+        "Cadran original à chiffres arabes",
+        "Bracelet à maillons ajustable",
+        "Livrée en coffret, idéale pour offrir"
+      ],
+      "images": [
+        "/produits/montre-arabe/1.webp"
+      ],
       "enStock": true,
       "vedette": false
     },
@@ -72,10 +112,18 @@
       "nom": "Lunettes chromées",
       "prix": 10,
       "categorie": "accessoires",
-      "accroche": "",
-      "description": "",
-      "pointsForts": [],
-      "images": ["/produits/lunettes-chromees/1.webp", "/produits/lunettes-chromees/2.webp"],
+      "accroche": "Le style qui attire tous les regards",
+      "description": "Monture noire épaisse, croix argentées sur les branches et détails dorés : ces lunettes donnent du caractère à n’importe quelle tenue. Parfaites pour sortir, aller au bureau ou poser sur vos photos, elles affirment votre style sans effort.",
+      "pointsForts": [
+        "Monture noire brillante et épaisse",
+        "Détails métalliques chromés sur les branches",
+        "Verres transparents, look tendance",
+        "Unisexe, s’accorde avec toutes les tenues"
+      ],
+      "images": [
+        "/produits/lunettes-chromees/1.webp",
+        "/produits/lunettes-chromees/2.webp"
+      ],
       "enStock": true,
       "vedette": false
     },
@@ -84,10 +132,19 @@
       "nom": "Sac de voyage",
       "prix": 20,
       "categorie": "accessoires",
-      "accroche": "",
-      "description": "",
-      "pointsForts": [],
-      "images": ["/produits/sac-de-voyage/1.webp", "/produits/sac-de-voyage/2.webp", "/produits/sac-de-voyage/3.webp"],
+      "accroche": "Voyagez avec style, du week-end au grand départ",
+      "description": "Spacieux et élégant, ce sac de voyage à motif graphique vous accompagne partout : week-end en famille, voyage à l’intérieur du pays, salle de sport ou déplacement professionnel. Porté à la main ou à l’épaule, il garde vos affaires bien rangées tout en soignant votre allure.",
+      "pointsForts": [
+        "Grand volume pour vos vêtements et accessoires",
+        "Double poignée + bandoulière amovible",
+        "Fermeture éclair sur toute la longueur",
+        "Plusieurs motifs et coloris disponibles"
+      ],
+      "images": [
+        "/produits/sac-de-voyage/1.webp",
+        "/produits/sac-de-voyage/2.webp",
+        "/produits/sac-de-voyage/3.webp"
+      ],
       "enStock": true,
       "vedette": true
     },
@@ -96,10 +153,19 @@
       "nom": "Tensiomètre",
       "prix": 15,
       "categorie": "sante",
-      "accroche": "",
-      "description": "",
-      "pointsForts": [],
-      "images": ["/produits/tensiometre/1.webp", "/produits/tensiometre/2.webp", "/produits/tensiometre/3.webp"],
+      "accroche": "Suivez votre tension facilement, à la maison",
+      "description": "Ce tensiomètre électronique au bras vous permet de prendre votre tension et votre pouls en toute simplicité, sans vous déplacer. Son grand écran affiche clairement les résultats, pratique pour toute la famille et pour nos parents. Il aide à suivre vos mesures au quotidien et ne remplace pas l’avis de votre médecin.",
+      "pointsForts": [
+        "Mesure automatique en une seule touche",
+        "Grand écran LCD clair et lisible",
+        "Affiche tension et pouls",
+        "Brassard confortable pour le bras (22–32 cm)"
+      ],
+      "images": [
+        "/produits/tensiometre/1.webp",
+        "/produits/tensiometre/2.webp",
+        "/produits/tensiometre/3.webp"
+      ],
       "enStock": true,
       "vedette": false
     }
