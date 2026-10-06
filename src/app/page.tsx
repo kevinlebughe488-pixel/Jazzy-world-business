@@ -7,7 +7,7 @@ import { GrandFinal } from "@/components/home/GrandFinal";
 /*
  * Accueil : l'intensité des animations monte au fil du défilement.
  * Hero qui explose → bandeaux qui accélèrent → vitrine horizontale
- * → cartes qui s'empilent → cercle noir final.
+ * → ticket de caisse imprimé au défilement → cercle noir final.
  */
 export default function Accueil() {
   return (

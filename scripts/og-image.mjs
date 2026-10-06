@@ -19,21 +19,24 @@ const fond = `
   <rect x="0" y="0" width="${W}" height="44" fill="#ffffff"/>
 </svg>`;
 
+const LOGO_L = 500;
+const LOGO_H = Math.round((LOGO_L * 308) / 640);
+
 const texte = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <style>
-    .titre { font-family: 'DejaVu Sans Condensed', 'DejaVu Sans', Arial, sans-serif; font-weight: 800; fill: #ffffff; }
     .sous { font-family: 'DejaVu Sans', Arial, sans-serif; font-weight: 700; fill: #ffffff; }
     .bandeau { font-family: 'DejaVu Sans', Arial, sans-serif; font-weight: 700; fill: #000000; }
   </style>
   <text x="60" y="29" class="bandeau" font-size="17" letter-spacing="4">LIVRAISON PARTOUT À KINSHASA · PAIEMENT CASH À LA LIVRAISON</text>
-  <text x="60" y="150" class="sous" font-size="20" letter-spacing="6" fill-opacity="0.6">BOUTIQUE EN LIGNE · KINSHASA</text>
-  <text x="54" y="285" class="titre" font-size="128" letter-spacing="-2">JAZZY</text>
-  <text x="54" y="410" class="titre" font-size="128" letter-spacing="-2">WORLD</text>
-  <text x="62" y="455" class="sous" font-size="22" letter-spacing="14">BUSINESS</text>
-  <rect x="62" y="500" width="120" height="3" fill="#ffffff"/>
-  <text x="62" y="550" class="sous" font-size="22" fill-opacity="0.85">Commandez sur WhatsApp · Livraison dès 8 000 FC</text>
+  <text x="62" y="455" class="sous" font-size="20" letter-spacing="6" fill-opacity="0.6">BOUTIQUE EN LIGNE · KINSHASA</text>
+  <rect x="62" y="490" width="120" height="3" fill="#ffffff"/>
+  <text x="62" y="545" class="sous" font-size="22" fill-opacity="0.85">Commandez sur WhatsApp · Livraison dès 8 000 FC</text>
 </svg>`;
+
+// Logo d'origine, sans retouche, posé sur une plaque blanche
+const plaque = `<svg xmlns="http://www.w3.org/2000/svg" width="${LOGO_L + 60}" height="${LOGO_H + 50}"><rect width="100%" height="100%" fill="#ffffff"/></svg>`;
+const logo = await sharp("public/brand/logo.webp").resize(LOGO_L, LOGO_H).png().toBuffer();
 
 const photos = await Promise.all(
   PHOTOS.map((p) => sharp(p).resize(TAILLE, TAILLE, { fit: "cover" }).png().toBuffer()),
@@ -44,6 +47,8 @@ await sharp(Buffer.from(fond))
     { input: photos[0], left: 690, top: 80 },
     { input: photos[1], left: 690 + TAILLE + 10, top: 80 },
     { input: photos[2], left: 690 + (TAILLE + 10) / 2, top: 80 + TAILLE + 10 },
+    { input: Buffer.from(plaque), left: 60, top: 110 },
+    { input: logo, left: 90, top: 135 },
     { input: Buffer.from(texte), left: 0, top: 0 },
   ])
   .png({ compressionLevel: 9 })

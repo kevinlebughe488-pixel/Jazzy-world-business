@@ -205,7 +205,7 @@ export function Header() {
                 whileTap={reduire ? undefined : { scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
-                <Logo />
+                <Logo prioritaire />
               </motion.span>
             </Link>
 

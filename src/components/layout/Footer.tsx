@@ -64,7 +64,7 @@ export function Footer() {
           {/* Marque */}
           <Reveal className="sm:col-span-2 lg:col-span-4">
             <Link href="/" className={`inline-flex ${focus}`} aria-label={`${boutique.nom} — accueil`}>
-              <Logo clair className="items-start" />
+              <Logo surFondNoir />
             </Link>
             <p className="mt-6 max-w-sm leading-relaxed text-white/70">{boutique.slogan}.</p>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/50">

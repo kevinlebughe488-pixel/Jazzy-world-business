@@ -1,53 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
-import { ArrowRight, Banknote, Check, CheckCheck, MousePointerClick, ShoppingBag, Truck } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
+import { ArrowRight, Check, CheckCheck, Truck } from "lucide-react";
 import { boutique, getProduit } from "@/lib/catalogue";
 import { formatFC, formatUSD } from "@/lib/format";
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { useProgression } from "@/components/animations/useProgression";
+import { TicketCommande } from "./TicketCommande";
 import { useMonte } from "@/lib/useMonte";
-
-type Ton = "noir" | "gris" | "blanc";
-type Etape = { titre: string; texte: string; Icone: LucideIcon | typeof WhatsAppIcon; ton: Ton };
-
-const etapes: Etape[] = [
-  {
-    titre: "Choisissez vos produits",
-    texte: "Parcourez la boutique et trouvez ce qui vous plaît : bien-être, beauté, accessoires.",
-    Icone: MousePointerClick,
-    ton: "noir",
-  },
-  {
-    titre: "Ajoutez au panier",
-    texte: "Un clic suffit. Votre panier est gardé sur votre téléphone, même si vous revenez plus tard.",
-    Icone: ShoppingBag,
-    ton: "gris",
-  },
-  {
-    titre: "Envoyez sur WhatsApp",
-    texte: "Votre commande est écrite pour vous. Il ne reste qu’à appuyer sur « Envoyer ».",
-    Icone: WhatsAppIcon,
-    ton: "blanc",
-  },
-  {
-    titre: "Payez à la livraison",
-    texte: `Livraison partout à Kinshasa dès ${formatFC(boutique.livraison.prixMinFC)}. Vous payez cash en recevant le colis.`,
-    Icone: Banknote,
-    ton: "noir",
-  },
-];
-
-const TONS: Record<Ton, { carte: string; numero: string; icone: string; texte: string }> = {
-  noir: { carte: "bg-noir text-white", numero: "texte-contour-blanc", icone: "bg-white text-noir", texte: "text-white/70" },
-  gris: { carte: "bg-gris-100 text-noir", numero: "texte-contour", icone: "bg-noir text-white", texte: "text-gris-700" },
-  blanc: { carte: "bg-white text-noir ring-2 ring-inset ring-noir", numero: "text-noir", icone: "bg-noir text-white", texte: "text-gris-700" },
-};
 
 /* Message d'exemple construit à partir du vrai catalogue. */
 const exemple = [getProduit("montre-arabe"), getProduit("lunettes-chromees")].filter(
@@ -65,132 +28,57 @@ const messageExemple = [
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function CommentCommander() {
-  const pile = useRef<HTMLOListElement>(null);
-  const p = useProgression(pile, ["start start", "end end"], false);
-
   return (
-    <section id="comment-commander" aria-labelledby="titre-comment-commander" className="relative overflow-x-clip bg-white pt-24 sm:pt-32">
-      <Container>
-        <Reveal className="max-w-3xl">
-          <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">— Simple comme bonjour</p>
-          <h2
-            id="titre-comment-commander"
-            className="mt-3 font-affiche text-[16vw] uppercase leading-[0.86] tracking-[0.01em] sm:text-8xl lg:text-9xl"
-          >
-            Commander <br />
-            en <span className="texte-contour [-webkit-text-stroke-width:2px]">4 étapes</span>
-          </h2>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-gris-700 sm:text-lg">
-            Pas de compte, pas de carte bancaire. Vous choisissez, vous envoyez sur WhatsApp, on vous livre.
-          </p>
-        </Reveal>
-      </Container>
-
-      {/* Cartes qui s'empilent : chacune se fige puis recule quand la suivante arrive */}
-      <ol ref={pile} className="relative mt-4">
-        {etapes.map((etape, i) => (
-          <CarteEtape key={etape.titre} etape={etape} index={i} total={etapes.length} progression={p} />
-        ))}
-      </ol>
+    <>
+      {/* Les 4 étapes : ticket de caisse imprimé au fil du défilement */}
+      <TicketCommande />
 
       {/* Démonstration WhatsApp */}
-      <Container className="pb-24 pt-10 sm:pb-32">
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
-          <Reveal className="order-2 lg:order-1">
-            <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">— Sur WhatsApp</p>
-            <h3 className="mt-3 font-affiche text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl">
-              Votre message est <span className="texte-contour [-webkit-text-stroke-width:1.5px]">déjà prêt</span>
-            </h3>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-gris-700 sm:text-lg">
-              En appuyant sur « Commander sur WhatsApp », la liste de vos articles et le total s’écrivent
-              automatiquement. Vous vérifiez, vous envoyez, et nous vous confirmons le prix de la livraison.
-            </p>
-            <ul className="mt-6 space-y-3 text-gris-900">
-              {[
-                "Réponse rapide de notre équipe",
-                `Livraison partout à Kinshasa dès ${formatFC(boutique.livraison.prixMinFC)}`,
-                "Paiement cash à la réception",
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-3">
-                  <span className="mt-0.5 grid size-6 shrink-0 place-items-center bg-noir text-white">
-                    <Check className="size-3.5" strokeWidth={3} aria-hidden />
-                  </span>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/boutique/" className="group">
-                Voir la boutique
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
-              </ButtonLink>
-              <ButtonLink href="/infos/" variante="secondaire">
-                <Truck className="size-4" aria-hidden />
-                Livraison &amp; paiement
-              </ButtonLink>
+      <section aria-labelledby="titre-demo-whatsapp" className="relative bg-white pt-24 sm:pt-32">
+        <Container className="pb-24 sm:pb-32">
+          <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+            <Reveal className="order-2 lg:order-1">
+              <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">— Sur WhatsApp</p>
+              <h2 id="titre-demo-whatsapp" className="mt-3 font-affiche text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl">
+                Votre message est <span className="texte-contour [-webkit-text-stroke-width:1.5px]">déjà prêt</span>
+              </h2>
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-gris-700 sm:text-lg">
+                En appuyant sur « Commander sur WhatsApp », la liste de vos articles et le total s’écrivent
+                automatiquement. Vous vérifiez, vous envoyez, et nous vous confirmons le prix de la livraison.
+              </p>
+              <ul className="mt-6 space-y-3 text-gris-900">
+                {[
+                  "Réponse rapide de notre équipe",
+                  `Livraison partout à Kinshasa dès ${formatFC(boutique.livraison.prixMinFC)}`,
+                  "Paiement cash à la réception",
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-3">
+                    <span className="mt-0.5 grid size-6 shrink-0 place-items-center bg-noir text-white">
+                      <Check className="size-3.5" strokeWidth={3} aria-hidden />
+                    </span>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="/boutique/" className="group">
+                  Voir la boutique
+                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
+                </ButtonLink>
+                <ButtonLink href="/infos/" variante="secondaire">
+                  <Truck className="size-4" aria-hidden />
+                  Livraison &amp; paiement
+                </ButtonLink>
+              </div>
+            </Reveal>
+
+            <div className="order-1 lg:order-2">
+              <ChatDemo />
             </div>
-          </Reveal>
-
-          <div className="order-1 lg:order-2">
-            <ChatDemo />
           </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function CarteEtape({
-  etape,
-  index,
-  total,
-  progression,
-}: {
-  etape: Etape;
-  index: number;
-  total: number;
-  progression: MotionValue<number>;
-}) {
-  const ref = useRef<HTMLLIElement>(null);
-  // Arrivée : la carte monte en pivotant, de plus en plus fort d'une étape à l'autre.
-  const arrivee = useProgression(ref, ["start end", "start start"], false, 1);
-  const rotation = useTransform(arrivee, [0, 1], [(index % 2 ? 1 : -1) * (6 + index * 3), 0]);
-  const iconeEchelle = useTransform(arrivee, [0.4, 1], [0.3, 1]);
-  const iconeRotation = useTransform(arrivee, [0.4, 1], [-90, 0]);
-  // Départ : quand les suivantes arrivent, elle recule et s'assombrit légèrement.
-  const echelleCible = 1 - (total - 1 - index) * 0.05;
-  const echelle = useTransform(progression, [index / total, 1], [1, echelleCible]);
-  const voile = useTransform(progression, [index / total, 1], [0, index === total - 1 ? 0 : 0.35]);
-  const ton = TONS[etape.ton];
-
-  return (
-    <li ref={ref} className="sticky top-0 flex h-[100svh] items-center justify-center px-4 sm:px-6">
-      <motion.div
-        style={{ scale: echelle, rotate: rotation, top: `calc(-6svh + ${index * 22}px)` }}
-        className={`relative flex h-[min(66svh,540px)] w-full max-w-5xl origin-top flex-col justify-between overflow-hidden p-6 sm:p-10 lg:p-14 ${ton.carte}`}
-      >
-        <div className="flex items-start justify-between gap-4">
-          <span
-            aria-hidden="true"
-            className={`font-affiche text-[34vw] leading-[0.8] [-webkit-text-stroke-width:2px] sm:text-[12rem] lg:text-[15rem] ${ton.numero}`}
-          >
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <motion.span
-            style={{ scale: iconeEchelle, rotate: iconeRotation }}
-            className={`grid size-16 shrink-0 place-items-center sm:size-20 ${ton.icone}`}
-          >
-            <etape.Icone className="size-7 sm:size-9" aria-hidden />
-          </motion.span>
-        </div>
-        <div className="max-w-2xl">
-          <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] opacity-60">Étape {index + 1} / {total}</p>
-          <h3 className="mt-3 font-affiche text-4xl uppercase leading-[0.92] sm:text-6xl lg:text-7xl">{etape.titre}</h3>
-          <p className={`mt-4 max-w-lg text-[0.95rem] leading-relaxed sm:text-lg ${ton.texte}`}>{etape.texte}</p>
-        </div>
-        <motion.div aria-hidden="true" style={{ opacity: voile }} className="pointer-events-none absolute inset-0 bg-noir" />
-      </motion.div>
-    </li>
+        </Container>
+      </section>
+    </>
   );
 }
 
@@ -257,8 +145,9 @@ function ChatDemo() {
       <figure className="relative overflow-hidden rounded-[2.4rem] bg-[#efeae2] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.55)] ring-[10px] ring-noir">
         {/* Barre de conversation */}
         <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
-          <div className="grid h-10 w-10 place-items-center rounded-full bg-noir font-affiche text-sm tracking-wide text-white ring-2 ring-white/80">
-            JW
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white p-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/globe.webp" alt="" width={40} height={40} className="h-full w-full object-contain" />
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">{boutique.nom}</p>

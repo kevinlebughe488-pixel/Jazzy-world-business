@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, type AnimationEvent } from "react";
 
 const CLE = "jazzy-intro";
@@ -16,7 +17,7 @@ const SCRIPT = `(function(){try{var e=document.getElementById("${CLE}");if(!e)re
 /*
  * Animation 100 % CSS : elle démarre dès l'affichage du HTML, sans attendre
  * l'hydratation JS (téléphones lents). Seuls transform / opacity sont animés.
- * Chronologie : lettres 0,1–0,9 s · trait 0,5–1 s · rideaux 1,1–1,9 s.
+ * Chronologie : globe 0–0,8 s · lettres 0,1–0,9 s · trait 0,5–1 s · rideaux 1,1–1,9 s.
  */
 const CSS = `
 #${CLE}{position:fixed;inset:0;z-index:100;pointer-events:auto;animation:ji-fin 0s linear 1.95s forwards}
@@ -29,6 +30,8 @@ const CSS = `
 @keyframes ji-rideau{to{transform:translate3d(0,-101%,0)}}
 #${CLE} .ji-contenu{animation:ji-sortie .4s cubic-bezier(.55,0,1,.45) .98s forwards}
 @keyframes ji-sortie{to{opacity:0;transform:translate3d(0,-40px,0) scale(1.06)}}
+#${CLE} .ji-globe{opacity:0;transform:scale(.35) rotate(-50deg);animation:ji-globe .75s cubic-bezier(.22,1,.36,1) .05s forwards}
+@keyframes ji-globe{to{opacity:1;transform:none}}
 #${CLE} .ji-lettre{display:inline-block;transform:translate3d(0,110%,0);animation:ji-lettre .6s cubic-bezier(.22,1,.36,1) forwards}
 @keyframes ji-lettre{to{transform:none}}
 #${CLE} .ji-trait{transform:scaleX(0);transform-origin:left;animation:ji-trait .55s cubic-bezier(.65,0,.35,1) .5s forwards}
@@ -38,8 +41,8 @@ const CSS = `
 `;
 
 /**
- * Intro de marque (première visite de la session) : le nom s'écrit lettre par
- * lettre sur fond noir, puis deux rideaux se lèvent sur la page.
+ * Intro de marque (première visite de la session) : le globe du logo apparaît,
+ * le nom s'écrit lettre par lettre sur fond noir, puis deux rideaux se lèvent sur la page.
  * Le contenu est toujours rendu dessous (SEO) ; l'intro est purement décorative.
  */
 export function IntroMarque() {
@@ -67,6 +70,14 @@ export function IntroMarque() {
         <div className="ji-panneau ji-arriere bg-gris-300" />
         <div className="ji-panneau ji-avant bg-noir">
           <div className="ji-contenu flex h-full flex-col items-center justify-center px-6 text-center">
+            <Image
+              src="/brand/globe.webp"
+              alt=""
+              width={600}
+              height={600}
+              loading="eager"
+              className="ji-globe mb-6 size-24 object-contain sm:size-32"
+            />
             <p className="font-affiche text-[17vw] uppercase leading-[0.9] tracking-[0.02em] text-white sm:text-[11vw]">
               {NOM.split(" ").map((mot, m) => (
                 <span key={m} className="block overflow-hidden">

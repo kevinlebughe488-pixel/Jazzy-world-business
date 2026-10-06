@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useId, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { CheckCheck, ChevronDown, Eye } from "lucide-react";
@@ -53,8 +54,14 @@ export function ApercuWhatsApp({ message }: { message: string }) {
           >
             <div className="overflow-hidden rounded-xl bg-[#efeae2]">
               <div className="flex items-center gap-2.5 bg-[#075e54] px-3 py-2 text-white">
-                <span className="grid size-8 place-items-center rounded-full bg-noir font-affiche text-xs tracking-wide text-white ring-2 ring-white/80">
-                  JW
+                <span className="grid size-8 place-items-center overflow-hidden rounded-full bg-white">
+                  <Image
+                    src="/brand/globe.webp"
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="size-7 object-contain"
+                  />
                 </span>
                 <div className="min-w-0 leading-tight">
                   <p className="truncate text-sm font-semibold">
