@@ -17,15 +17,15 @@ export function ApercuWhatsApp({ message }: { message: string }) {
   });
 
   return (
-    <div className="ring-1 ring-gris-300">
+    <div className="overflow-hidden rounded-2xl ring-1 ring-inset ring-trait-fort">
       <button
         type="button"
         onClick={() => setOuvert((o) => !o)}
         aria-expanded={ouvert}
         aria-controls={id}
-        className="flex min-h-12 w-full items-center gap-3 px-4 py-3 text-left text-[0.72rem] font-bold uppercase tracking-[0.12em] text-noir transition-colors hover:bg-noir/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+        className="flex min-h-12 w-full items-center gap-3 px-4 py-3 text-left text-[0.95rem] text-encre transition-colors hover:bg-encre/[0.03] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-encre"
       >
-        <Eye className="size-4 text-noir" aria-hidden="true" />
+        <Eye className="size-4 text-encre-doux" aria-hidden="true" />
         <span className="flex-1">
           {ouvert
             ? "Masquer l'aperçu du message"
@@ -35,7 +35,7 @@ export function ApercuWhatsApp({ message }: { message: string }) {
           animate={{ rotate: ouvert ? 180 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <ChevronDown className="size-4 text-noir/50" aria-hidden="true" />
+          <ChevronDown className="size-4 text-muet" aria-hidden="true" />
         </motion.span>
       </button>
 

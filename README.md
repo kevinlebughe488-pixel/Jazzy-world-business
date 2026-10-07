@@ -154,7 +154,6 @@ Elle vaut par défaut `https://jazzy-world-business.vercel.app`. **Si Vercel vou
 src/
   app/              Pages (accueil, boutique, fiches produits, panier, infos, 404)
   components/       Composants d'interface (en-tête, panier, cartes produits…)
-    animations/     Animations liées au défilement (vitesse, texte révélé, progression)
   data/produits.json  Catalogue de la boutique
   lib/              Logique : catalogue, panier, message WhatsApp, formats de prix
 public/
@@ -166,6 +165,9 @@ scripts/            Outils : optimisation des photos, image de partage
 
 Technologies : Next.js (export statique), React, Tailwind CSS, Framer Motion, Zustand.
 
-Style : noir et blanc façon boutique de mode (couleurs définies dans `src/app/globals.css`, polices Inter et Anton).
-Les animations s'intensifient au fil du défilement et se coupent automatiquement si le téléphone
-du visiteur a l'option « réduire les animations ».
+Style : « maison d'objets », calme et aéré. Fond lin, encre chaude et un seul accent ocre (touches sauge et argile),
+cartes arrondies, boutons en pilule et photos produits façon tirages instantanés. Couleurs définies dans
+`src/app/globals.css` ; polices Instrument Serif (titres), Instrument Sans (texte) et Caveat (notes manuscrites).
+Les boutons WhatsApp restent vert WhatsApp pour être reconnus au premier coup d'œil.
+Les animations sont discrètes (apparitions douces) et se coupent si le téléphone du visiteur
+a l'option « réduire les animations ».

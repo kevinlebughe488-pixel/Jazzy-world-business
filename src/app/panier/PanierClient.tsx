@@ -1,24 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Undo2 } from "lucide-react";
 import { getProduit } from "@/lib/catalogue";
 import { usePanier, detaillerLignes } from "@/lib/cart";
 import { Container } from "@/components/ui/Container";
+import { useMonte } from "@/lib/useMonte";
 import { PanierVide } from "./PanierVide";
 import { PanierContenu } from "./PanierContenu";
-
-const abonnement = () => () => {};
-
-/** true seulement côté client, après l'hydratation (évite les écarts serveur/client). */
-function useMonte() {
-  return useSyncExternalStore(
-    abonnement,
-    () => true,
-    () => false,
-  );
-}
 
 export function PanierClient() {
   const monte = useMonte();
@@ -85,7 +75,7 @@ export function PanierClient() {
 
       <div
         aria-live="polite"
-        className="pointer-events-none fixed inset-x-0 top-24 z-40 flex justify-center px-4 lg:top-28"
+        className="pointer-events-none fixed inset-x-0 top-20 z-40 flex justify-center px-4 lg:top-24"
       >
         <AnimatePresence>
           {retrait && (
@@ -99,16 +89,16 @@ export function PanierClient() {
                 reduire ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.95 }
               }
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className="pointer-events-auto flex max-w-md items-center gap-3 bg-noir py-1.5 pr-1.5 pl-5 text-sm text-white"
+              className="pointer-events-auto flex max-w-md items-center gap-3 rounded-full bg-encre py-1.5 pl-5 pr-1.5 text-sm text-papier shadow-releve"
             >
               <span className="min-w-0 truncate">
-                <span className="font-semibold">{retrait.nom}</span> retiré du
+                <span className="font-medium">{retrait.nom}</span> retiré du
                 panier
               </span>
               <button
                 type="button"
                 onClick={annuler}
-                className="inline-flex min-h-10 shrink-0 items-center gap-1.5 bg-white/15 px-4 font-semibold transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gris-300"
+                className="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-full bg-papier/15 px-4 font-medium transition-colors hover:bg-papier/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-papier"
               >
                 <Undo2 className="size-4" aria-hidden="true" />
                 Annuler
@@ -124,20 +114,20 @@ export function PanierClient() {
 /** Rendu serveur / avant montage : structure neutre, sans contenu du panier. */
 function Squelette() {
   return (
-    <Container className="pt-24 pb-24 lg:pt-32">
+    <Container className="pb-24 pt-12 lg:pt-16">
       <div aria-hidden="true" className="animate-pulse">
-        <div className="h-4 w-28 bg-gris-100" />
-        <div className="mt-4 h-10 w-56 bg-gris-100" />
+        <div className="h-4 w-28 rounded-full bg-lin" />
+        <div className="mt-4 h-12 w-56 rounded-full bg-lin" />
         <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_400px]">
           <div className="space-y-4">
             {[0, 1].map((i) => (
               <div
                 key={i}
-                className="h-32 bg-white/70 ring-1 ring-gris-200"
+                className="h-32 rounded-carte bg-carte"
               />
             ))}
           </div>
-          <div className="h-96 bg-white/70 ring-1 ring-gris-200" />
+          <div className="h-96 rounded-carte bg-carte" />
         </div>
       </div>
       <span className="sr-only">Chargement du panier…</span>

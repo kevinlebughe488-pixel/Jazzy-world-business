@@ -54,7 +54,7 @@ import {
   type Client,
 } from "./donnees";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = [0.16, 1, 0.3, 1] as const;
 const ORDRE_CHAMPS: ChampRequis[] = ["nom", "telephone", "commune"];
 
 export function PanierContenu({
@@ -132,7 +132,7 @@ export function PanierContenu({
 
   return (
     <>
-      <Container className="pt-24 pb-40 lg:pt-32 lg:pb-24">
+      <Container className="pb-40 pt-10 lg:pb-24 lg:pt-14">
         {/* En-tête */}
         <motion.div
           initial={reduire ? { opacity: 0 } : { opacity: 0, y: 20 }}
@@ -141,7 +141,7 @@ export function PanierContenu({
         >
           <Link
             href="/boutique/"
-            className="group -ml-2 inline-flex min-h-11 items-center gap-1.5 px-2 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-gris-500 transition-colors hover:text-noir focus-visible:outline-2 focus-visible:outline-noir"
+            className="group -ml-2 inline-flex min-h-11 items-center gap-1.5 rounded-full px-2 text-[0.95rem] text-muet transition-colors hover:text-encre focus-visible:outline-2 focus-visible:outline-encre"
           >
             <ArrowLeft
               className="size-4 transition-transform group-hover:-translate-x-1"
@@ -150,14 +150,14 @@ export function PanierContenu({
             Continuer mes achats
           </Link>
           <div className="mt-2 flex flex-wrap items-end gap-x-4 gap-y-2">
-            <h1 className="font-affiche text-6xl uppercase leading-[0.9] tracking-[0.01em] sm:text-8xl">
-              Mon <span className="texte-contour [-webkit-text-stroke-width:2px]">panier</span>
+            <h1 className="font-serif text-6xl leading-[1] tracking-[-0.015em] sm:text-7xl">
+              Mon <em>panier</em>
             </h1>
-            <span className="mb-2 inline-flex items-center bg-noir px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-white">
+            <span className="mb-2 inline-flex items-center rounded-full bg-lin px-3 py-1 text-sm text-encre-doux">
               {articles} article{articles > 1 ? "s" : ""}
             </span>
           </div>
-          <p className="mt-3 max-w-xl text-gris-700">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-encre-doux">
             Vérifiez vos articles, indiquez où vous livrer, puis envoyez la
             commande sur WhatsApp. Aucun paiement en ligne.
           </p>
@@ -213,68 +213,63 @@ export function PanierContenu({
           {/* Récapitulatif + formulaire */}
           <motion.aside
             aria-labelledby="titre-recap"
-            initial={
-              reduire
-                ? { opacity: 0 }
-                : { opacity: 0, y: 32, filter: "blur(6px)" }
-            }
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={reduire ? { opacity: 0 } : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease }}
-            className="lg:sticky lg:top-28"
+            className="lg:sticky lg:top-24"
           >
-            <div className="relative overflow-hidden bg-white ring-1 ring-gris-200">
-              <div aria-hidden="true" className="h-1.5 w-full bg-noir" />
+            <div className="rounded-carte bg-carte shadow-doux">
               <div className="p-5 sm:p-7">
-                <h2 id="titre-recap" className="font-affiche text-3xl uppercase tracking-[0.02em]">
+                <h2 id="titre-recap" className="font-serif text-4xl leading-none">
                   Récapitulatif
                 </h2>
 
                 <dl className="mt-5 space-y-3.5 text-[0.95rem]">
                   <div className="flex items-center justify-between gap-4">
-                    <dt className="text-noir/65">
+                    <dt className="text-muet">
                       Sous-total ({articles} article{articles > 1 ? "s" : ""})
                     </dt>
-                    <dd className="font-semibold tabular-nums">
+                    <dd className="font-medium tabular-nums">
                       <MontantAnime valeur={total} />
                     </dd>
                   </div>
                   <div className="flex items-start justify-between gap-4">
-                    <dt className="flex items-center gap-2 text-noir/65">
+                    <dt className="flex items-center gap-2 text-muet">
                       <Truck
-                        className="size-4 shrink-0 text-noir"
+                        className="size-4 shrink-0 text-encre-doux"
                         aria-hidden="true"
                       />
                       Livraison
                     </dt>
                     <dd className="max-w-[60%] text-right">
-                      <span className="font-semibold">
+                      <span className="font-medium">
                         à partir de {formatFC(boutique.livraison.prixMinFC)}
                       </span>
-                      <span className="block text-xs text-noir/55">
+                      <span className="block text-xs text-muet">
                         (selon le trajet, confirmé sur WhatsApp)
                       </span>
                     </dd>
                   </div>
                   <div className="flex items-center justify-between gap-4">
-                    <dt className="flex items-center gap-2 text-noir/65">
+                    <dt className="flex items-center gap-2 text-muet">
                       <Banknote
-                        className="size-4 shrink-0 text-noir"
+                        className="size-4 shrink-0 text-encre-doux"
                         aria-hidden="true"
                       />
                       Paiement
                     </dt>
-                    <dd className="font-semibold">{boutique.paiement}</dd>
+                    <dd className="font-medium">{boutique.paiement}</dd>
                   </div>
                 </dl>
 
-                <div className="mt-5 flex items-end justify-between gap-4 border-t border-dashed border-gris-300 pt-5">
+                <div className="mt-5 flex items-end justify-between gap-4 border-t border-dashed border-trait-fort pt-5">
                   <div>
-                    <p className="text-sm font-medium text-noir/65">
+                    <p className="text-sm font-medium text-encre-doux">
                       Total articles
                     </p>
-                    <p className="text-xs text-noir/50">+ frais de livraison</p>
+                    <p className="text-xs text-muet">+ frais de livraison</p>
                   </div>
-                  <p className="text-3xl font-extrabold tabular-nums">
+                  <p className="font-serif text-4xl leading-none">
                     <MontantAnime valeur={total} />
                   </p>
                 </div>
@@ -288,10 +283,10 @@ export function PanierContenu({
                   aria-labelledby="titre-form"
                 >
                   <div>
-                    <h3 id="titre-form" className="text-sm font-bold uppercase tracking-[0.14em]">
+                    <h3 id="titre-form" className="font-medium">
                       Vos informations de livraison
                     </h3>
-                    <p className="mt-0.5 text-sm text-noir/55">
+                    <p className="mt-0.5 text-sm text-muet">
                       Enregistrées sur cet appareil pour vos prochaines
                       commandes.
                     </p>
@@ -352,14 +347,14 @@ export function PanierContenu({
                         className={clsx(
                           props.className,
                           "appearance-none pr-11",
-                          !client.commune && "text-noir/45",
+                          !client.commune && "text-muet",
                         )}
                       >
                         <option value="" disabled>
                           Choisir votre commune
                         </option>
                         {COMMUNES.map((c) => (
-                          <option key={c} value={c} className="text-noir">
+                          <option key={c} value={c} className="text-encre">
                             {c}
                           </option>
                         ))}
@@ -402,14 +397,14 @@ export function PanierContenu({
                         initial={{ opacity: 0, y: -4 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
-                        className="mt-3 flex items-center justify-center gap-1.5 text-sm font-medium text-red-600"
+                        className="mt-3 flex items-center justify-center gap-1.5 text-sm font-medium text-argile-fonce"
                       >
                         <CircleAlert className="size-4" aria-hidden="true" />
                         Complétez les champs en rouge pour commander.
                       </motion.p>
                     )}
                   </AnimatePresence>
-                  <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-noir/55">
+                  <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-sm text-muet">
                     <Lock className="size-3.5" aria-hidden="true" />
                     Rien n&apos;est payé maintenant : vous réglez cash à la
                     livraison.
@@ -430,17 +425,17 @@ export function PanierContenu({
             animate={reduire ? { opacity: 1 } : { y: 0 }}
             exit={reduire ? { opacity: 0 } : { y: "110%" }}
             transition={{ type: "spring", stiffness: 380, damping: 34 }}
-            className="fixed inset-x-0 bottom-0 z-30 border-t bg-white/90 backdrop-blur-xl border-gris-200 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-30 border-t border-trait bg-papier/90 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl lg:hidden"
           >
             <div className="mx-auto flex max-w-xl items-center gap-3">
               <div className="min-w-0 shrink-0">
-                <p className="text-xs font-medium text-noir/60">
+                <p className="text-xs text-muet">
                   Total · {articles} article{articles > 1 ? "s" : ""}
                 </p>
-                <p className="text-xl leading-tight font-extrabold tabular-nums">
+                <p className="font-serif text-2xl leading-tight">
                   <MontantAnime valeur={total} />
                 </p>
-                <p className="text-[0.65rem] text-noir/50">+ livraison</p>
+                <p className="text-[0.7rem] text-muet">+ livraison</p>
               </div>
               <div className="flex-1">
                 <BoutonCommander lien={lien} onClick={commander} />
@@ -470,41 +465,24 @@ function BoutonCommander({
   onClick: (e: MouseEvent<HTMLAnchorElement>) => void;
   grand?: boolean;
 }) {
-  const reduire = useReducedMotion();
   return (
-    <motion.a
+    <a
       href={lien}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Commander sur WhatsApp (ouvre WhatsApp)"
       onClick={onClick}
-      whileHover={reduire ? undefined : { scale: 1.02 }}
-      whileTap={{ scale: 0.97 }}
       className={clsx(
-        "group relative flex w-full items-center justify-center gap-2.5 overflow-hidden bg-whatsapp px-5 font-bold uppercase tracking-[0.14em] text-noir transition-colors hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir",
-        grand ? "min-h-16 text-[0.85rem]" : "min-h-14 text-[0.72rem]",
+        "flex w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-5 font-medium text-encre transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre",
+        grand ? "min-h-15 text-[1.05rem]" : "min-h-13 text-[0.95rem]",
       )}
     >
-      {!reduire && (
-        <motion.span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-          initial={{ x: "-150%" }}
-          animate={{ x: "450%" }}
-          transition={{
-            duration: 1.4,
-            repeat: Infinity,
-            repeatDelay: 3.2,
-            ease: "easeInOut",
-          }}
-        />
-      )}
       <WhatsAppIcon className={grand ? "size-6" : "size-5"} />
-      <span className="relative whitespace-nowrap">
+      <span className="whitespace-nowrap">
         Commander
         <span className={grand ? undefined : "hidden min-[420px]:inline"}> sur WhatsApp</span>
       </span>
-    </motion.a>
+    </a>
   );
 }
 
@@ -542,14 +520,14 @@ function Atout({
         cache: { opacity: 0, y: 16 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
       }}
-      className="flex items-center gap-3 bg-gris-50 p-3.5"
+      className="flex items-center gap-3 rounded-carte bg-lin p-3.5"
     >
-      <span className="grid size-10 shrink-0 place-items-center bg-noir text-white">
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-carte text-encre-doux">
         {icone}
       </span>
       <span className="min-w-0">
-        <span className="block text-xs font-bold uppercase tracking-[0.1em]">{titre}</span>
-        <span className="block text-xs text-noir/55">{texte}</span>
+        <span className="block text-sm font-medium">{titre}</span>
+        <span className="block text-xs text-muet">{texte}</span>
       </span>
     </motion.li>
   );
@@ -591,29 +569,29 @@ function Champ({
       .filter(Boolean)
       .join(" ") || undefined;
   const className = clsx(
-    "block w-full bg-gris-50 text-base text-noir ring-1 transition-[box-shadow,background-color] outline-none placeholder:text-noir/40",
-    "focus:bg-white focus:ring-2",
+    "block w-full rounded-2xl bg-papier text-base text-encre ring-1 ring-inset transition-[box-shadow,background-color] outline-none placeholder:text-muet",
+    "focus:bg-carte focus:ring-2",
     icone ? "pl-11" : "pl-4",
     !select && "pr-4",
     "h-13",
     erreur
-      ? "ring-red-500/70 focus:ring-red-500"
-      : "ring-gris-300 hover:ring-noir/40 focus:ring-noir",
+      ? "ring-argile focus:ring-argile-fonce"
+      : "ring-trait-fort hover:ring-encre/35 focus:ring-encre",
   );
 
   return (
     <div data-invalide={erreur ? "true" : "false"}>
       <label
         htmlFor={`champ-${id}`}
-        className="mb-1.5 flex items-baseline gap-1 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-noir"
+        className="mb-1.5 flex items-baseline gap-1 text-sm font-medium text-encre"
       >
         {label}
         {requis ? (
-          <span className="text-noir" aria-hidden="true">
+          <span className="text-argile-fonce" aria-hidden="true">
             *
           </span>
         ) : (
-          <span className="text-[0.65rem] font-medium normal-case tracking-normal text-noir/45">(facultatif)</span>
+          <span className="text-xs font-normal text-muet">(facultatif)</span>
         )}
       </label>
       <div className="relative">
@@ -621,7 +599,7 @@ function Champ({
           <span
             className={clsx(
               "pointer-events-none absolute top-[1.625rem] left-4 -translate-y-1/2",
-              erreur ? "text-red-500" : "text-noir/40",
+              erreur ? "text-argile-fonce" : "text-muet",
             )}
           >
             {icone}
@@ -637,13 +615,13 @@ function Champ({
         })}
         {select && (
           <ChevronDown
-            className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-noir/45"
+            className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-muet"
             aria-hidden="true"
           />
         )}
       </div>
       {aide && !erreur && (
-        <p id={idAide} className="mt-1.5 text-xs text-noir/50">
+        <p id={idAide} className="mt-1.5 text-xs text-muet">
           {aide}
         </p>
       )}
@@ -656,7 +634,7 @@ function Champ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="mt-1.5 flex items-center gap-1.5 text-sm font-medium text-red-600"
+            className="mt-1.5 flex items-center gap-1.5 text-sm font-medium text-argile-fonce"
           >
             <CircleAlert className="size-3.5 shrink-0" aria-hidden="true" />
             {erreur}

@@ -1,38 +1,51 @@
 @import "tailwindcss";
 
-/* Style « mode » : blanc, noir et gris neutres. Couleurs : photos produits, vert WhatsApp et bleu Facebook. */
+/*
+ * Style « maison d'objets » : fond lin, encre chaude, un seul accent ocre.
+ * Sauge et argile servent de touches (rubans, tampon), jamais de fond de section.
+ * Exception volontaire : le vert WhatsApp et le bleu Facebook, pour être reconnus au premier coup d'œil.
+ */
 @theme {
-  --color-noir: #000000;
-  --color-gris-900: #111111;
-  --color-gris-700: #3d3d3d;
-  --color-gris-500: #767676;
-  --color-gris-300: #c8c8c8;
-  --color-gris-200: #e5e5e5;
-  --color-gris-100: #f0f0f0;
-  --color-gris-50: #f7f7f7;
-  --color-blanc: #ffffff;
+  /* Surfaces */
+  --color-papier: #f5f2eb;
+  --color-carte: #fbfaf7;
+  --color-lin: #ede6d8;
+  --color-trait: #e4ded2;
+  --color-trait-fort: #d3cbbb;
 
-  /* Seules couleurs vives de l'interface : celles des réseaux, pour être reconnues au premier coup d'œil */
+  /* Textes */
+  --color-encre: #1d1c1a;
+  --color-encre-doux: #4a4740;
+  --color-muet: #66615a;
+
+  /* Accent et touches */
+  --color-ocre: #c8963e;
+  --color-ocre-fonce: #7e5a1c;
+  --color-ocre-pale: #f1e4c4;
+  --color-sauge: #9ba68a;
+  --color-sauge-fonce: #5f6b4e;
+  --color-sauge-pale: #dfe3d6;
+  --color-argile: #b5654a;
+  --color-argile-fonce: #9e4a31;
+
+  /* Réseaux */
   --color-whatsapp: #25d366;
   --color-whatsapp-fonce: #1ebe5d;
   --color-facebook: #1877f2;
-  --color-facebook-fonce: #0d65d9;
 
-  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  /* Police d'affiche (très grands titres condensés) */
-  --font-affiche: var(--font-anton), "Arial Narrow", Impact, sans-serif;
+  --font-serif: var(--font-instrument-serif), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Écriture manuscrite : légendes de photos et notes uniquement */
+  --font-plume: var(--font-caveat), "Segoe Print", cursive;
 
-  --radius-carte: 0px;
-  --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Rayons : boutons en pilule, cartes à 20 px, photos dans les cartes à 14 px */
+  --radius-carte: 1.25rem;
+  --radius-media: 0.875rem;
 
-  /* Défilement continu (bandeau d'annonces) : deux copies côte à côte */
-  --animate-defile: defile 32s linear infinite;
-  @keyframes defile {
-    to {
-      transform: translate3d(-50%, 0, 0);
-    }
-  }
+  --shadow-doux: 0 1px 2px rgb(70 52 24 / 0.05), 0 12px 32px -16px rgb(70 52 24 / 0.2);
+  --shadow-releve: 0 2px 4px rgb(70 52 24 / 0.05), 0 24px 48px -20px rgb(70 52 24 / 0.3);
+
+  --ease-doux: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -40,94 +53,69 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-blanc text-noir font-sans antialiased;
+    @apply bg-papier font-sans text-encre antialiased;
   }
-  h1, h2, h3, h4 {
-    @apply font-display tracking-tight;
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
   ::selection {
-    @apply bg-noir text-white;
+    @apply bg-ocre-pale text-encre;
   }
 }
 
-/* Lettres évidées (contour seul), pour les très grands titres */
-@utility texte-contour {
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--color-noir);
+/* Petit surtitre (une fois par page ou presque) */
+@utility etiquette {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ocre-fonce);
 }
 
-@utility texte-contour-blanc {
-  color: transparent;
-  -webkit-text-stroke: 1.5px #fff;
+/* Bout de ruban adhésif posé sur une photo ou une note */
+@utility ruban {
+  position: absolute;
+  height: 1.35rem;
+  width: 4.75rem;
+  border-radius: 2px;
+  opacity: 0.82;
+  box-shadow: 0 1px 2px rgb(70 52 24 / 0.08);
 }
 
 /*
- * Animations d'entrée en CSS pur : elles démarrent dès l'affichage du HTML,
- * sans attendre le JavaScript (téléphones lents). Retardées pendant l'intro de marque.
+ * Apparition en CSS pur : démarre dès l'affichage du HTML, sans attendre le JavaScript.
  * Usage : class="entree" style="--d: 0.2s"
  */
-.entree,
-.entree-fondu,
-.entree-zoom {
-  animation-duration: 1s;
-  animation-timing-function: var(--ease-doux);
-  animation-fill-mode: both;
+.entree {
+  animation: entree 0.9s var(--ease-doux) both;
   animation-delay: var(--d, 0s);
 }
-.entree {
-  animation-name: entree-monte;
-}
-.entree-fondu {
-  animation-name: entree-fondu;
-}
-.entree-zoom {
-  animation-name: entree-zoom;
-  animation-duration: 1.3s;
-}
-html[data-intro] :is(.entree, .entree-fondu, .entree-zoom) {
-  animation-delay: calc(var(--d, 0s) + 1.25s);
-}
-@keyframes entree-monte {
-  from {
-    transform: translate3d(0, 105%, 0) rotate(4deg);
-  }
-}
-@keyframes entree-fondu {
+@keyframes entree {
   from {
     opacity: 0;
-    transform: translate3d(0, 28px, 0);
-  }
-}
-@keyframes entree-zoom {
-  from {
-    opacity: 0;
-    transform: scale(0.4) rotate(var(--r, 0deg));
+    transform: translate3d(0, 18px, 0);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .entree,
-  .entree-fondu,
-  .entree-zoom {
+  .entree {
     animation: none;
   }
 }
 
-/* Élément collant juste sous l'en-tête ; remonte en haut quand l'en-tête se cache au défilement */
+/* Élément collant juste sous l'en-tête ; remonte quand l'en-tête se cache au défilement */
 .sous-entete {
-  top: 5.5rem;
-  transition: top 0.5s var(--ease-doux);
+  top: 4.75rem;
+  transition: top 0.45s var(--ease-doux);
 }
 @media (min-width: 1024px) {
   .sous-entete {
-    top: 6rem;
+    top: 5.25rem;
   }
 }
 html[data-entete="cache"] .sous-entete {
-  top: 0;
-}
-
-@utility verre {
-  background-color: color-mix(in oklab, white 85%, transparent);
-  backdrop-filter: blur(14px) saturate(1.2);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  top: 0.75rem;
 }

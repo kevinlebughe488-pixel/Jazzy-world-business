@@ -2,25 +2,26 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
-import { Banknote, Check, MessageCircle, Minus, Plus, ShieldCheck, Truck } from "lucide-react";
-import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Check, MessageCircle, Minus, Plus, ShieldCheck } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AddToCartButton } from "@/components/product/AddToCartButton";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { boutique, type Produit } from "@/lib/catalogue";
 import { formatFC, formatUSD } from "@/lib/format";
+import { useMonte } from "@/lib/useMonte";
 import { lienWhatsApp, messageCommande, messageQuestion } from "@/lib/whatsapp";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 const conteneur: Variants = {
   cache: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
 };
 
 const element: Variants = {
-  cache: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
+  cache: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
 };
 
 const POINTS_PAR_DEFAUT = [
@@ -30,16 +31,8 @@ const POINTS_PAR_DEFAUT = [
   "Conseils et suivi sur WhatsApp",
 ];
 
-const abonnementVide = () => () => {};
-
-/** false au rendu serveur / hydratation, true ensuite (évite les écarts d'hydratation). */
-function useMonte() {
-  return useSyncExternalStore(
-    abonnementVide,
-    () => true,
-    () => false,
-  );
-}
+const boutonWhatsApp =
+  "inline-flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 text-base font-medium text-encre transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre";
 
 export function PanneauAchat({ produit, categorie }: { produit: Produit; categorie?: string }) {
   const reduire = useReducedMotion();
@@ -72,224 +65,148 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
 
   return (
     <>
-      <motion.div
-        className="flex flex-col"
-        variants={variantesConteneur}
-        initial="cache"
-        animate="visible"
-      >
+      <motion.div className="flex flex-col" variants={variantesConteneur} initial="cache" animate="visible">
         {categorie && (
-          <motion.p variants={variantesElement}>
-            <span className="inline-flex items-center gap-2 text-[0.66rem] font-bold uppercase tracking-[0.32em] text-gris-500">
-              <span className="size-1.5 rounded-full bg-noir" aria-hidden />
-              {categorie}
-            </span>
+          <motion.p variants={variantesElement} className="etiquette">
+            {categorie}
           </motion.p>
         )}
 
         <motion.h1
           variants={variantesElement}
-          className="mt-3 text-balance font-affiche text-5xl uppercase leading-[0.92] tracking-[0.01em] text-noir sm:text-6xl xl:text-7xl"
+          className="mt-3 font-serif text-5xl leading-[1] tracking-[-0.015em] sm:text-6xl xl:text-7xl"
         >
           {produit.nom}
         </motion.h1>
 
-        <motion.p variants={variantesElement} className="mt-3 text-pretty text-lg leading-relaxed text-noir/70">
+        <motion.p variants={variantesElement} className="mt-4 text-lg leading-relaxed text-encre-doux">
           {accroche || "Qualité vérifiée, livré chez vous à Kinshasa et payé à la réception."}
         </motion.p>
 
-        <motion.div variants={variantesElement} className="mt-6 flex flex-wrap items-end gap-x-4 gap-y-2">
-          <p className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+        <motion.div variants={variantesElement} className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <p className="font-serif text-5xl leading-none">
             <span className="sr-only">Prix : </span>
             {formatUSD(produit.prix)}
           </p>
           {produit.enStock ? (
-            <span className="mb-1.5 inline-flex items-center gap-2 px-3 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.2em] text-noir ring-1 ring-inset ring-noir">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full rounded-full bg-noir opacity-60 motion-safe:animate-ping" />
-                <span className="relative inline-flex size-2 rounded-full bg-noir" />
-              </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-sauge-pale px-3 py-1 text-sm text-sauge-fonce">
+              <Check className="size-3.5" strokeWidth={2.6} aria-hidden />
               En stock
             </span>
           ) : (
-            <span className="mb-1.5 bg-noir px-3 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.2em] text-white">
+            <span className="inline-flex rounded-full bg-argile/10 px-3 py-1 text-sm text-argile-fonce">
               Bientôt de retour
             </span>
           )}
         </motion.div>
 
         {/* Zone d'achat */}
-        <motion.div
-          ref={zoneAchat}
-          variants={variantesElement}
-          className="mt-8 bg-white p-4 ring-1 ring-gris-200 sm:p-5"
-        >
+        <motion.div ref={zoneAchat} variants={variantesElement} className="mt-8 rounded-carte bg-carte p-4 shadow-doux sm:p-6">
           {produit.enStock ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <span id="libelle-quantite" className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-noir">
+                <span id="libelle-quantite" className="font-medium">
                   Quantité
                 </span>
                 <Stepper quantite={quantite} onChange={setQuantite} />
               </div>
-              <div className="mt-4 flex items-baseline justify-between border-t border-dashed border-gris-200 pt-4">
-                <span className="text-sm text-noir/60">Total articles</span>
-                <span className="text-2xl font-extrabold text-noir" aria-live="polite">
+              <div className="mt-4 flex items-baseline justify-between border-t border-dashed border-trait-fort pt-4">
+                <span className="text-muet">Total articles</span>
+                <span className="font-serif text-3xl leading-none" aria-live="polite">
                   <AnimatePresence mode="popLayout" initial={false}>
                     <motion.span
                       key={total}
                       className="inline-block"
-                      initial={reduire ? { opacity: 0 } : { opacity: 0, y: -12 }}
+                      initial={reduire ? { opacity: 0 } : { opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={reduire ? { opacity: 0 } : { opacity: 0, y: 12 }}
-                      transition={{ duration: 0.25 }}
+                      exit={reduire ? { opacity: 0 } : { opacity: 0, y: 8 }}
+                      transition={{ duration: 0.22 }}
                     >
                       {formatUSD(total)}
                     </motion.span>
                   </AnimatePresence>
                 </span>
               </div>
-              <div className="mt-5 flex flex-col gap-3">
+              <div className="mt-5 flex flex-col gap-2.5">
                 <AddToCartButton produitId={produit.id} quantite={quantite} image={image} className="w-full" />
-                <motion.a
-                  href={lienCommande}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={reduire ? undefined : { scale: 1.02 }}
-                  whileTap={{ scale: 0.96 }}
-                  className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-whatsapp px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-noir transition-colors duration-300 hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
-                >
+                <a href={lienCommande} target="_blank" rel="noopener noreferrer" className={boutonWhatsApp}>
                   <WhatsAppIcon className="size-5" />
-                  <span>
-                    Commander <span className="hidden xl:inline">directement </span>sur WhatsApp
-                  </span>
-                </motion.a>
+                  Commander sur WhatsApp
+                </a>
               </div>
             </>
           ) : (
             <div className="flex flex-col gap-3">
-              <p className="text-sm leading-relaxed text-noir/70">
+              <p className="leading-relaxed text-encre-doux">
                 Ce produit revient très vite. Écrivez-nous pour être prévenu(e) ou réserver le vôtre.
               </p>
-              <a
-                href={lienQuestion}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-14 w-full items-center justify-center gap-2.5 bg-whatsapp px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-noir transition-colors duration-300 hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
-              >
+              <a href={lienQuestion} target="_blank" rel="noopener noreferrer" className={boutonWhatsApp}>
                 <WhatsAppIcon className="size-5" />
                 Me prévenir sur WhatsApp
               </a>
             </div>
           )}
-          <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-noir/55">
-            <ShieldCheck className="size-3.5 text-noir" aria-hidden />
+          <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-sm text-muet">
+            <ShieldCheck className="size-4 text-sauge-fonce" aria-hidden />
             Aucun paiement en ligne : vous payez à la livraison.
           </p>
         </motion.div>
 
-        {/* Cartes infos */}
-        <motion.div variants={variantesElement} className="mt-5 grid gap-3 sm:grid-cols-2">
-          <CarteInfo
-            icone={<Truck className="size-5" aria-hidden />}
-            titre={`Livraison dès ${formatFC(boutique.livraison.prixMinFC)}`}
-            texte="Partout à Kinshasa. Le prix exact dépend du trajet, confirmé sur WhatsApp."
-          />
-          <CarteInfo
-            icone={<Banknote className="size-5" aria-hidden />}
-            titre="Cash à la livraison"
-            texte="Vous vérifiez votre colis, puis vous payez. Simple et sans risque."
-          />
-        </motion.div>
+        {/* Livraison & paiement */}
+        <motion.dl variants={variantesElement} className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="rounded-carte bg-lin p-5">
+            <dt className="font-medium">Livraison dès {formatFC(boutique.livraison.prixMinFC)}</dt>
+            <dd className="mt-1 text-sm leading-relaxed text-encre-doux">
+              Partout à Kinshasa. Le prix exact dépend du trajet, confirmé sur WhatsApp.
+            </dd>
+          </div>
+          <div className="rounded-carte bg-lin p-5">
+            <dt className="font-medium">Cash à la livraison</dt>
+            <dd className="mt-1 text-sm leading-relaxed text-encre-doux">
+              Vous vérifiez votre colis, puis vous payez. Simple et sans risque.
+            </dd>
+          </div>
+        </motion.dl>
       </motion.div>
 
-      {/* Description & points forts */}
-      <div className="mt-12">
-        <motion.h2
-          initial={reduire ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="font-affiche text-3xl uppercase tracking-[0.02em] text-noir sm:text-4xl"
-        >
-          {points.length > 0 ? "Points forts" : "Pourquoi commander chez nous"}
-        </motion.h2>
-        <motion.ul
-          className="mt-5 grid gap-3"
-          variants={reduire ? undefined : { visible: { transition: { staggerChildren: 0.09 } } }}
-          initial="cache"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
+      {/* Points forts & description */}
+      <div className="mt-14 border-t border-trait pt-10">
+        <h2 className="font-serif text-4xl leading-none">{points.length > 0 ? "Points forts" : "Pourquoi commander chez nous"}</h2>
+        <ul className="mt-6 grid gap-x-6 gap-y-3 sm:grid-cols-2">
           {pointsAffiches.map((point) => (
-            <motion.li
-              key={point}
-              variants={
-                reduire
-                  ? undefined
-                  : {
-                      cache: { opacity: 0, x: -20 },
-                      visible: { opacity: 1, x: 0, transition: { duration: 0.55, ease: EASE } },
-                    }
-              }
-              className="flex items-start gap-3 bg-white/70 p-3.5 ring-1 ring-gris-200"
-            >
-              <motion.span
-                variants={
-                  reduire
-                    ? undefined
-                    : {
-                        cache: { scale: 0, rotate: -45 },
-                        visible: {
-                          scale: 1,
-                          rotate: 0,
-                          transition: { type: "spring", stiffness: 500, damping: 18, delay: 0.15 },
-                        },
-                      }
-                }
-                className="bg-noir grid size-6 shrink-0 place-items-center text-white"
-              >
-                <Check className="size-3.5" strokeWidth={3} aria-hidden />
-              </motion.span>
-              <span className="pt-0.5 text-[15px] leading-snug text-noir/85">{point}</span>
-            </motion.li>
+            <li key={point} className="flex items-start gap-3">
+              <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-sauge-pale text-sauge-fonce">
+                <Check className="size-3.5" strokeWidth={2.6} aria-hidden />
+              </span>
+              <span className="leading-snug text-encre-doux">{point}</span>
+            </li>
           ))}
-        </motion.ul>
+        </ul>
 
-        <motion.div
-          initial={reduire ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="mt-10"
+        <h2 className="mt-12 font-serif text-4xl leading-none">Description</h2>
+        {description ? (
+          <div className="mt-5 max-w-[65ch] space-y-4 leading-relaxed text-encre-doux">
+            {description.split(/\n{2,}/).map((para, i) => (
+              <p key={i} className="whitespace-pre-line">
+                {para}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-5 max-w-[65ch] leading-relaxed text-encre-doux">
+            Vous voulez plus de détails sur ce produit (utilisation, taille, couleurs disponibles) ? Écrivez-nous sur
+            WhatsApp, nous vous répondons rapidement avec photos et conseils.
+          </p>
+        )}
+        <a
+          href={lienQuestion}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full font-medium text-encre underline decoration-trait-fort underline-offset-[6px] transition-colors hover:decoration-encre focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-encre"
         >
-          <h2 className="font-affiche text-3xl uppercase tracking-[0.02em] text-noir sm:text-4xl">Description</h2>
-          {description ? (
-            <div className="mt-4 space-y-4 text-pretty text-base leading-relaxed text-noir/75">
-              {description.split(/\n{2,}/).map((para, i) => (
-                <p key={i} className="whitespace-pre-line">
-                  {para}
-                </p>
-              ))}
-            </div>
-          ) : (
-            <p className="mt-4 text-pretty text-base leading-relaxed text-noir/75">
-              Vous voulez plus de détails sur ce produit (utilisation, taille, couleurs disponibles) ? Écrivez-nous
-              sur WhatsApp, nous vous répondons rapidement avec photos et conseils.
-            </p>
-          )}
-          <a
-            href={lienQuestion}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-5 inline-flex min-h-11 items-center gap-2 font-semibold text-noir focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-noir"
-          >
-            <MessageCircle className="size-4" aria-hidden />
-            <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1.5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_1.5px]">
-              Poser une question sur ce produit
-            </span>
-          </a>
-        </motion.div>
+          <MessageCircle className="size-4" aria-hidden />
+          Poser une question sur ce produit
+        </a>
       </div>
 
       {/* Barre collante mobile */}
@@ -303,26 +220,26 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
                 initial={reduire ? { opacity: 0 } : { y: "110%" }}
                 animate={reduire ? { opacity: 1 } : { y: 0 }}
                 exit={reduire ? { opacity: 0 } : { y: "110%" }}
-                transition={{ type: "spring", stiffness: 380, damping: 36 }}
+                transition={{ type: "spring", stiffness: 380, damping: 38 }}
                 className="fixed inset-x-0 bottom-0 z-30 lg:hidden"
               >
                 <div
-                  className="border-t border-gris-200 bg-white/90 backdrop-blur-xl"
+                  className="border-t border-trait bg-papier/90 backdrop-blur-xl"
                   style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
                 >
                   {/* pr : laisse la place au bouton WhatsApp flottant (bas à droite) */}
                   <div className="flex items-center gap-3 py-2.5 pl-4 pr-[5.25rem]">
                     {image && (
-                      <div className="relative size-12 shrink-0 overflow-hidden bg-white ring-1 ring-gris-200">
+                      <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-lin">
                         <Image src={image} alt="" fill sizes="48px" className="object-cover" />
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-xs font-medium text-noir/65">
+                      <p className="truncate text-xs text-muet">
                         {quantite > 1 ? `${quantite} × ` : ""}
                         {produit.nom}
                       </p>
-                      <p className="font-display text-lg font-bold leading-tight text-noir">{formatUSD(total)}</p>
+                      <p className="font-serif text-2xl leading-tight">{formatUSD(total)}</p>
                     </div>
                     <AddToCartButton produitId={produit.id} quantite={quantite} image={image} compact />
                   </div>
@@ -339,57 +256,41 @@ export function PanneauAchat({ produit, categorie }: { produit: Produit; categor
 function Stepper({ quantite, onChange }: { quantite: number; onChange: (q: number) => void }) {
   const reduire = useReducedMotion();
   const classeBouton =
-    "grid size-11 place-items-center text-noir transition-colors hover:bg-white active:bg-white disabled:opacity-35 disabled:hover:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-noir";
+    "grid size-10 place-items-center rounded-full text-encre transition-colors hover:bg-carte disabled:opacity-35 disabled:hover:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-encre";
   return (
-    <div role="group" aria-labelledby="libelle-quantite" className="flex items-center gap-1 bg-gris-50 p-1 ring-1 ring-gris-200">
-      <motion.button
+    <div role="group" aria-labelledby="libelle-quantite" className="flex items-center gap-1 rounded-full bg-papier p-1 ring-1 ring-inset ring-trait">
+      <button
         type="button"
-        whileTap={{ scale: 0.85 }}
         onClick={() => onChange(Math.max(1, quantite - 1))}
         disabled={quantite <= 1}
         aria-label="Diminuer la quantité"
         className={classeBouton}
       >
-        <Minus className="size-4" strokeWidth={2.5} aria-hidden />
-      </motion.button>
-      <span className="relative grid h-11 w-10 place-items-center overflow-hidden font-display text-lg font-bold tabular-nums">
+        <Minus className="size-4" strokeWidth={2.2} aria-hidden />
+      </button>
+      <span className="relative grid h-10 w-9 place-items-center overflow-hidden text-lg font-medium tabular-nums">
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
             key={quantite}
-            initial={reduire ? { opacity: 0 } : { opacity: 0, scale: 0.4 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={reduire ? { opacity: 0 } : { opacity: 0, scale: 0.4 }}
-            transition={{ type: "spring", stiffness: 600, damping: 30 }}
+            initial={reduire ? { opacity: 0 } : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduire ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
             aria-live="polite"
           >
             {quantite}
           </motion.span>
         </AnimatePresence>
       </span>
-      <motion.button
+      <button
         type="button"
-        whileTap={{ scale: 0.85 }}
         onClick={() => onChange(Math.min(99, quantite + 1))}
         disabled={quantite >= 99}
         aria-label="Augmenter la quantité"
         className={classeBouton}
       >
-        <Plus className="size-4" strokeWidth={2.5} aria-hidden />
-      </motion.button>
-    </div>
-  );
-}
-
-function CarteInfo({ icone, titre, texte }: { icone: ReactNode; titre: string; texte: string }) {
-  return (
-    <div className="group flex gap-3.5 bg-gris-50 p-4">
-      <span className="grid size-11 shrink-0 place-items-center bg-noir text-white transition-transform duration-500 ease-[var(--ease-doux)] group-hover:-rotate-6 group-hover:scale-110">
-        {icone}
-      </span>
-      <div>
-        <p className="text-sm font-bold uppercase tracking-[0.08em] text-noir">{titre}</p>
-        <p className="mt-1 text-sm leading-snug text-noir/65">{texte}</p>
-      </div>
+        <Plus className="size-4" strokeWidth={2.2} aria-hidden />
+      </button>
     </div>
   );
 }

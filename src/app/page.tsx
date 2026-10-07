@@ -1,22 +1,21 @@
 import { Hero } from "@/components/home/Hero";
-import { Manifeste } from "@/components/home/Manifeste";
+import { Assurances } from "@/components/home/Assurances";
 import { ProduitsVedettes } from "@/components/home/ProduitsVedettes";
 import { CommentCommander } from "@/components/home/CommentCommander";
-import { GrandFinal } from "@/components/home/GrandFinal";
+import { Contact } from "@/components/home/Contact";
 
 /*
- * Accueil : l'intensité des animations monte au fil du défilement.
- * Hero qui explose → bandeaux qui accélèrent → vitrine horizontale
- * → ticket de caisse imprimé au défilement → cercle noir final.
+ * Accueil, au calme : titre et tirages photo → promesses (livraison, paiement, commande)
+ * → produits phares → ticket des 4 étapes → carte contact.
  */
 export default function Accueil() {
   return (
     <>
       <Hero />
-      <Manifeste />
+      <Assurances />
       <ProduitsVedettes />
       <CommentCommander />
-      <GrandFinal />
+      <Contact />
     </>
   );
 }

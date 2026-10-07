@@ -52,7 +52,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-noir/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-encre/40 backdrop-blur-[2px]"
         onClick={onFermer}
       />
       <motion.div
@@ -73,19 +73,19 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
             ? { duration: 0.2 }
             : { type: "spring", stiffness: 300, damping: 28 }
         }
-        className="relative w-full max-w-md overflow-hidden bg-white p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] text-center sm:p-8"
+        className="relative w-full max-w-md overflow-hidden rounded-carte bg-papier p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] text-center shadow-releve sm:p-8"
       >
         <button
           type="button"
           onClick={onFermer}
           aria-label="Fermer"
-          className="absolute top-3 right-3 grid size-11 place-items-center text-noir/50 transition-colors hover:bg-noir/5 hover:text-noir focus-visible:outline-2 focus-visible:outline-noir"
+          className="absolute right-3 top-3 grid size-11 place-items-center rounded-full text-muet transition-colors hover:bg-encre/5 hover:text-encre focus-visible:outline-2 focus-visible:outline-encre"
         >
           <X className="size-5" aria-hidden="true" />
         </button>
 
         <motion.div
-          className="relative mx-auto grid size-20 place-items-center rounded-full bg-whatsapp text-noir"
+          className="relative mx-auto grid size-20 place-items-center rounded-full bg-whatsapp text-encre"
           initial={reduire ? false : { scale: 0, rotate: -45 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{
@@ -130,11 +130,11 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
 
         <h2
           id="succes-titre"
-          className="relative mt-6 font-affiche text-4xl uppercase leading-[0.95] text-balance"
+          className="relative mt-6 font-serif text-4xl leading-[1.05]"
         >
           Votre commande est prête sur WhatsApp
         </h2>
-        <p id="succes-texte" className="relative mt-3 text-pretty text-gris-700">
+        <p id="succes-texte" className="relative mt-3 leading-relaxed text-encre-doux">
           Envoyez le message pour la confirmer. Nous vous répondons rapidement
           pour fixer le prix et l&apos;heure de livraison. Vous payez cash à la
           réception.
@@ -146,7 +146,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
             href={lien}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-14 items-center justify-center gap-2 bg-whatsapp px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-noir transition-[transform,background-color] hover:scale-[1.02] hover:bg-whatsapp-fonce active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+            className="inline-flex min-h-14 items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-medium text-encre transition-[transform,background-color] hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
           >
             <WhatsAppIcon className="size-5" />
             Rouvrir WhatsApp
@@ -155,7 +155,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
           <button
             type="button"
             onClick={onVider}
-            className="inline-flex min-h-12 items-center justify-center gap-2 bg-white px-6 text-[0.75rem] font-bold uppercase tracking-[0.16em] text-noir ring-1 ring-inset ring-noir transition-colors hover:bg-noir hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-carte px-6 font-medium text-encre ring-1 ring-inset ring-trait-fort transition-shadow hover:ring-encre/45 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
           >
             <Trash2 className="size-4" aria-hidden="true" />
             Vider le panier
@@ -163,7 +163,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
           <button
             type="button"
             onClick={onFermer}
-            className="min-h-11 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-gris-500 hover:text-noir focus-visible:outline-2 focus-visible:outline-noir"
+            className="min-h-11 rounded-full text-[0.95rem] text-muet hover:text-encre focus-visible:outline-2 focus-visible:outline-encre"
           >
             Garder mon panier
           </button>

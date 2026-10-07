@@ -1,261 +1,119 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
-import { ArrowRight, Check, CheckCheck, Truck } from "lucide-react";
-import { boutique, getProduit } from "@/lib/catalogue";
-import { formatFC, formatUSD } from "@/lib/format";
-import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { TicketCommande } from "./TicketCommande";
-import { useMonte } from "@/lib/useMonte";
+import { boutique } from "@/lib/catalogue";
+import { formatFC } from "@/lib/format";
 
-/* Message d'exemple construit à partir du vrai catalogue. */
-const exemple = [getProduit("montre-arabe"), getProduit("lunettes-chromees")].filter(
-  (p): p is NonNullable<typeof p> => Boolean(p),
-);
-const totalExemple = exemple.reduce((t, p) => t + p.prix, 0);
-const messageExemple = [
-  `Bonjour ${boutique.nom} 👋`,
-  "Je souhaite commander :",
-  ...exemple.map((p) => `• 1 × ${p.nom} = ${formatUSD(p.prix)}`),
-  `Sous-total : ${formatUSD(totalExemple)}`,
-  "Commune : Gombe",
-].join("\n");
+const ETAPES = [
+  { titre: "Choisissez vos produits", texte: "Bien-être, beauté, accessoires." },
+  { titre: "Ajoutez au panier", texte: "Il reste gardé sur votre téléphone." },
+  { titre: "Envoyez sur WhatsApp", texte: "Le message est déjà écrit pour vous." },
+  { titre: "Payez à la livraison", texte: "En cash, en recevant le colis." },
+];
 
-const ease = [0.22, 1, 0.36, 1] as const;
+/* Code-barres décoratif (largeurs fixes : identique au serveur et au navigateur). */
+const BARRES = [3, 1, 2, 1, 1, 3, 2, 1, 1, 2, 3, 1, 2, 2, 1, 1, 3, 1, 2, 1, 1, 2, 1, 3, 2, 1, 1, 2, 1, 1, 3, 2];
 
+/** « Commander en 4 étapes » : un ticket de caisse posé sur la table, à côté du texte. */
 export function CommentCommander() {
   return (
-    <>
-      {/* Les 4 étapes : ticket de caisse imprimé au fil du défilement */}
-      <TicketCommande />
+    <section id="comment-commander" aria-labelledby="titre-comment-commander" className="scroll-mt-24 py-20 sm:py-28">
+      <Container className="grid items-center gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+        {/* ---------- Texte ---------- */}
+        <Reveal className="lg:order-2">
+          <p className="etiquette">Simple comme bonjour</p>
+          <h2
+            id="titre-comment-commander"
+            className="mt-4 font-serif text-5xl leading-[1.02] tracking-[-0.01em] sm:text-6xl"
+          >
+            Commander en <em>4 étapes</em>
+          </h2>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-encre-doux">
+            Pas de compte, pas de carte bancaire. Votre commande part en un message WhatsApp et vous payez à la
+            réception.
+          </p>
+          <ButtonLink href="/infos/" variante="secondaire" className="mt-8">
+            Livraison &amp; infos
+          </ButtonLink>
+        </Reveal>
 
-      {/* Démonstration WhatsApp */}
-      <section aria-labelledby="titre-demo-whatsapp" className="relative bg-white pt-24 sm:pt-32">
-        <Container className="pb-24 sm:pb-32">
-          <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
-            <Reveal className="order-2 lg:order-1">
-              <p className="text-[0.66rem] font-bold uppercase tracking-[0.38em] text-gris-500">— Sur WhatsApp</p>
-              <h2 id="titre-demo-whatsapp" className="mt-3 font-affiche text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl">
-                Votre message est <span className="texte-contour [-webkit-text-stroke-width:1.5px]">déjà prêt</span>
-              </h2>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-gris-700 sm:text-lg">
-                En appuyant sur « Commander sur WhatsApp », la liste de vos articles et le total s’écrivent
-                automatiquement. Vous vérifiez, vous envoyez, et nous vous confirmons le prix de la livraison.
-              </p>
-              <ul className="mt-6 space-y-3 text-gris-900">
-                {[
-                  "Réponse rapide de notre équipe",
-                  `Livraison partout à Kinshasa dès ${formatFC(boutique.livraison.prixMinFC)}`,
-                  "Paiement cash à la réception",
-                ].map((t) => (
-                  <li key={t} className="flex items-start gap-3">
-                    <span className="mt-0.5 grid size-6 shrink-0 place-items-center bg-noir text-white">
-                      <Check className="size-3.5" strokeWidth={3} aria-hidden />
+        {/* ---------- Ticket ---------- */}
+        <Reveal delai={0.1} className="lg:order-1">
+          <div className="relative mx-auto w-full max-w-[22rem] -rotate-[1.5deg] drop-shadow-[0_18px_26px_rgb(70_52_24/0.16)] sm:max-w-sm">
+            <span aria-hidden="true" className="ruban -top-3 left-1/2 z-10 -translate-x-1/2 rotate-2 bg-sauge/75" />
+            <div className="bg-carte px-6 pb-6 pt-7 font-mono text-[0.74rem] uppercase leading-relaxed text-encre sm:px-7 sm:text-[0.78rem]">
+              <p className="text-center text-[0.85rem] font-bold tracking-[0.16em]">{boutique.nom}</p>
+              <p className="text-center text-muet">Kinshasa, RD Congo</p>
+              <Pointilles />
+
+              <ol className="space-y-3">
+                {ETAPES.map((e, i) => (
+                  <li key={e.titre} className="flex gap-3">
+                    <span className="text-muet">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="flex-1">
+                      <span className="font-bold">{e.titre}</span>
+                      <span className="block normal-case text-encre-doux">{e.texte}</span>
                     </span>
-                    <span>{t}</span>
+                    <span aria-hidden="true" className="text-sauge-fonce">
+                      ✓
+                    </span>
                   </li>
                 ))}
-              </ul>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/boutique/" className="group">
-                  Voir la boutique
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
-                </ButtonLink>
-                <ButtonLink href="/infos/" variante="secondaire">
-                  <Truck className="size-4" aria-hidden />
-                  Livraison &amp; paiement
-                </ButtonLink>
-              </div>
-            </Reveal>
+              </ol>
 
-            <div className="order-1 lg:order-2">
-              <ChatDemo />
+              <Pointilles />
+              <div className="space-y-1">
+                <LigneTotal libelle="Compte à créer" valeur="Aucun" />
+                <LigneTotal libelle="Paiement en ligne" valeur="0 $" />
+                <LigneTotal libelle="Livraison" valeur={`dès ${formatFC(boutique.livraison.prixMinFC)}`} />
+                <div className="mt-2 border-t-4 border-double border-encre pt-2">
+                  <LigneTotal libelle="Total" valeur="Cash à la livraison" gras />
+                </div>
+              </div>
+
+              {/* Code-barres et tampon */}
+              <div className="relative mt-6">
+                <div aria-hidden="true" className="flex h-10 w-fit items-stretch gap-[2px]">
+                  {BARRES.map((l, i) => (
+                    <span key={i} className={i % 2 ? "bg-transparent" : "bg-encre"} style={{ width: l * 2 }} />
+                  ))}
+                </div>
+                <p
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-3 right-0 -rotate-[11deg] rounded-[4px] border-2 border-argile px-3 py-1 text-center font-serif normal-case leading-none text-argile-fonce mix-blend-multiply"
+                >
+                  <span className="block text-3xl italic">Payé cash</span>
+                  <span className="block font-mono text-[0.55rem] uppercase tracking-[0.25em]">à la livraison</span>
+                </p>
+              </div>
+              <p className="mt-3 text-center font-bold tracking-[0.16em]">Merci, matondo mingi !</p>
             </div>
+            {/* Bord déchiré */}
+            <div
+              aria-hidden="true"
+              className="h-2.5 bg-[length:14px_10px] bg-repeat-x"
+              style={{
+                backgroundImage:
+                  "linear-gradient(135deg, var(--color-carte) 50%, transparent 50%), linear-gradient(-135deg, var(--color-carte) 50%, transparent 50%)",
+              }}
+            />
           </div>
-        </Container>
-      </section>
-    </>
+        </Reveal>
+      </Container>
+    </section>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* Faux écran WhatsApp : le message se tape tout seul.                 */
-/* ------------------------------------------------------------------ */
+function Pointilles() {
+  return <div aria-hidden="true" className="my-4 border-t border-dashed border-trait-fort" />;
+}
 
-type Phase = "attente" | "frappe" | "envoye" | "reponse";
-
-function ChatDemo() {
-  const ref = useRef<HTMLDivElement>(null);
-  const visible = useInView(ref, { once: true, margin: "-120px" });
-  const reduire = useReducedMotion();
-  const [nbCar, setNbCar] = useState(0);
-  const [phase, setPhase] = useState<Phase>("attente");
-
-  // Version immobile seulement après l'hydratation : le HTML serveur et le premier rendu client restent identiques.
-  const monte = useMonte();
-  const immobile = monte && !!reduire;
-  const texteAffiche = immobile ? messageExemple : messageExemple.slice(0, nbCar);
-  const phaseAffichee: Phase = immobile ? "reponse" : phase;
-
-  useEffect(() => {
-    if (!visible || reduire) return;
-    const minuteurs: ReturnType<typeof setTimeout>[] = [];
-    let intervalle: ReturnType<typeof setInterval> | undefined;
-    const caracteres = Array.from(messageExemple);
-
-    minuteurs.push(
-      setTimeout(() => {
-        setPhase("frappe");
-        let n = 0;
-        intervalle = setInterval(() => {
-          n += 2;
-          // Avancer en unités de code (gère les emojis sur 2 unités)
-          const longueur = caracteres.slice(0, n).join("").length;
-          setNbCar(longueur);
-          if (n >= caracteres.length) {
-            if (intervalle) clearInterval(intervalle);
-            minuteurs.push(setTimeout(() => setPhase("envoye"), 450));
-            minuteurs.push(setTimeout(() => setPhase("reponse"), 1900));
-          }
-        }, 28);
-      }, 500),
-    );
-
-    return () => {
-      minuteurs.forEach(clearTimeout);
-      if (intervalle) clearInterval(intervalle);
-    };
-  }, [visible, reduire]);
-
-  const envoye = phaseAffichee === "envoye" || phaseAffichee === "reponse";
-
+function LigneTotal({ libelle, valeur, gras }: { libelle: string; valeur: string; gras?: boolean }) {
   return (
-    <motion.div
-      ref={ref}
-      initial={reduire ? false : { opacity: 0, y: 120, rotate: -10, scale: 0.85 }}
-      whileInView={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 1.1, ease }}
-      className="relative mx-auto w-full max-w-sm"
-    >
-      <figure className="relative overflow-hidden rounded-[2.4rem] bg-[#efeae2] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.55)] ring-[10px] ring-noir">
-        {/* Barre de conversation */}
-        <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white p-1">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/globe.webp" alt="" width={40} height={40} className="h-full w-full object-contain" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold">{boutique.nom}</p>
-            <p className="text-xs text-white/75">
-              {phaseAffichee === "envoye" ? "en train d’écrire…" : "en ligne"}
-            </p>
-          </div>
-          <WhatsAppIcon className="h-5 w-5 opacity-90" />
-        </div>
-
-        {/* Messages */}
-        <div className="flex min-h-[22rem] flex-col justify-end gap-3 px-3 py-4 sm:px-4">
-          <p className="sr-only">Exemple de message envoyé : {messageExemple}</p>
-
-          <AnimatePresence>
-            {phaseAffichee !== "attente" && (
-              <motion.div
-                key="client"
-                initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                aria-hidden
-                className="relative ml-auto max-w-[88%] origin-bottom-right rounded-2xl rounded-tr-sm bg-[#d9fdd3] px-3.5 py-2.5 text-[0.84rem] leading-snug text-[#111b21] shadow-sm"
-              >
-                <p className="whitespace-pre-wrap break-words">
-                  {texteAffiche}
-                  {phaseAffichee === "frappe" && (
-                    <motion.span
-                      className="ml-0.5 inline-block h-[1em] w-[2px] translate-y-[2px] bg-[#128c7e]"
-                      animate={{ opacity: [1, 0, 1] }}
-                      transition={{ duration: 0.9, repeat: Infinity }}
-                    />
-                  )}
-                </p>
-                <span className="mt-1 flex items-center justify-end gap-1 text-[0.68rem] text-[#667781]">
-                  10:24
-                  <AnimatePresence mode="wait" initial={false}>
-                    {envoye ? (
-                      <motion.span
-                        key="lu"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="text-[#53bdeb]"
-                      >
-                        <CheckCheck className="h-4 w-4" />
-                      </motion.span>
-                    ) : (
-                      <motion.span key="att" exit={{ scale: 0 }}>
-                        <Check className="h-4 w-4" />
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </span>
-              </motion.div>
-            )}
-
-            {phaseAffichee === "envoye" && (
-              <motion.div
-                key="saisie"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                aria-hidden
-                className="flex w-fit items-center gap-1 rounded-2xl rounded-tl-sm bg-white px-4 py-3 shadow-sm"
-              >
-                {[0, 1, 2].map((d) => (
-                  <motion.span
-                    key={d}
-                    className="h-2 w-2 rounded-full bg-[#667781]"
-                    animate={{ y: [0, -4, 0] }}
-                    transition={{ duration: 0.6, repeat: Infinity, delay: d * 0.15 }}
-                  />
-                ))}
-              </motion.div>
-            )}
-
-            {phaseAffichee === "reponse" && (
-              <motion.div
-                key="reponse"
-                initial={reduire ? false : { opacity: 0, scale: 0.9, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                className="max-w-[85%] origin-bottom-left rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[0.84rem] leading-snug text-[#111b21] shadow-sm"
-              >
-                <p>
-                  Merci ! 🙏 Commande bien reçue. Livraison à Gombe aujourd’hui, paiement cash à la réception. 🚚
-                </p>
-                <span className="mt-1 block text-right text-[0.68rem] text-[#667781]">10:25</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Barre de saisie */}
-        <div aria-hidden className="flex items-center gap-2 bg-[#f0f2f5] px-3 py-2.5">
-          <div className="flex-1 rounded-full bg-white px-4 py-2 text-sm text-[#667781]">Message</div>
-          <motion.div
-            animate={phaseAffichee === "frappe" && !reduire ? { scale: [1, 1.12, 1] } : { scale: 1 }}
-            transition={{ duration: 0.8, repeat: phaseAffichee === "frappe" ? Infinity : 0 }}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00a884] text-white"
-          >
-            <ArrowRight className="h-5 w-5" />
-          </motion.div>
-        </div>
-        <figcaption className="sr-only">
-          Illustration : le message de commande pré-rempli envoyé sur WhatsApp et la réponse de la boutique.
-        </figcaption>
-      </figure>
-    </motion.div>
+    <div className={gras ? "flex items-baseline gap-2 font-bold" : "flex items-baseline gap-2"}>
+      <span className="shrink-0">{libelle}</span>
+      <span aria-hidden="true" className="min-w-4 flex-1 border-b border-dotted border-trait-fort" />
+      <span className="shrink-0 text-right">{valeur}</span>
+    </div>
   );
 }

@@ -19,9 +19,9 @@ const SEUIL_VITESSE = 400; // px/s
 const ZOOM = 1.9;
 
 const glissement: Variants = {
-  entree: (sens: number) => ({ x: sens > 0 ? "60%" : "-60%", opacity: 0, scale: 0.9 }),
-  centre: { x: 0, opacity: 1, scale: 1 },
-  sortie: (sens: number) => ({ x: sens > 0 ? "-60%" : "60%", opacity: 0, scale: 0.9 }),
+  entree: (sens: number) => ({ x: sens > 0 ? "40%" : "-40%", opacity: 0 }),
+  centre: { x: 0, opacity: 1 },
+  sortie: (sens: number) => ({ x: sens > 0 ? "-40%" : "40%", opacity: 0 }),
 };
 
 const fondu: Variants = {
@@ -74,8 +74,8 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
 
   if (total === 0) {
     return (
-      <div className="bg-noir grid aspect-square place-items-center text-white/80">
-        <span className="font-display text-lg">Photo bientôt disponible</span>
+      <div className="grid aspect-square place-items-center rounded-carte bg-lin text-encre-doux">
+        <span className="font-serif text-2xl">Photo bientôt disponible</span>
       </div>
     );
   }
@@ -89,7 +89,7 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
         aria-label={`Photos de ${nom}`}
         tabIndex={plusieurs ? 0 : undefined}
         onKeyDown={clavier}
-        className="group relative aspect-square flex-1 overflow-hidden bg-gris-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-noir"
+        className="group relative aspect-square flex-1 overflow-hidden rounded-carte bg-lin focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-encre"
       >
 
         <AnimatePresence initial={false} custom={sens} mode="popLayout">
@@ -103,7 +103,7 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
             transition={
               reduire
                 ? { duration: 0.2 }
-                : { x: { type: "spring", stiffness: 300, damping: 32 }, default: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }
+                : { x: { type: "spring", stiffness: 300, damping: 36 }, default: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }
             }
             drag={plusieurs && !zoom ? "x" : false}
             dragConstraints={{ left: 0, right: 0 }}
@@ -140,7 +140,7 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
         <span
           aria-hidden
           className={clsx(
-            "verre pointer-events-none absolute right-4 top-4 hidden items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-noir/80 ring-1 ring-white/60 transition-opacity duration-300 [@media(hover:hover)]:flex",
+            "pointer-events-none absolute right-4 top-4 hidden items-center gap-1.5 rounded-full bg-carte/85 px-3 py-1.5 text-xs text-encre-doux backdrop-blur-md transition-opacity duration-300 [@media(hover:hover)]:flex",
             zoom ? "opacity-0" : "opacity-100",
           )}
         >
@@ -153,7 +153,7 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
             <FlecheNav sens="suivant" onClick={() => aller(index + 1)} />
 
             {/* Points de pagination */}
-            <div className="verre absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 px-3 py-2 ring-1 ring-white/60">
+            <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-carte/85 px-3 py-2 backdrop-blur-md">
               {images.map((_, i) => (
                 <button
                   key={i}
@@ -161,12 +161,12 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
                   onClick={() => aller(i)}
                   aria-label={`Afficher la photo ${i + 1}`}
                   aria-current={i === index}
-                  className="relative grid h-4 place-items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+                  className="relative grid h-4 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
                 >
                   <span
                     className={clsx(
                       "block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-doux)]",
-                      i === index ? "w-6 bg-noir" : "w-1.5 bg-noir/25",
+                      i === index ? "w-6 bg-encre" : "w-1.5 bg-encre/25",
                     )}
                   />
                 </button>
@@ -183,31 +183,26 @@ export function Galerie({ images, nom }: { images: string[]; nom: string }) {
       {plusieurs && (
         <div className="flex gap-3 overflow-x-auto pb-1 lg:w-20 lg:flex-col lg:overflow-visible lg:pb-0 xl:w-24">
           {images.map((src, i) => (
-            <motion.button
+            <button
               key={src}
               type="button"
               onClick={() => aller(i)}
               aria-label={`Afficher la photo ${i + 1}`}
               aria-current={i === index}
-              initial={reduire ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={reduire ? undefined : { y: -3 }}
-              whileTap={{ scale: 0.94 }}
               className={clsx(
-                "relative aspect-square w-20 shrink-0 overflow-hidden bg-white ring-1 ring-gris-200 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir lg:w-full",
-                i === index ? "opacity-100" : "opacity-60 hover:opacity-100",
+                "relative aspect-square w-20 shrink-0 overflow-hidden rounded-media bg-lin transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre lg:w-full",
+                i === index ? "opacity-100" : "opacity-55 hover:opacity-100",
               )}
             >
               <Image src={src} alt="" fill sizes="96px" className="object-cover" draggable={false} />
               {i === index && (
                 <motion.span
                   layoutId="miniature-active"
-                  className="absolute inset-0 ring-[2.5px] ring-inset ring-noir"
-                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  className="absolute inset-0 rounded-media ring-2 ring-inset ring-encre"
+                  transition={{ type: "spring", stiffness: 420, damping: 36 }}
                 />
               )}
-            </motion.button>
+            </button>
           ))}
         </div>
       )}
@@ -223,7 +218,7 @@ function FlecheNav({ sens, onClick }: { sens: "precedent" | "suivant"; onClick: 
       onClick={onClick}
       aria-label={sens === "precedent" ? "Photo précédente" : "Photo suivante"}
       className={clsx(
-        "verre absolute top-1/2 grid size-11 -translate-y-1/2 place-items-center text-noir ring-1 ring-white/70 transition-[opacity,transform] duration-300 hover:scale-110 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-noir",
+        "absolute top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-carte/85 text-encre shadow-doux backdrop-blur-md transition-[opacity,transform] duration-300 hover:scale-105 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-encre",
         "lg:opacity-0 lg:group-hover:opacity-100",
         sens === "precedent" ? "left-3" : "right-3",
       )}

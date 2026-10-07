@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useRef, useSyncExternalStore, type SyntheticEvent } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import {
   AnimatePresence,
   animate,
@@ -11,24 +11,16 @@ import {
   useReducedMotion,
   useTransform,
 } from "framer-motion";
-import { ArrowRight, ShoppingBag, Truck, Wallet, X } from "lucide-react";
+import { ArrowRight, ShoppingBag, X } from "lucide-react";
 import { boutique } from "@/lib/catalogue";
 import { detaillerLignes, usePanier } from "@/lib/cart";
 import { formatFC, formatUSD } from "@/lib/format";
+import { useMonte } from "@/lib/useMonte";
 import { lienWhatsApp, messageCommande } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { CartDrawerLine } from "./CartDrawerLine";
 
-const abonnementVide = () => () => {};
-function useMonte() {
-  return useSyncExternalStore(
-    abonnementVide,
-    () => true,
-    () => false,
-  );
-}
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 function MontantAnime({ valeur }: { valeur: number }) {
   const reduire = useReducedMotion();
@@ -132,24 +124,15 @@ export function CartDrawer() {
   const lienCommande = lienWhatsApp(messageCommande(lignes));
   const vide = details.length === 0;
 
-  // Empêche le défilement fluide global (Lenis, écouteur sur window) de capter la molette/le toucher
-  const arreterPropagation = (e: SyntheticEvent) => e.stopPropagation();
-
   return (
     <AnimatePresence>
       {visible ? (
-        <motion.div
-          key="tiroir-panier"
-          className="fixed inset-0 z-[70]"
-          onWheel={arreterPropagation}
-          onTouchMove={arreterPropagation}
-          data-lenis-prevent
-        >
-          {/* Fond flouté */}
+        <motion.div key="tiroir-panier" className="fixed inset-0 z-[70]">
+          {/* Voile */}
           <motion.div
             aria-hidden="true"
             onClick={fermerTiroir}
-            className="absolute inset-0 bg-noir/45 backdrop-blur-sm"
+            className="absolute inset-0 bg-encre/35 backdrop-blur-[2px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
@@ -162,42 +145,35 @@ export function CartDrawer() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="titre-tiroir-panier"
-            className="absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden bg-white sm:max-w-md"
-            initial={reduire ? { opacity: 0 } : { x: "100%" }}
+            className="absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden bg-papier sm:inset-y-3 sm:right-3 sm:max-w-md sm:rounded-carte sm:shadow-releve"
+            initial={reduire ? { opacity: 0 } : { x: "105%" }}
             animate={reduire ? { opacity: 1 } : { x: 0 }}
             exit={
               reduire
                 ? { opacity: 0, transition: { duration: 0.15 } }
-                : { x: "100%", transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] } }
+                : { x: "105%", transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] } }
             }
-            transition={reduire ? { duration: 0.15 } : { type: "spring", stiffness: 320, damping: 36, mass: 0.9 }}
+            transition={reduire ? { duration: 0.15 } : { type: "spring", stiffness: 300, damping: 36, mass: 0.9 }}
           >
             {/* En-tête */}
-            <header className="relative flex items-center justify-between gap-3 border-b border-gris-200 px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4 sm:px-6">
-              <div className="flex items-center gap-3">
-                <span className="bg-noir grid size-11 place-items-center text-white">
-                  <ShoppingBag className="size-5" aria-hidden="true" />
-                </span>
-                <div>
-                  <h2 id="titre-tiroir-panier" className="font-affiche text-2xl uppercase tracking-[0.02em] text-noir">
-                    Mon panier
-                  </h2>
-                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-gris-500" aria-live="polite">
-                    {vide ? "Aucun article" : `${articles} article${articles > 1 ? "s" : ""}`}
-                  </p>
-                </div>
+            <header className="flex items-center justify-between gap-3 border-b border-trait px-5 pb-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6 sm:pt-5">
+              <div>
+                <h2 id="titre-tiroir-panier" className="font-serif text-3xl leading-none">
+                  Mon panier
+                </h2>
+                <p className="mt-1.5 text-sm text-muet" aria-live="polite">
+                  {vide ? "Aucun article" : `${articles} article${articles > 1 ? "s" : ""}`}
+                </p>
               </div>
-              <motion.button
+              <button
                 ref={fermerRef}
                 type="button"
                 onClick={fermerTiroir}
-                whileHover={reduire ? undefined : { rotate: 90 }}
-                whileTap={{ scale: 0.88 }}
                 aria-label="Fermer le panier"
-                className="grid size-12 place-items-center bg-white text-noir ring-1 ring-gris-200 transition-colors hover:bg-noir hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+                className="grid size-11 place-items-center rounded-full bg-carte text-encre ring-1 ring-inset ring-trait-fort transition-[box-shadow,transform] hover:ring-encre/40 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
               >
                 <X className="size-5" aria-hidden="true" />
-              </motion.button>
+              </button>
             </header>
 
             {vide ? (
@@ -205,7 +181,7 @@ export function CartDrawer() {
             ) : (
               <>
                 {/* Lignes */}
-                <div className="relative flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-5" data-lenis-prevent>
+                <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-5">
                   <ul className="flex flex-col gap-3" aria-label="Articles du panier">
                     <AnimatePresence initial={true} mode="popLayout">
                       {details.map((ligne, i) => (
@@ -217,58 +193,45 @@ export function CartDrawer() {
 
                 {/* Récapitulatif */}
                 <motion.footer
-                  className="relative border-t border-gris-200 bg-white/80 px-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] backdrop-blur-md sm:px-6"
-                  initial={reduire ? { opacity: 0 } : { opacity: 0, y: 24 }}
+                  className="border-t border-trait bg-carte px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 sm:px-6"
+                  initial={reduire ? { opacity: 0 } : { opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: reduire ? 0 : 0.2, duration: 0.5, ease: EASE }}
+                  transition={{ delay: reduire ? 0 : 0.15, duration: 0.45, ease: EASE }}
                 >
                   <div className="flex items-baseline justify-between">
-                    <span className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-noir">Sous-total</span>
-                    <span className="text-2xl font-extrabold text-noir">
+                    <span className="text-encre-doux">Sous-total</span>
+                    <span className="font-serif text-3xl leading-none">
                       <MontantAnime valeur={total} />
                     </span>
                   </div>
+                  <p className="mt-2 text-sm leading-snug text-muet">
+                    Livraison dès {formatFC(boutique.livraison.prixMinFC)}, confirmée sur WhatsApp. Paiement cash à la
+                    livraison.
+                  </p>
 
-                  <ul className="mt-3 space-y-1.5 bg-gris-50 px-3.5 py-3 text-[13px] leading-snug text-noir/75">
-                    <li className="flex items-start gap-2">
-                      <Truck className="mt-px size-4 shrink-0 text-noir" aria-hidden="true" />
-                      <span>
-                        Livraison à partir de{" "}
-                        <strong className="font-semibold text-noir">{formatFC(boutique.livraison.prixMinFC)}</strong>,
-                        confirmée sur WhatsApp
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Wallet className="mt-px size-4 shrink-0 text-noir" aria-hidden="true" />
-                      <span>Paiement cash à la livraison</span>
-                    </li>
-                  </ul>
-
-                  <div className="mt-4 flex flex-col gap-2.5">
-                    <motion.div whileHover={reduire ? undefined : { scale: 1.02 }} whileTap={{ scale: 0.97 }}>
-                      <Link
-                        href="/panier/"
-                        onClick={fermerTiroir}
-                        className="group flex min-h-14 w-full items-center justify-center gap-2 bg-noir px-6 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-gris-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+                  <div className="mt-5 flex flex-col gap-2.5">
+                    <Link
+                      href="/panier/"
+                      onClick={fermerTiroir}
+                      className="group/bouton flex min-h-13 w-full items-center justify-center gap-2.5 rounded-full bg-encre pl-6 pr-2 font-medium text-papier transition-[background-color,transform] duration-300 hover:bg-encre-doux active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
+                    >
+                      <span className="flex-1 text-center">Finaliser ma commande</span>
+                      <span
+                        aria-hidden="true"
+                        className="grid size-9 place-items-center rounded-full bg-ocre text-encre transition-transform duration-300 group-hover/bouton:translate-x-0.5"
                       >
-                        Finaliser ma commande
-                        <ArrowRight
-                          className="size-5 transition-transform duration-300 group-hover:translate-x-1"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    </motion.div>
-                    <motion.a
+                        <ArrowRight className="size-4" strokeWidth={2.2} />
+                      </span>
+                    </Link>
+                    <a
                       href={lienCommande}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={reduire ? undefined : { scale: 1.02 }}
-                      whileTap={{ scale: 0.97 }}
-                      className="flex min-h-13 w-full items-center justify-center gap-2 bg-whatsapp px-6 text-[0.75rem] font-bold uppercase tracking-[0.16em] text-noir transition-colors hover:bg-whatsapp-fonce focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
+                      className="flex min-h-13 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-medium text-encre transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
                     >
                       <WhatsAppIcon className="size-5" />
                       Commander sur WhatsApp
-                    </motion.a>
+                    </a>
                   </div>
                 </motion.footer>
               </>
@@ -283,63 +246,31 @@ export function CartDrawer() {
 function EtatVide({ surFermer, reduire }: { surFermer: () => void; reduire: boolean }) {
   return (
     <motion.div
-      className="relative flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center"
-      initial="cache"
-      animate="visible"
-      variants={{ visible: { transition: { staggerChildren: reduire ? 0 : 0.08, delayChildren: reduire ? 0 : 0.15 } } }}
+      className="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center"
+      initial={reduire ? { opacity: 0 } : { opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: reduire ? 0 : 0.1, ease: EASE }}
     >
-      <motion.div
-        variants={{
-          cache: reduire ? { opacity: 0 } : { opacity: 0, scale: 0.8, y: 20 },
-          visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
-        }}
-        className="relative mb-8"
+      <span className="grid size-20 place-items-center rounded-full bg-lin text-encre-doux">
+        <ShoppingBag className="size-8" strokeWidth={1.5} aria-hidden="true" />
+      </span>
+      <h3 className="mt-7 font-serif text-3xl">Votre panier est vide</h3>
+      <p className="mt-2 max-w-xs leading-relaxed text-muet">
+        Parcourez la boutique et ajoutez vos coups de cœur. Livraison partout à Kinshasa.
+      </p>
+      <Link
+        href="/boutique/"
+        onClick={surFermer}
+        className="group/bouton mt-7 inline-flex min-h-12 items-center gap-2.5 rounded-full bg-encre pl-6 pr-1.5 font-medium text-papier transition-[background-color,transform] duration-300 hover:bg-encre-doux active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
       >
-        <motion.div
-          animate={reduire ? undefined : { y: [0, -8, 0], rotate: [0, -5, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="grid size-32 place-items-center bg-noir text-white"
+        Voir la boutique
+        <span
+          aria-hidden="true"
+          className="grid size-9 place-items-center rounded-full bg-ocre text-encre transition-transform duration-300 group-hover/bouton:translate-x-0.5"
         >
-          <ShoppingBag className="size-12" strokeWidth={1.4} aria-hidden="true" />
-        </motion.div>
-      </motion.div>
-
-      <motion.h3
-        variants={{
-          cache: reduire ? { opacity: 0 } : { opacity: 0, y: 14 },
-          visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
-        }}
-        className="font-affiche text-3xl uppercase tracking-[0.02em] text-noir"
-      >
-        Votre panier est vide
-      </motion.h3>
-      <motion.p
-        variants={{
-          cache: reduire ? { opacity: 0 } : { opacity: 0, y: 14 },
-          visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
-        }}
-        className="mt-2 max-w-xs text-[15px] leading-relaxed text-noir/65"
-      >
-        Parcourez nos trouvailles et ajoutez vos coups de cœur. Livraison partout à Kinshasa.
-      </motion.p>
-      <motion.div
-        variants={{
-          cache: reduire ? { opacity: 0 } : { opacity: 0, y: 14 },
-          visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
-        }}
-        whileHover={reduire ? undefined : { scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        className="mt-7"
-      >
-        <Link
-          href="/boutique/"
-          onClick={surFermer}
-          className="bg-noir group inline-flex min-h-14 items-center gap-2 px-7 text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir"
-        >
-          Découvrir la boutique
-          <ArrowRight className="size-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
-        </Link>
-      </motion.div>
+          <ArrowRight className="size-4" strokeWidth={2.2} />
+        </span>
+      </Link>
     </motion.div>
   );
 }

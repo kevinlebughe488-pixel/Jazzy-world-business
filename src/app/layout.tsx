@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Inter } from "next/font/google";
+import { Caveat, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -7,8 +7,15 @@ import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Providers } from "@/components/providers/Providers";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton", display: "swap" });
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
+const sans = Instrument_Sans({ subsets: ["latin"], variable: "--font-instrument-sans", display: "swap" });
+const plume = Caveat({ subsets: ["latin"], weight: ["500"], variable: "--font-caveat", display: "swap" });
 
 const SITE_URL = "https://jazzy-world-business.vercel.app";
 
@@ -48,16 +55,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#f5f2eb",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${anton.variable}`} suppressHydrationWarning>
+    <html lang="fr" className={`${serif.variable} ${sans.variable} ${plume.variable}`}>
       <body>
         <Providers>
           <Header />
-          <main id="contenu" className="min-h-screen overflow-x-clip pt-8">
+          <main id="contenu" className="min-h-[100dvh] overflow-x-clip pt-16 lg:pt-[4.5rem]">
             {children}
           </main>
           <Footer />

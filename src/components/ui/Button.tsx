@@ -1,63 +1,78 @@
-"use client";
-
 import clsx from "clsx";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 
 type Variante = "primaire" | "secondaire" | "whatsapp" | "fantome" | "inverse";
 
 const styles: Record<Variante, string> = {
-  primaire: "bg-noir text-white hover:bg-gris-700",
-  secondaire: "bg-white text-noir ring-1 ring-inset ring-noir hover:bg-noir hover:text-white",
-  whatsapp: "bg-whatsapp text-noir hover:bg-whatsapp-fonce",
-  fantome: "text-noir hover:bg-noir/5",
-  /** Bouton blanc, pour les fonds noirs */
-  inverse: "bg-white text-noir hover:bg-gris-200",
+  primaire: "bg-encre text-papier hover:bg-encre-doux",
+  secondaire: "bg-carte text-encre ring-1 ring-inset ring-trait-fort hover:ring-encre/45",
+  whatsapp: "bg-whatsapp text-encre hover:bg-whatsapp-fonce",
+  fantome: "text-encre hover:bg-encre/5",
+  /** Bouton clair, pour les cartes sombres */
+  inverse: "bg-papier text-encre hover:bg-lin focus-visible:outline-papier",
 };
 
 const base =
-  "inline-flex min-h-13 items-center justify-center gap-2.5 px-7 py-3.5 text-[0.8rem] font-bold uppercase tracking-[0.16em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-noir disabled:opacity-50 disabled:pointer-events-none";
+  "group/bouton inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-6 text-[0.95rem] font-medium whitespace-nowrap transition-[background-color,color,box-shadow,transform] duration-300 ease-[var(--ease-doux)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre disabled:pointer-events-none disabled:opacity-50";
 
-type Commun = { variante?: Variante; className?: string; children: ReactNode };
+type Commun = {
+  variante?: Variante;
+  /** Pastille ocre avec une flèche, en fin de bouton (appel principal de la page). */
+  fleche?: boolean;
+  className?: string;
+  children: ReactNode;
+};
 
-export function Button({
-  variante = "primaire",
-  className,
-  children,
-  ...props
-}: Commun & Omit<ComponentProps<typeof motion.button>, "children">) {
+function Fleche() {
   return (
-    <motion.button
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.96 }}
-      className={clsx(base, styles[variante], className)}
-      {...props}
+    <span
+      aria-hidden="true"
+      className="-mr-3.5 grid size-9 shrink-0 place-items-center rounded-full bg-ocre text-encre transition-transform duration-300 ease-[var(--ease-doux)] group-hover/bouton:translate-x-0.5"
     >
-      {children}
-    </motion.button>
+      <ArrowRight className="size-4" strokeWidth={2.2} />
+    </span>
   );
 }
 
-const MotionLink = motion.create(Link);
+export function Button({
+  variante = "primaire",
+  fleche,
+  className,
+  children,
+  type = "button",
+  ...props
+}: Commun & Omit<ComponentProps<"button">, "children">) {
+  return (
+    <button type={type} className={clsx(base, styles[variante], className)} {...props}>
+      {children}
+      {fleche && <Fleche />}
+    </button>
+  );
+}
 
 export function ButtonLink({
   href,
   variante = "primaire",
+  fleche,
   className,
   children,
   externe,
 }: Commun & { href: string; externe?: boolean }) {
-  const extra = externe ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  const classes = clsx(base, styles[variante], className);
+  if (externe) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+        {children}
+        {fleche && <Fleche />}
+      </a>
+    );
+  }
   return (
-    <MotionLink
-      href={href}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.96 }}
-      className={clsx(base, styles[variante], className)}
-      {...extra}
-    >
+    <Link href={href} className={classes}>
       {children}
-    </MotionLink>
+      {fleche && <Fleche />}
+    </Link>
   );
 }
