@@ -29,8 +29,8 @@
   --color-argile-fonce: #9e4a31;
 
   /* Réseaux */
-  --color-whatsapp: #25d366;
-  --color-whatsapp-fonce: #1ebe5d;
+  --color-whatsapp: #e6dcc8; /* lin, à la demande de Kevin */
+  --color-whatsapp-fonce: #d9ccb2;
   --color-facebook: #1877f2;
 
   --font-serif: var(--font-instrument-serif), "Iowan Old Style", Georgia, serif;

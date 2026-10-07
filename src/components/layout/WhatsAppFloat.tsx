@@ -42,7 +42,7 @@ export function WhatsAppFloat() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={reduire ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.9 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed right-4 z-40 grid size-14 place-items-center rounded-full bg-whatsapp text-encre shadow-releve ring-4 ring-papier transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-encre sm:right-6"
+          className="fixed right-4 z-40 grid size-14 place-items-center rounded-full bg-whatsapp text-encre ring-1 ring-inset ring-trait-fort shadow-releve ring-4 ring-papier transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-encre sm:right-6"
           style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
         >
           <WhatsAppIcon className="size-7" />

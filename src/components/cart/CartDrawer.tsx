@@ -227,7 +227,7 @@ export function CartDrawer() {
                       href={lienCommande}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex min-h-13 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-medium text-encre transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
+                      className="flex min-h-13 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp ring-1 ring-inset ring-trait-fort px-6 font-medium text-encre transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
                     >
                       <WhatsAppIcon className="size-5" />
                       Commander sur WhatsApp

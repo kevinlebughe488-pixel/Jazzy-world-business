@@ -473,7 +473,7 @@ function BoutonCommander({
       aria-label="Commander sur WhatsApp (ouvre WhatsApp)"
       onClick={onClick}
       className={clsx(
-        "flex w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-5 font-medium text-encre transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre",
+        "flex w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp ring-1 ring-inset ring-trait-fort px-5 font-medium text-encre transition-[background-color,transform] duration-300 hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre",
         grand ? "min-h-15 text-[1.05rem]" : "min-h-13 text-[0.95rem]",
       )}
     >

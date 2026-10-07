@@ -96,7 +96,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className={`group flex items-center gap-3 rounded-full bg-carte p-1.5 pr-4 ring-1 ring-inset ring-trait transition-shadow duration-300 hover:ring-encre/30 ${focus}`}
                 >
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-whatsapp text-encre">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-whatsapp text-encre ring-1 ring-inset ring-trait-fort">
                     <WhatsAppIcon className="size-[1.1rem]" />
                   </span>
                   <span className="text-[0.95rem] tabular-nums">{boutique.whatsappAffiche}</span>

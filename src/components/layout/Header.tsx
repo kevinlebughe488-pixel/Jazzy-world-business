@@ -185,7 +185,7 @@ export function Header() {
               href={lienWhatsApp(messageQuestion())}
               target="_blank"
               rel="noopener noreferrer"
-              className={`hidden min-h-10 items-center gap-2 rounded-full bg-whatsapp px-4 text-sm font-medium text-encre transition-colors duration-300 hover:bg-whatsapp-fonce xl:inline-flex ${focus}`}
+              className={`hidden min-h-10 items-center gap-2 rounded-full bg-whatsapp ring-1 ring-inset ring-trait-fort px-4 text-sm font-medium text-encre transition-colors duration-300 hover:bg-whatsapp-fonce xl:inline-flex ${focus}`}
             >
               <WhatsAppIcon className="size-4" />
               Écrire sur WhatsApp
@@ -300,7 +300,7 @@ function MenuMobile({ pathname, reduire, fermer }: { pathname: string; reduire: 
           href={lienWhatsApp(messageQuestion())}
           target="_blank"
           rel="noopener noreferrer"
-          className={`flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-medium text-encre transition-transform active:scale-[0.98] ${focus}`}
+          className={`flex min-h-14 w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp ring-1 ring-inset ring-trait-fort px-6 font-medium text-encre transition-transform active:scale-[0.98] ${focus}`}
         >
           <WhatsAppIcon className="size-5" />
           Écrire sur WhatsApp

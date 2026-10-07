@@ -8,7 +8,7 @@ type Variante = "primaire" | "secondaire" | "whatsapp" | "fantome" | "inverse";
 const styles: Record<Variante, string> = {
   primaire: "bg-encre text-papier hover:bg-encre-doux",
   secondaire: "bg-carte text-encre ring-1 ring-inset ring-trait-fort hover:ring-encre/45",
-  whatsapp: "bg-whatsapp text-encre hover:bg-whatsapp-fonce",
+  whatsapp: "bg-whatsapp text-encre ring-1 ring-inset ring-trait-fort hover:bg-whatsapp-fonce",
   fantome: "text-encre hover:bg-encre/5",
   /** Bouton clair, pour les cartes sombres */
   inverse: "bg-papier text-encre hover:bg-lin focus-visible:outline-papier",

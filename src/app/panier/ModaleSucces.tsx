@@ -85,7 +85,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
         </button>
 
         <motion.div
-          className="relative mx-auto grid size-20 place-items-center rounded-full bg-whatsapp text-encre"
+          className="relative mx-auto grid size-20 place-items-center rounded-full bg-whatsapp text-encre ring-1 ring-inset ring-trait-fort"
           initial={reduire ? false : { scale: 0, rotate: -45 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{
@@ -146,7 +146,7 @@ export function ModaleSucces({ lien, onFermer, onVider }: Props) {
             href={lien}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-14 items-center justify-center gap-2.5 rounded-full bg-whatsapp px-6 font-medium text-encre transition-[transform,background-color] hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
+            className="inline-flex min-h-14 items-center justify-center gap-2.5 rounded-full bg-whatsapp ring-1 ring-inset ring-trait-fort px-6 font-medium text-encre transition-[transform,background-color] hover:bg-whatsapp-fonce active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-encre"
           >
             <WhatsAppIcon className="size-5" />
             Rouvrir WhatsApp
